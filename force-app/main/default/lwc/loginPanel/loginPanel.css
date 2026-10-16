@@ -1,12 +1,15 @@
 @import 'c/picStyles';
 
 .wrap {
-    padding: 64px 0 48px;
+    padding: 64px 0 72px;
 }
 
-.head {
-    max-width: 720px;
-    margin-bottom: 36px;
+/* Copy on the left, the form on the right; stacked below 900px. */
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
+    gap: 56px;
+    align-items: start;
 }
 
 .title {
@@ -17,8 +20,18 @@
     line-height: 1.1;
 }
 
-.panels {
-    align-items: start;
+.lead {
+    margin-bottom: 20px;
+}
+
+.switch {
+    margin: 0;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.switch a {
+    font-weight: 600;
+    color: var(--pic-link, #73b3e7);
 }
 
 .panel .card__body {
@@ -34,10 +47,6 @@
     gap: 16px;
 }
 
-.fields--2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 .actions {
     display: flex;
     flex-direction: column;
@@ -48,8 +57,14 @@
 .small-link {
     display: inline-block;
     margin-top: 16px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
     font-size: 0.85rem;
     color: var(--pic-link, #73b3e7);
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .note {
@@ -61,14 +76,20 @@
     font-size: 0.9rem;
 }
 
-.panel .hint {
-    display: block;
-    margin-top: 14px;
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+    }
+
+    .panel {
+        max-width: 560px;
+    }
 }
 
 @media (max-width: 640px) {
-    .fields--2 {
-        grid-template-columns: minmax(0, 1fr);
+    .wrap {
+        padding: 40px 0 48px;
     }
 
     .panel .card__body {

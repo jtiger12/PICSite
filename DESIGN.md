@@ -66,10 +66,12 @@ with the strong border.
 | `/ranges` Ranges & capabilities | public | heroBanner (short), rangeExplorer (expanded), ctaBand |
 | `/request` Submit a test request | licensed customer | heroBanner (short), valueProps ("what you'll need"), processStepper (form progress), requestForm, ctaBand (help) |
 | `/track` Track requests | licensed customer | heroBanner (short), requestTracker (list + detail with timeline stepper) |
-| `/login` Sign in / request access | public | loginPanel |
+| `/login` Sign in | public | loginPanel |
+| `/request-account` Request an account | public | accountRequestPanel |
 
 Authentication is the Experience Cloud site's own login; `/request` and `/track`
-are authenticated pages. In the local harness `/login` is visual only.
+are authenticated pages. In the local harness `/login` and `/request-account`
+are visual only.
 
 ## Components (`force-app/main/default/lwc`)
 
@@ -77,7 +79,7 @@ Layout: `govBanner`, `siteHeader`, `siteFooter`
 Blocks: `heroBanner`, `quickAccessPanel`, `valueProps`, `sectionHeading`,
 `ctaBand`, `eventBanner`, `processStepper`, `statusChip`
 Ranges: `rangeExplorer`, `capabilityList`
-Portal: `requestForm`, `requestTracker`, `loginPanel`
+Portal: `requestForm`, `requestTracker`, `loginPanel`, `accountRequestPanel`
 Services (no template): `portalApi` (data access: GraphQL wire adapter,
 `createRecord`, site base path; swapped for `src/mock/portalApi` in the
 harness), `portalModel` (pure model: status steps, option lists, response

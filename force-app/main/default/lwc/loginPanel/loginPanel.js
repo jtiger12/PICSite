@@ -1,11 +1,16 @@
 import { LightningElement } from 'lwc';
+import { href } from 'c/portalApi';
 
 // Visual-only in the local harness. In Experience Cloud the site's own login
 // page handles authentication; this component becomes the styled wrapper
-// around the standard login / self-registration flow.
+// around the standard login flow. Requesting an account is its own page
+// (accountRequestPanel at /request-account).
 export default class LoginPanel extends LightningElement {
     signInNote = '';
-    requestNote = '';
+
+    get requestAccountHref() {
+        return href('/request-account');
+    }
 
     handleSignIn(event) {
         event.preventDefault();
@@ -16,8 +21,7 @@ export default class LoginPanel extends LightningElement {
         this.signInNote = 'CAC / PIV sign-in will redirect to the DoD identity provider once configured.';
     }
 
-    handleRequestAccount(event) {
-        event.preventDefault();
-        this.requestNote = 'Thanks. The range office will verify your eligibility and email you.';
+    handleForgot() {
+        this.signInNote = 'Password reset is handled by the Experience Cloud login page once deployed.';
     }
 }

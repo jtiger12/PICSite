@@ -1,0 +1,93 @@
+@import 'c/picStyles';
+
+.wrap {
+    padding: 64px 0 72px;
+}
+
+/* Copy on the left, the form on the right; stacked below 900px. */
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 56px;
+    align-items: start;
+}
+
+.title {
+    margin: 0 0 12px;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.lead {
+    margin-bottom: 20px;
+}
+
+.switch {
+    margin: 0;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.switch a {
+    font-weight: 600;
+    color: var(--pic-link, #73b3e7);
+}
+
+.panel .card__body {
+    padding: 32px;
+}
+
+.panel .card__text {
+    margin-bottom: 20px;
+}
+
+.fields {
+    display: grid;
+    gap: 16px;
+}
+
+.fields--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.note {
+    margin: 16px 0 0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(115, 179, 231, 0.12);
+    border: 1px solid rgba(115, 179, 231, 0.4);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+    }
+
+    .panel {
+        max-width: 720px;
+    }
+}
+
+@media (max-width: 640px) {
+    .wrap {
+        padding: 40px 0 48px;
+    }
+
+    .fields--2 {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .panel .card__body {
+        padding: 24px 20px;
+    }
+}

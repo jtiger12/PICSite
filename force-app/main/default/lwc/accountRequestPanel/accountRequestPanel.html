@@ -1,0 +1,41 @@
+<template>
+    <section class="wrap">
+        <div class="container layout">
+            <div class="head">
+                <p class="eyebrow eyebrow--bar">Licensed customer portal</p>
+                <h1 class="title">Request an account</h1>
+                <p class="lead">Accounts are for licensed customers and sponsored organizations. Tell us who you are and the range office will verify your license or sponsorship.</p>
+                <p class="switch">Already have an account? <a href={loginHref}>Sign in</a></p>
+            </div>
+
+            <form class="card panel" onsubmit={handleSubmit} novalidate>
+                <div class="card__body">
+                    <h2 class="card__title">Your details</h2>
+                    <p class="card__text">Accounts are typically verified within three business days.</p>
+                    <div class="fields fields--2">
+                        <div class="field">
+                            <label class="label" for="ra-name">Full name</label>
+                            <input id="ra-name" class="input" type="text" autocomplete="name" required />
+                        </div>
+                        <div class="field">
+                            <label class="label" for="ra-org">Organization</label>
+                            <input id="ra-org" class="input" type="text" autocomplete="organization" required />
+                        </div>
+                        <div class="field">
+                            <label class="label" for="ra-email">Work email</label>
+                            <input id="ra-email" class="input" type="email" autocomplete="email" required />
+                        </div>
+                        <div class="field">
+                            <label class="label" for="ra-license">License or sponsor ID</label>
+                            <input id="ra-license" class="input" type="text" placeholder="If you have one" />
+                        </div>
+                    </div>
+                    <template lwc:if={note}><p class="note">{note}</p></template>
+                    <div class="actions">
+                        <button class="btn btn--primary btn--block" type="submit">Request an account</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</template>

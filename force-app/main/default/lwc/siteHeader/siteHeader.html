@@ -19,8 +19,8 @@
                     <a key={link.href} href={link.href} class={link.cls} aria-current={link.current}>{link.label}</a>
                 </template>
                 <div class="nav-actions">
-                    <a href={loginHref} class="btn btn--secondary btn--sm">Sign in</a>
-                    <a href={requestAccountHref} class="btn btn--primary btn--sm">Request an account</a>
+                    <a href={loginHref} class="btn btn--secondary btn--sm" aria-current={loginCurrent}>Sign in</a>
+                    <a href={requestAccountHref} class="btn btn--primary btn--sm" aria-current={requestAccountCurrent}>Request an account</a>
                 </div>
             </nav>
 

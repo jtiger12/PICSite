@@ -19,7 +19,8 @@ npm run dev
 ```
 
 Open http://localhost:3000 (the launcher picks the next free port if 3000 is
-taken). Routes: `/`, `/ranges`, `/request`, `/track`, `/login`.
+taken). Routes: `/`, `/ranges`, `/request`, `/track`, `/login`,
+`/request-account`.
 
 `npm run dev` regenerates `lwr.config.json` module aliases from
 `force-app/main/default/lwc` so every SFDX component resolves as `c/<name>`,
@@ -87,7 +88,7 @@ force-app/main/default/
     govBanner, siteHeader, siteFooter
     heroBanner, quickAccessPanel, valueProps, eventBanner, ctaBand, processStepper
     rangeExplorer, capabilityList
-    requestForm, requestTracker, statusChip, loginPanel
+    requestForm, requestTracker, statusChip, loginPanel, accountRequestPanel
   objects/                    Test_Range__c + Capability_Group__c, Test_Event__c + Event_Session__c,
                               Test_Request__c + Request_Activity__c, Account.License_ID__c
   flows/                      PIC_Request_Created, PIC_Request_Status_Changed,

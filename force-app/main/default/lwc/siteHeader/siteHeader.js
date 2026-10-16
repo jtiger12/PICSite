@@ -20,9 +20,13 @@ export default class SiteHeader extends LightningElement {
     get links() {
         return LINKS.map((l) => {
             const url = href(l.href);
-            const current = url === this.path || `${url}/` === this.path;
+            const current = this.isCurrent(url);
             return { ...l, href: url, current: current ? 'page' : null, cls: current ? 'link link--current' : 'link' };
         });
+    }
+
+    isCurrent(url) {
+        return url === this.path || `${url}/` === this.path;
     }
 
     get homeHref() {
@@ -33,8 +37,16 @@ export default class SiteHeader extends LightningElement {
         return href('/login');
     }
 
+    get loginCurrent() {
+        return this.isCurrent(this.loginHref) ? 'page' : null;
+    }
+
     get requestAccountHref() {
-        return href('/login#request-account');
+        return href('/request-account');
+    }
+
+    get requestAccountCurrent() {
+        return this.isCurrent(this.requestAccountHref) ? 'page' : null;
     }
 
     get navClass() {

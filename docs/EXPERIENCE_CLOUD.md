@@ -168,7 +168,8 @@ html, body {
   `/assets/img/contours.svg`. Upload the artwork as a static resource or CMS
   image and set *Background image URL* on each hero instance.
 - **Page access**: `/request` and `/track` are *Requires Login* (Page
-  Properties > Page Access). Home, Ranges and the login page stay public.
+  Properties > Page Access). Home, Ranges, Login and Request an account
+  stay public.
 - **Links**: every portal link goes through `href()` in `c/portalApi`, which
   prefixes `@salesforce/community/basePath` (for the site above, `/picsite`).
   Builder properties such as *Primary button URL* can be entered either as
@@ -197,7 +198,9 @@ pages in `src/modules/picsite/*/*.html`.
 | PIC CTA Band | Eyebrow `Ready to test?`; Title `Submit a test request`; Text `Licensed customers can submit UAS, counter-UAS and long-range fires requests online and track every step through to the test window.`; Button `Start a request` → `/request` |
 
 The header's *How it works* link targets `/#how-it-works`. In the harness
-the stepper sits in a `<section id="how-it-works">`; in Builder drop the
+the stepper sits in a `<section id="how-it-works">` inside the home page
+component's shadow root, which the browser can't scroll to from the URL, so
+`src/modules/picsite/home/home.js` scrolls to it itself; in Builder drop the
 stepper inside a section whose *Section ID* (Advanced) is `how-it-works`, or
 point the link at `/` if the template has no anchor option.
 
@@ -237,11 +240,22 @@ GraphQL result once if that number is not in the cached list yet (the form's
 
 ### Login `/login` (public)
 
-Keep the site's own Login page (it owns authentication, password reset and
-self-registration). Put `PIC Login Panel` on it as the visual frame and keep
-the standard Login Form component inside the page; `loginPanel`'s own form
-is a harness stand-in only. The header and quick-access links target `/login`
-and `/login#request-account`.
+Keep the site's own Login page (it owns authentication and password reset).
+Put `PIC Login Panel` on it as the visual frame and keep the standard Login
+Form component inside the page; `loginPanel`'s own form is a harness
+stand-in only. The header, footer and quick-access *Sign in* links target
+`/login`; the panel links across to `/request-account`.
+
+### Request an account `/request-account` (public)
+
+Requesting an account is its own page rather than a second form on the login
+page: each form gets the full width on mobile, and the links need no
+`#fragment` (an `id` inside a component's shadow root can't be reached from
+the URL). Put `PIC Account Request Panel` on the site's self-registration
+page (Administration > Login & Registration) as the visual frame, the same
+way as the login panel: its form is a harness stand-in. The header, footer
+and quick-access *Request an account* links target `/request-account`, so
+give that page that URL or update the three `href`s.
 
 ## 5. Data access, for maintainers
 

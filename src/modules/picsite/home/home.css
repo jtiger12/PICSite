@@ -1,0 +1,4 @@
+/* Land #how-it-works below the sticky site header (75px tall). */
+.anchor {
+    scroll-margin-top: 75px;
+}

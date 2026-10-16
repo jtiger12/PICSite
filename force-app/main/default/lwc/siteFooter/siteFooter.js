@@ -15,7 +15,7 @@ export default class SiteFooter extends LightningElement {
         return href('/track');
     }
     get requestAccountHref() {
-        return href('/login#request-account');
+        return href('/request-account');
     }
     get loginHref() {
         return href('/login');

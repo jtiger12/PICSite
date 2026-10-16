@@ -5,6 +5,10 @@
                 "dir": "$rootDir/src/modules"
             },
             {
+                "name": "c/accountRequestPanel",
+                "path": "$rootDir/force-app/main/default/lwc/accountRequestPanel/accountRequestPanel.js"
+            },
+            {
                 "name": "c/capabilityList",
                 "path": "$rootDir/force-app/main/default/lwc/capabilityList/capabilityList.js"
             },
@@ -118,6 +122,12 @@
             "id": "login",
             "path": "/login",
             "rootComponent": "picsite/login",
+            "layoutTemplate": "$layoutsDir/main.html"
+        },
+        {
+            "id": "request-account",
+            "path": "/request-account",
+            "rootComponent": "picsite/requestAccount",
             "layoutTemplate": "$layoutsDir/main.html"
         }
     ]
