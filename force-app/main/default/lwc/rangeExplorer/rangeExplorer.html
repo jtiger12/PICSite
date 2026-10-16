@@ -42,22 +42,25 @@
                         </ul>
                     </div>
 
-                    <template lwc:if={r.pending}>
-                        <div class="pending">
-                            <span class="pending-dot" aria-hidden="true"></span>
-                            Capability details for this range are being finalized. Submit a request and the range office will confirm what's available for your test.
+                    <template lwc:if={r.comingSoon}>
+                        <div class="soon">
+                            <span class="soon-dot" aria-hidden="true"></span>
+                            Coming soon. This range is proposed for industry testing and isn't taking requests yet; its capabilities are listed below.
                         </div>
                     </template>
-                    <template lwc:else>
-                        <div class="grid grid--2 caps">
-                            <template for:each={r.capabilities} for:item="c">
-                                <c-capability-list key={c.title} title={c.title} groups={c.groups}></c-capability-list>
-                            </template>
-                        </div>
-                    </template>
+                    <div class="grid grid--2 caps">
+                        <template for:each={r.capabilities} for:item="c">
+                            <c-capability-list key={c.title} title={c.title} groups={c.groups}></c-capability-list>
+                        </template>
+                    </div>
 
                     <div class="panel-actions">
-                        <a class="btn btn--primary" href={r.requestHref}>Request a test at {r.name}</a>
+                        <template lwc:if={r.comingSoon}>
+                            <a class="btn btn--secondary" href={allRequestHref}>Request a test at an open range</a>
+                        </template>
+                        <template lwc:else>
+                            <a class="btn btn--primary" href={r.requestHref}>Request a test at {r.name}</a>
+                        </template>
                         <template lwc:if={showTabs}>
                             <a class="btn btn--ghost" href={compareHref}>Compare all ranges &rarr;</a>
                         </template>
@@ -74,7 +77,11 @@
                     </div>
                     <div class="def">
                         <h4 class="def-title">Long-Range Fires / Low-Cost Interceptor</h4>
-                        <p class="card__text">Projectile, rocket and missile firings up to 100 km with inert or limited high-explosive munitions, and interceptor live-fire into instrumented impact areas.</p>
+                        <p class="card__text">Projectile, rocket and missile firings with inert or limited high-explosive munitions into impact areas, and interceptor live-fire against representative threats.</p>
+                    </div>
+                    <div class="def">
+                        <h4 class="def-title">Range environment</h4>
+                        <p class="card__text">What applies to every test at the range: airspace, terrain and climate, spectrum and instrumentation, airfields and support.</p>
                     </div>
                 </div>
             </div>

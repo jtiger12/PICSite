@@ -3,15 +3,17 @@
         {
             "attributes": {
                 "type": "Test_Range__c",
-                "referenceId": "Dugway"
+                "referenceId": "RangeDpg"
             },
             "Name": "Dugway Proving Ground",
             "Code__c": "dpg",
             "State__c": "UT",
-            "Summary__c": "With more than 800,000 acres and up to 100 kilometers of long-range fires test range, Dugway Proving Ground offers expansive land and restricted airspace for the most demanding test missions.",
-            "Stats__c": "[{\"label\":\"Acres\",\"value\":\"800,000+\"},{\"label\":\"Fires range\",\"value\":\"100 km\"},{\"label\":\"Airspace\",\"value\":\"Restricted\"}]",
-            "Test_Types__c": "Drone / Counter-Drone;Long-Range Fires",
-            "Pending__c": false,
+            "Summary__c": "The Army's chemical and biological defense proving ground in Utah's Great Salt Lake Desert: nearly 800,000 acres of salt flats, desert and mountains under nearly 8,000 square miles of restricted airspace, with up to 100 kilometers of long-range fires range. Open to industry for drone, counter-drone, long-range fires and interceptor testing.",
+            "Stats__c": "[{\"label\":\"Acres\",\"value\":\"800,000\"},{\"label\":\"Restricted airspace\",\"value\":\"8,000 sq mi\"},{\"label\":\"Fires range\",\"value\":\"100 km\"},{\"label\":\"Elevation\",\"value\":\"4,500-7,000 ft\"}]",
+            "Test_Types__c": "Drone / Counter-Drone;Long-Range Fires;Low-Cost Interceptor",
+            "Status__c": "Open",
+            "Latitude__c": 40.232,
+            "Longitude__c": -112.747,
             "Active__c": true,
             "Sort_Order__c": 1,
             "Capability_Groups__r": {
@@ -19,62 +21,142 @@
                     {
                         "attributes": {
                             "type": "Capability_Group__c",
-                            "referenceId": "DpgKinetic"
+                            "referenceId": "RangeDpgGroup1"
                         },
-                        "Name": "Kinetic",
+                        "Name": "UAS operations",
                         "Test_Type__c": "Drone / Counter-Drone",
-                        "Items__c": "Projectile and rocket / missile",
+                        "Items__c": "Group 5 UAS launch and recovery from Michael Army Airfield\nAir-launched effects, captive carry and free flight (2023)",
                         "Sort_Order__c": 1
                     },
                     {
                         "attributes": {
                             "type": "Capability_Group__c",
-                            "referenceId": "DpgNonKinetic"
+                            "referenceId": "RangeDpgGroup2"
                         },
-                        "Name": "Non-kinetic",
+                        "Name": "Kinetic",
                         "Test_Type__c": "Drone / Counter-Drone",
-                        "Items__c": "Denied, Degraded, Intermittent and Limited: Electronic Attack / Conventional Threat\nDirected Energy: High Energy Laser / High Power Microwave",
+                        "Items__c": "Projectile and rocket / missile",
                         "Sort_Order__c": 2
                     },
                     {
                         "attributes": {
                             "type": "Capability_Group__c",
-                            "referenceId": "DpgInstrumentation"
+                            "referenceId": "RangeDpgGroup3"
                         },
-                        "Name": "Instrumentation",
+                        "Name": "Non-kinetic",
                         "Test_Type__c": "Drone / Counter-Drone",
-                        "Items__c": "None",
+                        "Items__c": "Denied, Degraded, Intermittent and Limited: Electronic Attack / Conventional Threat\nDirected Energy: High Energy Laser / High Power Microwave\nGPS interference testing under FAA notice (2026)\nHigh energy laser demonstrations against Group 1-3 UAS (2025-2026)\nDirected energy shoot-off: three lasers and a high power microwave (Dec 2026)",
                         "Sort_Order__c": 3
                     },
                     {
                         "attributes": {
                             "type": "Capability_Group__c",
-                            "referenceId": "DpgRange"
+                            "referenceId": "RangeDpgGroup4"
                         },
-                        "Name": "Range",
-                        "Test_Type__c": "Long-Range Fires",
-                        "Items__c": "< 75 km, no Flight Termination System (FTS) required\n75-100 km, requires coordination, FTS required",
+                        "Name": "Instrumentation",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "None",
                         "Sort_Order__c": 4
                     },
                     {
                         "attributes": {
                             "type": "Capability_Group__c",
-                            "referenceId": "DpgMunition"
+                            "referenceId": "RangeDpgGroup5"
                         },
-                        "Name": "Munition type",
+                        "Name": "Range",
                         "Test_Type__c": "Long-Range Fires",
-                        "Items__c": "High explosive - limited\nInert",
+                        "Items__c": "< 75 km, no Flight Termination System (FTS) required\n75-100 km, requires coordination, FTS required",
                         "Sort_Order__c": 5
                     },
                     {
                         "attributes": {
                             "type": "Capability_Group__c",
-                            "referenceId": "DpgImpact"
+                            "referenceId": "RangeDpgGroup6"
+                        },
+                        "Name": "Munition type",
+                        "Test_Type__c": "Long-Range Fires",
+                        "Items__c": "High explosive - limited\nInert",
+                        "Sort_Order__c": 6
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeDpgGroup7"
                         },
                         "Name": "Impact area",
                         "Test_Type__c": "Long-Range Fires",
-                        "Items__c": "Instrumentation - limited",
-                        "Sort_Order__c": 6
+                        "Items__c": "Instrumentation - limited\nFour major impact areas and 91 artillery firing points\nHIMARS live fire during a corps exercise (2026)",
+                        "Sort_Order__c": 7
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeDpgGroup8"
+                        },
+                        "Name": "Live fire",
+                        "Test_Type__c": "Low-Cost Interceptor",
+                        "Items__c": "Rocket-powered counter-UAS interceptor flight test (2026)",
+                        "Sort_Order__c": 8
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeDpgGroup9"
+                        },
+                        "Name": "Airspace",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Restricted areas R-6402A and R-6402B\nJoint airspace with the Utah Test and Training Range, about half of it restricted up to 58,000 ft\nNearly 8,000 square miles of restricted airspace available to industry",
+                        "Sort_Order__c": 9
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeDpgGroup10"
+                        },
+                        "Name": "Terrain and climate",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Salt flats (playa), mixed desert and mountains\nElectronically and acoustically quiet, no light pollution or urban encroachment\nSummer highs above 100°F; winds up to 60 mph",
+                        "Sort_Order__c": 10
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeDpgGroup11"
+                        },
+                        "Name": "Airfields",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Michael Army Airfield: main runway over 6,000 ft with jet-arresting gear, three airstrips",
+                        "Sort_Order__c": 11
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeDpgGroup12"
+                        },
+                        "Name": "Spectrum and instrumentation",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Test grid with meteorological, dissemination and referee sensors",
+                        "Sort_Order__c": 12
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeDpgGroup13"
+                        },
+                        "Name": "Specialty facilities",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Chemical and biological defense test facilities, including a BSL-3 aerosol chamber\nSmoke and obscurants testing",
+                        "Sort_Order__c": 13
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeDpgGroup14"
+                        },
+                        "Name": "Support",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "On-post lodging and RV park\nForeign nationals: request access a month ahead",
+                        "Sort_Order__c": 14
                     }
                 ]
             }
@@ -82,62 +164,487 @@
         {
             "attributes": {
                 "type": "Test_Range__c",
-                "referenceId": "WestCibola"
+                "referenceId": "RangeWcr"
             },
             "Name": "West Cibola Range",
             "Code__c": "wcr",
             "State__c": "AZ",
-            "Summary__c": "Desert test range within the Yuma Proving Ground complex. Capability details are being finalized with the range office.",
-            "Stats__c": "[{\"label\":\"Region\",\"value\":\"Southwest\"}]",
+            "Summary__c": "A newly opened part of Yuma Proving Ground in Arizona's Sonoran Desert, inside the proving ground's nearly 2,000 square miles of restricted airspace. Currently open to industry for drone and counter-drone testing.",
+            "Stats__c": "[{\"label\":\"Restricted airspace\",\"value\":\"2,000 sq mi\"},{\"label\":\"UAS focus\",\"value\":\"Group 1-2\"},{\"label\":\"Region\",\"value\":\"Sonoran Desert\"}]",
             "Test_Types__c": "Drone / Counter-Drone",
-            "Pending__c": true,
+            "Status__c": "Open",
+            "Latitude__c": 32.864,
+            "Longitude__c": -114.393,
             "Active__c": true,
-            "Sort_Order__c": 2
+            "Sort_Order__c": 2,
+            "Capability_Groups__r": {
+                "records": [
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeWcrGroup1"
+                        },
+                        "Name": "UAS operations",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Group 1-2 small UAS focus; Groups 3-5 mainly at White Sands\nUAV operations sites and airdrop zones on Cibola Range",
+                        "Sort_Order__c": 1
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeWcrGroup2"
+                        },
+                        "Name": "Kinetic",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Interceptor drones, missiles and guided rockets against UAS at Yuma Proving Ground (2021-2024)\nGroup 3 kinetic effector shoot-off (2026)",
+                        "Sort_Order__c": 2
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeWcrGroup3"
+                        },
+                        "Name": "Non-kinetic",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "RF jamming and electronic warfare (2024-2025)\nHigh power microwave (2022)\nHigh energy laser, 10 kW class (2022)\nEmitters that replicate real-world electromagnetic environments",
+                        "Sort_Order__c": 3
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeWcrGroup4"
+                        },
+                        "Name": "Test lanes",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Three permanent counter-UAS test lanes (2026)\nSwarm targets, up to 50 at once (2024)\nPrimary interagency counter-small-UAS test range (2025)",
+                        "Sort_Order__c": 4
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeWcrGroup5"
+                        },
+                        "Name": "Airspace",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Yuma restricted areas R-2306, R-2307 and R-2308, up to 80,000 ft MSL (R-2307 unlimited)\nCounter-UAS work inside restricted airspace instead of the national airspace system",
+                        "Sort_Order__c": 5
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeWcrGroup6"
+                        },
+                        "Name": "Spectrum and instrumentation",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "More than 500 permanent radio frequencies and a spectrum management office\nTracking radars, laser trackers, cine and video theodolites, multi-target differential GPS\nData and video telemetry with real-time mission control",
+                        "Sort_Order__c": 6
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeWcrGroup7"
+                        },
+                        "Name": "Terrain and climate",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Sonoran Desert ringed by mountains on three sides\nClear, stable air; highs above 90°F for more than seven months a year",
+                        "Sort_Order__c": 7
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeWcrGroup8"
+                        },
+                        "Name": "Airfields",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Laguna Army Airfield: two runways of about 6,000 ft",
+                        "Sort_Order__c": 8
+                    }
+                ]
+            }
         },
         {
             "attributes": {
                 "type": "Test_Range__c",
-                "referenceId": "CampGrayling"
+                "referenceId": "RangeCgr"
             },
             "Name": "Camp Grayling",
             "Code__c": "cgr",
             "State__c": "MI",
-            "Summary__c": "Northern forested and lake terrain. Capability details are being finalized with the range office.",
-            "Stats__c": "[{\"label\":\"Region\",\"value\":\"Great Lakes\"}]",
+            "Summary__c": "Camp Grayling Joint Maneuver Training Center, the largest National Guard training center, in northern Michigan's pine forests and lakes. Part of the National All-Domain Warfighting Center with Alpena's airspace and Lake Huron, and host of the Army's quarterly electromagnetic unreliability (DDIL) test events for industry.",
+            "Stats__c": "[{\"label\":\"Acres\",\"value\":\"148,000\"},{\"label\":\"Restricted airspace\",\"value\":\"To 23,000 ft\"},{\"label\":\"Billeting\",\"value\":\"8,000 beds\"}]",
             "Test_Types__c": "Drone / Counter-Drone",
-            "Pending__c": true,
+            "Status__c": "Open",
+            "Latitude__c": 44.68,
+            "Longitude__c": -84.729,
             "Active__c": true,
-            "Sort_Order__c": 3
+            "Sort_Order__c": 3,
+            "Capability_Groups__r": {
+                "records": [
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCgrGroup1"
+                        },
+                        "Name": "UAS operations",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Groups 1-3, VTOL and tethered UAS (2026)\nDay and night UAS operations\nNational Range for Deep UAS Training (2026)\nBeyond-line-of-sight (BVLOS) UAS flights over Lake Huron (R-4207)",
+                        "Sort_Order__c": 1
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCgrGroup2"
+                        },
+                        "Name": "Electromagnetic environment",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Quarterly electromagnetic unreliability (DDIL) test events with ATEC (first held Sept 2026)\nGPS (PNT) and RF denied scenarios\nUp to 6,000 frequencies\nGPS interference training injects",
+                        "Sort_Order__c": 2
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCgrGroup3"
+                        },
+                        "Name": "Counter-UAS",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Dedicated industry counter-UAS test area for kinetic and non-kinetic systems, low-signal environment\nRF jamming and passive detection (2026)",
+                        "Sort_Order__c": 3
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCgrGroup4"
+                        },
+                        "Name": "Kinetic",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Two impact areas for indirect fire and aerial weapons up to 500 lb\n104 firing points for tube artillery and mortars; MLRS/HIMARS firing area",
+                        "Sort_Order__c": 4
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCgrGroup5"
+                        },
+                        "Name": "Airspace",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Restricted areas R-4201A and R-4201B, surface to 23,000 ft MSL\nAlpena special-use airspace, configurable from 300 ft AGL to 50,000 ft\nR-4207 over Lake Huron, surface to 45,000 ft",
+                        "Sort_Order__c": 5
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCgrGroup6"
+                        },
+                        "Name": "Terrain and climate",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Sandy plains with jack pine, oak and aspen forest\nRivers and lakes, including Lake Margrethe\nCold-weather testing; winters colder than Alaska",
+                        "Sort_Order__c": 6
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCgrGroup7"
+                        },
+                        "Name": "Maritime",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Lake Huron for unmanned surface and undersea vehicles\nLittoral quarry training area",
+                        "Sort_Order__c": 7
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCgrGroup8"
+                        },
+                        "Name": "Urban and cyber",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Urban combined arms training facility and three shoot houses\nLive cyber attack and defense exercises on a statewide cyber range",
+                        "Sort_Order__c": 8
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCgrGroup9"
+                        },
+                        "Name": "Airfields and support",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Grayling Army Airfield: two 5,000 ft runways\nAlpena: 9,000 ft and 5,000 ft runways\n8,000 transient beds at Grayling",
+                        "Sort_Order__c": 9
+                    }
+                ]
+            }
         },
         {
             "attributes": {
                 "type": "Test_Range__c",
-                "referenceId": "CampShelby"
+                "referenceId": "RangeCsh"
             },
             "Name": "Camp Shelby",
             "Code__c": "csh",
             "State__c": "MS",
-            "Summary__c": "Southern pine and mixed terrain. Hosts the September 2027 EMU test event. Capability details are being finalized with the range office.",
-            "Stats__c": "[{\"label\":\"Region\",\"value\":\"Gulf South\"}]",
+            "Summary__c": "Camp Shelby Joint Forces Training Center, the Mississippi National Guard's post in the DeSoto National Forest south of Hattiesburg: more than 134,000 acres under restricted airspace to FL290, with a UAS flight center and a live-fire counter-UAS range.",
+            "Stats__c": "[{\"label\":\"Acres\",\"value\":\"134,000+\"},{\"label\":\"Restricted airspace\",\"value\":\"To FL290\"},{\"label\":\"Training areas\",\"value\":\"64\"}]",
             "Test_Types__c": "Drone / Counter-Drone",
-            "Pending__c": true,
+            "Status__c": "Open",
+            "Latitude__c": 31.19,
+            "Longitude__c": -89.2,
             "Active__c": true,
-            "Sort_Order__c": 4
+            "Sort_Order__c": 4,
+            "Capability_Groups__r": {
+                "records": [
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCshGroup1"
+                        },
+                        "Name": "UAS operations",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "UAS Flight Center at Hagler Army Heliport: 5,000 ft runway with UAS catch cables and nets\nSwarm threat replication, about 100 drones from one ground station (2026)",
+                        "Sort_Order__c": 1
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCshGroup2"
+                        },
+                        "Name": "Counter-UAS",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Live-fire counter-small-UAS range (Range 13)\nRF detection, handheld and directional jamming, and fire-control optics assessed (2026)\nMulti-sensor counter-UAS lanes at Hagler and the urban training facility (2026)",
+                        "Sort_Order__c": 2
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCshGroup3"
+                        },
+                        "Name": "Kinetic",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "115 artillery and 15 mortar firing points; MLRS reduced-range practice rockets only\nAir-to-ground ranges inside R-4401 (live munitions need 45 days' coordination)",
+                        "Sort_Order__c": 3
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCshGroup4"
+                        },
+                        "Name": "Airspace",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Restricted areas R-4401A-E, surface to FL290\nAdjacent De Soto military operations areas",
+                        "Sort_Order__c": 4
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCshGroup5"
+                        },
+                        "Name": "Terrain and climate",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Pine forest and wetlands in the DeSoto National Forest\nBlack Creek and Leaf River drainages\nSummer heat",
+                        "Sort_Order__c": 5
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCshGroup6"
+                        },
+                        "Name": "Urban",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Urban combined arms training facility, urban assault course and 14 villages",
+                        "Sort_Order__c": 6
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeCshGroup7"
+                        },
+                        "Name": "Airfields",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Hagler Army Heliport: 5,000 ft runway\nShelby Auxiliary Field One: 3,500 ft assault landing zone",
+                        "Sort_Order__c": 7
+                    }
+                ]
+            }
         },
         {
             "attributes": {
                 "type": "Test_Range__c",
-                "referenceId": "Amtec"
+                "referenceId": "RangeAmtec"
             },
-            "Name": "AMTEC",
+            "Name": "Multidomain Training Area, AMTEC",
             "Code__c": "amtec",
             "State__c": "Morocco",
-            "Summary__c": "Partner-nation test site. Capability details are being finalized with the range office.",
-            "Stats__c": "[{\"label\":\"Region\",\"value\":\"International\"}]",
-            "Test_Types__c": "Drone / Counter-Drone",
-            "Pending__c": true,
+            "Summary__c": "The range complex of the Africa Multidomain Training and Experimentation Center (AMTEC), a U.S. Africa Command and Royal Moroccan Armed Forces project near Tan-Tan on Morocco's Atlantic coast. Open to industry for long-range fires across the full electromagnetic spectrum; full build-out by 2030.",
+            "Stats__c": "[{\"label\":\"Region\",\"value\":\"Atlantic coastal desert\"},{\"label\":\"Partners\",\"value\":\"AFRICOM and Morocco\"},{\"label\":\"Build-out\",\"value\":\"2030\"}]",
+            "Test_Types__c": "Long-Range Fires",
+            "Status__c": "Open",
+            "Latitude__c": 28.438,
+            "Longitude__c": -11.103,
             "Active__c": true,
-            "Sort_Order__c": 5
+            "Sort_Order__c": 5,
+            "Capability_Groups__r": {
+                "records": [
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAmtecGroup1"
+                        },
+                        "Name": "Live fire",
+                        "Test_Type__c": "Long-Range Fires",
+                        "Items__c": "Precision munitions beyond 290 km (2026)\nIndustry low-cost cruise missile live fire (2026)\nHIMARS live fire near Tan-Tan and Cap Draa (2024-2025)",
+                        "Sort_Order__c": 1
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAmtecGroup2"
+                        },
+                        "Name": "Instrumentation",
+                        "Test_Type__c": "Long-Range Fires",
+                        "Items__c": "Expeditionary test site: communications, weather, targeting and missile performance data",
+                        "Sort_Order__c": 2
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAmtecGroup3"
+                        },
+                        "Name": "Electromagnetic environment",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Testing across the full electromagnetic spectrum\nContested-environment conditions",
+                        "Sort_Order__c": 3
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAmtecGroup4"
+                        },
+                        "Name": "Terrain and climate",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Coastal desert about 25 km inland from the Atlantic\nAbout 100 mm of rain a year",
+                        "Sort_Order__c": 4
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAmtecGroup5"
+                        },
+                        "Name": "Program",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Drone Academy and Innovation and Experimentation Center in development\nCounter-drone live-fire demonstration during African Lion (2026)",
+                        "Sort_Order__c": 5
+                    }
+                ]
+            }
+        },
+        {
+            "attributes": {
+                "type": "Test_Range__c",
+                "referenceId": "RangeAtm"
+            },
+            "Name": "Atterbury-Muscatatuck",
+            "Code__c": "atm",
+            "State__c": "IN",
+            "Summary__c": "Indiana National Guard complex pairing Camp Atterbury's 34,000-acre maneuver and live-fire ranges and R-3401 restricted airspace with the Muscatatuck Training Center, a 1,000-acre real city with tunnels, a cyber range and clearance for electronic attack. Proposed for the Army's industry test-range program (Sept 2026).",
+            "Stats__c": "[{\"label\":\"Acres\",\"value\":\"34,000+ and 1,000\"},{\"label\":\"Restricted airspace\",\"value\":\"To FL250\"},{\"label\":\"Urban\",\"value\":\"1.5M sq ft under roof\"}]",
+            "Test_Types__c": "Drone / Counter-Drone",
+            "Status__c": "Coming soon",
+            "Latitude__c": 39.35,
+            "Longitude__c": -86.03,
+            "Active__c": true,
+            "Sort_Order__c": 6,
+            "Capability_Groups__r": {
+                "records": [
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAtmGroup1"
+                        },
+                        "Name": "UAS operations",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Camp Atterbury: UAS fly inside R-3401 without an FAA authorization while it is active\nCamp Atterbury: 1,800 ft paved UAS runway and launch and recovery area\nMuscatatuck: Class 1 UAS in Class G and custom-managed airspace over the urban site\nBlue UAS or a waiver required for commercial drones",
+                        "Sort_Order__c": 1
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAtmGroup2"
+                        },
+                        "Name": "Counter-UAS",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Camp Atterbury: high power microwave defeated 61 of 61 drones, including a 49-drone swarm (2025)\nCamp Atterbury: gun-based kinetic counter-drone demonstration (2024)\nCamp Atterbury: air defense ranges; target drones approved 14 days ahead",
+                        "Sort_Order__c": 2
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAtmGroup3"
+                        },
+                        "Name": "Electromagnetic environment",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Muscatatuck: clearance for ground-based electronic attack\nMuscatatuck: GPS and communications denial\nCamp Atterbury: four electronic threat emitters (Range 36)",
+                        "Sort_Order__c": 3
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAtmGroup4"
+                        },
+                        "Name": "Experimentation",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Technology readiness experimentation (T-REX) campaigns (2023-2025)\nOne-way attack drone development (2026)",
+                        "Sort_Order__c": 4
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAtmGroup5"
+                        },
+                        "Name": "Urban and subterranean",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Muscatatuck: real vacated city with 190+ structures\n1.8 miles of tunnels, a cave complex and a subway station\nCollapsed structures, a flooded neighborhood, a five-story hospital and a prison",
+                        "Sort_Order__c": 5
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAtmGroup6"
+                        },
+                        "Name": "Cyber and RF",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Muscatatuck: cyber range with a cyber electromagnetic activities (CEMA) environment\nClosed 3G/4G LTE cellular network (5G planned)\nWorking micro-grid, water treatment plant and traffic signals\nSimulated internet and social media",
+                        "Sort_Order__c": 6
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAtmGroup7"
+                        },
+                        "Name": "Live fire",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Camp Atterbury: 80+ artillery and mortar firing points, up to 155mm\nMLRS reduced-range practice rockets only",
+                        "Sort_Order__c": 7
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAtmGroup8"
+                        },
+                        "Name": "Airspace",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "R-3401A surface to FL250 (FL400 on request) and R-3401B\nRacer military operations areas; Jefferson Range R-3403 nearby",
+                        "Sort_Order__c": 8
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "RangeAtmGroup9"
+                        },
+                        "Name": "Terrain and airfields",
+                        "Test_Type__c": "Range environment",
+                        "Items__c": "Wooded hills, open ground and marsh at Camp Atterbury\nReservoir and river at Muscatatuck\nHimsel Army Airfield",
+                        "Sort_Order__c": 9
+                    }
+                ]
+            }
         }
     ]
 }

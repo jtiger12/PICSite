@@ -23,7 +23,7 @@ Outside `force-app`:
 |---|---|
 | `site-config/` | Guest-user sharing rules on `Test_Range__c` and `Test_Event__c`. They reference the site by name, so deploy them only after the site exists. |
 | `config/project-scratch-def.json` | Scratch org with Digital Experiences enabled and flows deploying active. |
-| `data/` | Sample ranges (Dugway with its capability groups, four pending ranges) and the 2027 EMU event for `sf data import tree`. |
+| `data/` | Sample data for `sf data import tree`: the six ranges with their capability groups (public-source profiles, October 2026; Atterbury-Muscatatuck as *Coming soon*) and the quarterly electromagnetic unreliability (DDIL) event at Camp Grayling. Generated from the harness mock with `npm run sample-data`; edit `src/mock/portalApi/data.js`, not the JSON. |
 
 ### Sharing model
 
@@ -208,7 +208,7 @@ point the link at `/` if the template has no anchor option.
 
 | Component | Properties |
 |---|---|
-| PIC Hero Banner | Eyebrow `Ranges`; Title `Range capabilities`; Subtitle `Five Army test ranges across the United States and partner nations. Compare terrain, airspace, instrumentation and the test types each range supports.`; Compact ✔ |
+| PIC Hero Banner | Eyebrow `Ranges`; Title `Range capabilities`; Subtitle `Five Army test ranges open to industry in the United States and Morocco, with Indiana coming soon. Compare terrain, airspace, instrumentation and the test types each range supports.`; Compact ✔ |
 | PIC Range Finder | Eyebrow `Find a range`; Title `Search ranges by capability` |
 | PIC Range Explorer | Show all ranges stacked ✔ |
 | PIC CTA Band | Eyebrow `Not sure which range fits?`; Title `Tell us about the test and we'll match the range`; Text `Submit a request with your objectives and preferred dates. The range office reviews it and coordinates the right range, airspace and instrumentation.`; Button `Request a test` → `/request` |
@@ -234,11 +234,14 @@ preferred and alternate range from the ranked matches.
 **Range finder search.** Ranges are scored on their own data: test types,
 `Capability_Group__c` items, `Stats__c`, state and region, and terrain words
 in the summary (each criterion scores 0-100%, the range score is the
-average). Shorthand such as HPM, HEL, EW, C-UAS, HE and FTS, and the
-synonyms behind it, live in `rangeFinder/rangeSearch.js`. Ranges with
-`Pending__c` set only have a test type, region and summary to match, so they
-rank below Dugway until their capability groups are entered; no code change
-is needed when they are.
+average; a criterion counts as met at 55%). Shorthand such as HPM, HEL,
+EW, C-UAS, HE, FTS, PNT and BVLOS, and the synonyms behind it, live in
+`rangeFinder/rangeSearch.js`; electronic warfare and GPS denial are matched
+as concepts however they're worded (jamming, electronic attack, GPS
+interference...). New capability groups are searchable as soon as they're
+entered; no code change is needed. *Coming soon* ranges are ranked like the
+others but can't be chosen as preferred or alternate, and the form ignores a
+`?range=` deep link to one.
 
 ### Track requests `/track` (Requires Login)
 
@@ -287,6 +290,13 @@ give that page that URL or update the three `href`s.
   so the queries only page (`first:`) their child relationships.
 - `Stats__c` on a range is a JSON array of `{label, value}` pairs; bad JSON
   renders as no stats rather than an error.
+- `Status__c` on a range is *Open* or *Coming soon*; coming-soon ranges show
+  their capabilities with a note and take no requests. `Latitude__c` /
+  `Longitude__c` hold the main post or airfield in decimal degrees (where the
+  range itself isn't published, as for West Cibola and the Morocco complex).
+- Capability groups whose type is *Range environment* (airspace, terrain and
+  climate, spectrum and instrumentation, airfields, support) render as their
+  own card after the test-type cards.
 - The GraphQL cache is per page session. After `createRecord`, the form
   sends the user to `/track?id=<number>`; the tracker calls `refreshGraphQL`
   once when that number is missing from the cached list.

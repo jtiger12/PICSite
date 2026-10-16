@@ -45,6 +45,10 @@ export default class RangeExplorer extends LightningElement {
         return href('/ranges');
     }
 
+    get allRequestHref() {
+        return href('/request');
+    }
+
     selectRange(event) {
         this.selectedId = event.currentTarget.dataset.id;
     }

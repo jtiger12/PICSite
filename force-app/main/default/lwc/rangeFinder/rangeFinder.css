@@ -305,11 +305,16 @@
     color: var(--pic-text-2, #aeb4bc);
 }
 
-.pending {
+.soon {
     padding: 1px 8px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 204, 1, 0.14);
+    color: var(--pic-accent, #ffcc01);
     font-size: 0.75rem;
+}
+
+.res-actions .hint {
+    margin: 0;
 }
 
 .score {

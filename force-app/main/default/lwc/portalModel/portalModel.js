@@ -91,6 +91,13 @@ function str(a) {
     return a === null || a === undefined ? '' : String(a);
 }
 
+// { lat, lng } in decimal degrees, or null when either is missing.
+function coordinates(lat, lng) {
+    const la = lat === null || lat === undefined || lat === '' ? NaN : Number(lat);
+    const lo = lng === null || lng === undefined || lng === '' ? NaN : Number(lng);
+    return Number.isFinite(la) && Number.isFinite(lo) ? { lat: la, lng: lo } : null;
+}
+
 export function splitMulti(value) {
     return value
         ? String(value)
@@ -192,6 +199,7 @@ export function toRanges(data) {
             } catch (e) {
                 stats = [];
             }
+            const status = str(v(n.Status__c)) || 'Open';
             return {
                 recordId: n.Id,
                 id: str(v(n.Code__c)) || n.Id,
@@ -200,7 +208,10 @@ export function toRanges(data) {
                 summary: str(v(n.Summary__c)),
                 stats,
                 testTypes,
-                pending: Boolean(v(n.Pending__c)),
+                status,
+                // Coming soon ranges show their capabilities but take no requests yet.
+                comingSoon: status === 'Coming soon',
+                location: coordinates(v(n.Latitude__c), v(n.Longitude__c)),
                 capabilities,
                 order: v(n.Sort_Order__c)
             };

@@ -109,7 +109,7 @@
                                             <h3 class="res-name">{r.name}</h3>
                                             <p class="res-meta">
                                                 {r.state}
-                                                <template lwc:if={r.pending}><span class="pending">Details pending</span></template>
+                                                <template lwc:if={r.comingSoon}><span class="soon">Coming soon</span></template>
                                             </p>
                                         </div>
                                         <p class="score"><strong>{r.percent}%</strong><span>match</span></p>
@@ -131,7 +131,10 @@
                                         </template>
                                     </ul>
                                     <div class="res-actions">
-                                        <template lwc:if={isSelect}>
+                                        <template lwc:if={r.comingSoon}>
+                                            <p class="hint">Not taking requests yet.</p>
+                                        </template>
+                                        <template lwc:elseif={isSelect}>
                                             <button class={r.preferClass} type="button" aria-pressed={r.preferPressed} data-id={r.id} onclick={handlePrefer}>{r.preferLabel}</button>
                                             <button class={r.altClass} type="button" aria-pressed={r.altPressed} data-id={r.id} onclick={handleAlternate} disabled={r.isPreferred}>{r.altLabel}</button>
                                         </template>
@@ -149,7 +152,7 @@
                     <template lwc:elseif={hasCriteria}>
                         <div class="card empty">
                             <p class="empty-title">No range lists that yet</p>
-                            <p class="empty-text">Try broader words, remove a criterion, or contact the range office: four ranges are still confirming their capability details.</p>
+                            <p class="empty-text">Try broader words or remove a criterion. The range concierge can also suggest a range for needs that aren't listed here.</p>
                         </div>
                     </template>
                     <template lwc:else>

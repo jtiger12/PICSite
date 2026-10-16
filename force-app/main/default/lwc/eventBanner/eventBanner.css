@@ -16,6 +16,10 @@
     border-radius: var(--pic-radius, 16px);
 }
 
+.band--no-dates {
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
 .title {
     margin: 0 0 6px;
     font-size: 1.25rem;
@@ -57,7 +61,8 @@
 }
 
 @media (max-width: 1024px) {
-    .band {
+    .band,
+    .band--no-dates {
         grid-template-columns: minmax(0, 1fr);
     }
 }

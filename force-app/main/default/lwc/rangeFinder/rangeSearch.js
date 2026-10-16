@@ -26,14 +26,44 @@ const SYNONYMS = {
     laser: ['high energy laser'],
     lasers: ['high energy laser'],
     de: ['directed energy'],
-    ew: ['electronic attack'],
-    ea: ['electronic attack'],
-    jamming: ['electronic attack'],
-    jammer: ['electronic attack'],
-    jam: ['electronic attack'],
-    electronic: ['electronic attack'],
-    warfare: ['electronic attack'],
-    ddil: ['denied degraded intermittent limited'],
+    // Jamming, "electronic attack" and "electronic warfare" become the ew
+    // concept (see CONCEPTS); single words reach it here.
+    ea: ['ew'],
+    electronic: ['ew'],
+    warfare: ['ew'],
+    ddil: ['denied degraded intermittent limited', 'denied disrupted intermittent limited'],
+    emu: ['electromagnetic unreliability', 'ddil'],
+    pnt: ['gps'],
+    gnss: ['gps'],
+    navwar: ['gps'],
+    spoofing: ['gps'],
+    cellular: ['lte'],
+    cell: ['cellular'],
+    phone: ['cellular'],
+    mobile: ['cellular'],
+    cyberspace: ['cyber'],
+    swarms: ['swarm'],
+    underground: ['tunnels', 'subterranean'],
+    subt: ['subterranean'],
+    caves: ['cave'],
+    city: ['urban'],
+    cities: ['urban'],
+    town: ['urban'],
+    mout: ['urban'],
+    buildings: ['urban', 'structures'],
+    cqb: ['shoot houses'],
+    winter: ['cold weather'],
+    snow: ['cold weather'],
+    arctic: ['cold weather'],
+    hot: ['heat'],
+    sea: ['maritime'],
+    water: ['maritime', 'lake'],
+    naval: ['maritime'],
+    boat: ['unmanned surface'],
+    boats: ['unmanned surface'],
+    usv: ['unmanned surface'],
+    uuv: ['undersea'],
+    africa: ['morocco'],
     he: ['high explosive'],
     explosive: ['high explosive'],
     explosives: ['high explosive'],
@@ -44,8 +74,7 @@ const SYNONYMS = {
     missile: ['rocket missile'],
     missiles: ['rocket missile'],
     rockets: ['rocket'],
-    interceptor: ['kinetic'],
-    interceptors: ['kinetic'],
+    interceptors: ['interceptor'],
     woods: ['forest'],
     wooded: ['forest'],
     trees: ['forest'],
@@ -61,49 +90,89 @@ const SYNONYMS = {
 // Multi-word shorthand rewritten before tokenizing ("C-UAS" would otherwise
 // split into "c" + "uas").
 const PHRASES = [
-    [/\bc[\s-]?uas\b/g, 'counter drone'],
-    [/\bcounter[\s-]?u[ae]s\b/g, 'counter drone'],
+    [/\bc[\s-]?s?uas\b/g, 'counter drone'],
+    [/\bcounter[\s-]?s?u[ae]s\b/g, 'counter drone'],
     [/\bcounter[\s-]?u[ae]v\b/g, 'counter drone'],
+    [/\bbeyond[\s-](visual[\s-])?line[\s-]of[\s-]sight\b/g, 'bvlos'],
     [/\blong[\s-]?range\b/g, 'long range'],
     // "Low-Cost Interceptor" (a request test type) is about the interceptor.
     [/\blow[\s-]?cost\b/g, ' ']
 ];
 
-const STATE_NAMES = { UT: 'Utah', AZ: 'Arizona', MI: 'Michigan', MS: 'Mississippi' };
+// Ideas the data words several ways. In range text the concept token is added
+// next to the words (so typing "electronic" still finds "Electronic Attack");
+// in a query the words are replaced by it, so "electronic attack" matches a
+// range that lists jamming, and "GPS denied" doesn't half-match "differential
+// GPS" tracking.
+const CONCEPTS = [
+    { token: 'gpsdenied', pattern: /\b(gps|pnt|gnss)( \(pnt\))?( and (rf|communications))? (denied|denial|interference|jamming|spoofing)\b/g },
+    { token: 'ew', pattern: /\b(electronic (attack|warfare)|jamm(ing|ers?)|jam|ew)\b/g }
+];
 
-// Terrain words pulled out of range summaries so "desert" or "forest" can be
-// suggested and weighted like a listed attribute rather than loose prose.
-const TERRAIN = ['desert', 'forest', 'woodland', 'lake', 'pine', 'swamp', 'wetland', 'mountain', 'coastal', 'maritime', 'urban', 'arctic', 'plains', 'jungle'];
+const STATE_NAMES = { UT: 'Utah', AZ: 'Arizona', MI: 'Michigan', MS: 'Mississippi', IN: 'Indiana' };
 
-// Group names that are headings rather than capabilities ("Range: < 75 km").
-const HEADING_GROUPS = /^(range|munition type|impact area)$/i;
+// Terrain words pulled out of range summaries (word stem -> suggestion label)
+// so "desert" or "forest" can be suggested and weighted like a listed
+// attribute rather than loose prose.
+const TERRAIN = {
+    desert: 'Desert',
+    forest: 'Forest',
+    woodland: 'Woodland',
+    lake: 'Lakes',
+    pine: 'Pine',
+    swamp: 'Swamp',
+    wetland: 'Wetlands',
+    mountain: 'Mountains',
+    coast: 'Coastal',
+    maritime: 'Maritime',
+    littoral: 'Littoral',
+    urban: 'Urban',
+    tunnel: 'Tunnels',
+    salt: 'Salt flats',
+    playa: 'Playa',
+    arctic: 'Arctic',
+    plains: 'Plains',
+    jungle: 'Jungle'
+};
+
+// Group names that are headings rather than capabilities ("Range: < 75 km",
+// "Airspace: R-6402"); their items are still searched, the name just isn't
+// offered as a suggestion.
+const HEADING_GROUPS =
+    /^(range|munition type|impact area|instrumentation|airspace|airfields( and support)?|terrain and (climate|airfields)|spectrum and instrumentation|support|program|uas operations|live fire|test lanes|experimentation|specialty facilities)$/i;
 
 // Field weights: what a range explicitly lists counts more than a word that
 // happens to appear in its summary.
-const WEIGHT = { capability: 1, testType: 1, name: 1, stat: 0.9, location: 0.9, terrain: 0.9, group: 0.85, summary: 0.5 };
+const WEIGHT = { capability: 1, testType: 1, name: 1, stat: 0.9, location: 0.9, terrain: 0.9, group: 0.85, summary: 0.6 };
 
-// A criterion counts as met at or above this score.
-export const MET = 0.5;
+// A criterion counts as met at or above this score: an exact word in a
+// summary (0.6) passes; half of a two-word phrase (0.5) doesn't.
+export const MET = 0.55;
 
-function normalize(text) {
+// mode "data" keeps the words and adds concept tokens; "query" swaps the
+// words for them (see CONCEPTS).
+function normalize(text, mode) {
     let s = String(text || '').toLowerCase();
     PHRASES.forEach(([pattern, replacement]) => {
         s = s.replace(pattern, replacement);
     });
+    CONCEPTS.forEach(({ token, pattern }) => {
+        s = s.replace(pattern, (words) => (mode === 'query' ? ` ${token} ` : `${words} ${token}`));
+    });
     return s;
 }
 
-export function tokenize(text) {
-    return normalize(text)
+export function tokenize(text, mode = 'data') {
+    return normalize(text, mode)
         .split(/[^a-z0-9]+/)
         .filter(Boolean);
 }
 
 // Query tokens, each with the alternative phrasings it may match as.
 function queryTokens(text) {
-    return tokenize(text)
+    return tokenize(text, 'query')
         .filter((t) => !STOPWORDS.has(t) && (t.length > 1 || /\d/.test(t)))
-        .map((t) => ({ token: t, alternatives: [[t], ...(SYNONYMS[t] || []).map(tokenize)] }));
+        .map((t) => ({ token: t, alternatives: [[t], ...(SYNONYMS[t] || []).map((s) => tokenize(s, 'query'))] }));
 }
 
 // How well one query word matches one word in the data, 0..1. Prefixes count
@@ -200,11 +269,13 @@ export function buildIndex(ranges) {
         if (r.summary) {
             fields.push(field('summary', r.summary, 'Range summary'));
             const words = tokenize(r.summary);
-            TERRAIN.filter((t) => words.some((w) => w.startsWith(t))).forEach((t) => {
-                const label = t[0].toUpperCase() + t.slice(1);
-                fields.push(field('terrain', t, `${label} terrain`));
-                addTerm(label, 'Terrain', r.id);
-            });
+            Object.keys(TERRAIN)
+                .filter((t) => words.some((w) => w.startsWith(t)))
+                .forEach((t) => {
+                    const label = TERRAIN[t];
+                    fields.push(field('terrain', `${t} ${label}`, `${label} terrain`));
+                    addTerm(label, 'Terrain', r.id);
+                });
         }
         docs.set(r.id, fields);
     });

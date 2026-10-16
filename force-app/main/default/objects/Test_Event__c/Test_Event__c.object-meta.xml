@@ -3,7 +3,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>A scheduled multi-range test event customers can sign up for from the request form (e.g. the 2027 EMU test events). Sessions are child records.</description>
+    <description>A scheduled multi-range test event customers can sign up for from the request form (e.g. the quarterly electromagnetic unreliability (DDIL) test events). Sessions are child records.</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>

@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Test_Type__c</fullName>
     <externalId>false</externalId>
-    <inlineHelpText>The capability card this group belongs to.</inlineHelpText>
+    <inlineHelpText>The capability card this group belongs to. Range environment holds what applies to every test there: airspace, terrain, spectrum, airfields, support.</inlineHelpText>
     <label>Test Type</label>
     <required>true</required>
     <trackHistory>false</trackHistory>
@@ -26,6 +26,11 @@
                 <fullName>Low-Cost Interceptor</fullName>
                 <default>false</default>
                 <label>Low-Cost Interceptor</label>
+            </value>
+            <value>
+                <fullName>Range environment</fullName>
+                <default>false</default>
+                <label>Range environment</label>
             </value>
         </valueSetDefinition>
     </valueSet>

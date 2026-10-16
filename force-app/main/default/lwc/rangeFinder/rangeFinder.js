@@ -146,7 +146,7 @@ export default class RangeFinder extends LightningElement {
                 rank: i + 1,
                 name: range.name,
                 state: range.state,
-                pending: range.pending,
+                comingSoon: range.comingSoon,
                 percent: m.percent,
                 barStyle: `width: ${Math.max(m.percent, 4)}%`,
                 cls,

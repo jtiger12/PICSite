@@ -3,7 +3,7 @@
     <fullName>Code__c</fullName>
     <caseSensitive>false</caseSensitive>
     <externalId>true</externalId>
-    <inlineHelpText>Short stable slug used in portal URLs, e.g. emu-2027.</inlineHelpText>
+    <inlineHelpText>Short stable slug used in portal URLs, e.g. emu-ddil.</inlineHelpText>
     <label>Code</label>
     <length>40</length>
     <required>false</required>

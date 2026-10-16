@@ -2,20 +2,22 @@
     <template lwc:if={event}>
         <section class="wrap">
             <div class="container">
-                <div class="band">
+                <div class={bandClass}>
                     <div class="lead-col">
                         <p class="eyebrow eyebrow--accent">Upcoming test events</p>
                         <h2 class="title">{event.title}</h2>
                         <p class="lead">{event.lead}</p>
                     </div>
-                    <ul class="sessions">
-                        <template for:each={event.sessions} for:item="s">
-                            <li key={s.id} class="session">
-                                <span class="dates">{s.dates}</span>
-                                <span class="where">{s.where}</span>
-                            </li>
-                        </template>
-                    </ul>
+                    <template lwc:if={hasSessions}>
+                        <ul class="sessions">
+                            <template for:each={event.sessions} for:item="s">
+                                <li key={s.id} class="session">
+                                    <span class="dates">{s.dates}</span>
+                                    <span class="where">{s.where}</span>
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
                     <a class="btn btn--primary" href={signupHref}>Sign up</a>
                 </div>
             </div>

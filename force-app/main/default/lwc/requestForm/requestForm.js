@@ -103,7 +103,8 @@ export default class RequestForm extends LightningElement {
         if (!data) return;
         this.ranges = toRanges(data);
         const wanted = this.deepLinks.range;
-        if (wanted && !this.form.rangeId && this.ranges.some((r) => r.id === wanted)) {
+        // Coming soon ranges can be browsed but not requested yet.
+        if (wanted && !this.form.rangeId && this.ranges.some((r) => r.id === wanted && !r.comingSoon)) {
             this.form = { ...this.form, rangeId: wanted };
         }
     }

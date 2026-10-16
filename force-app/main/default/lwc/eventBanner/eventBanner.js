@@ -14,6 +14,16 @@ export default class EventBanner extends LightningElement {
         }
     }
 
+    // A recurring event without announced dates has no sessions; the lead
+    // text carries the cadence and the band drops its dates column.
+    get hasSessions() {
+        return Boolean(this.event && this.event.sessions.length);
+    }
+
+    get bandClass() {
+        return this.hasSessions ? 'band' : 'band band--no-dates';
+    }
+
     get signupHref() {
         return href(this.event ? `/request?event=${this.event.id}` : '/request');
     }

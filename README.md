@@ -151,10 +151,19 @@ The short version (details, head markup and page-by-page compositions in
 
 ## Content still to confirm
 
-- Capability lists for West Cibola, Camp Grayling, Camp Shelby and AMTEC are
-  placeholders (`Pending__c` in `data/Test_Range__c.json` and
-  `src/mock/portalApi/data.js`); only Dugway's are carried over from the
-  current site.
+- Range capabilities come from public sources (army.mil, DVIDS, the ranges'
+  own pages, FAA airspace records, October 2026) plus Dugway's fires lines
+  from the current site; the range offices should confirm them. Open points:
+  Dugway's runway length (sources give 6,000-11,000 ft) and its "None" for
+  counter-drone instrumentation; Camp Grayling's acreage (148,000 vs nearly
+  200,000) and whether the BVLOS corridor is operational; West Cibola's and
+  the Morocco complex's boundaries, airspace and coordinates (the mock uses
+  Laguna Army Airfield and Tan-Tan); dates for the next quarterly DDIL event.
+  Edit `src/mock/portalApi/data.js`, then `npm run sample-data` rewrites
+  `data/*.json`.
+- Atterbury-Muscatatuck is *Coming soon*: the Indiana delegation asked the
+  Army to designate it on Sept 30, 2026; switch `Status__c` to *Open* once
+  it is.
 - Hero imagery and the official Army mark: `contours.svg` and the inline star
   are placeholders.
 - Range office contact address (`usarmy.testrange@army.mil` is a placeholder).

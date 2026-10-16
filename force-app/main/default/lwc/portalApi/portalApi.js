@@ -42,8 +42,8 @@ export const CURRENT_USER_ID = USER_ID;
 export const BASE_PATH = basePath || '';
 export const href = (path) => prefixHref(BASE_PATH, path);
 
-// Active ranges with their capability groups, for rangeExplorer and the
-// request form's range selects. Child ordering is finished in toRanges().
+// Active ranges with their capability groups, for rangeExplorer, rangeFinder
+// and the request form. Child ordering is finished in toRanges().
 export const RANGES_QUERY = gql`
     query PicRanges {
         uiapi {
@@ -58,7 +58,9 @@ export const RANGES_QUERY = gql`
                             Summary__c { value }
                             Stats__c { value }
                             Test_Types__c { value }
-                            Pending__c { value }
+                            Status__c { value }
+                            Latitude__c { value }
+                            Longitude__c { value }
                             Sort_Order__c { value }
                             Capability_Groups__r(first: 50) {
                                 edges {
