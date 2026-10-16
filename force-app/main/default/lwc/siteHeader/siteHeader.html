@@ -2,16 +2,10 @@
     <header class="header">
         <div class="inner">
             <a class="brand" href={homeHref}>
-                <span class="mark" aria-hidden="true">
-                    <svg viewBox="0 0 48 48" width="40" height="40">
-                        <rect width="48" height="48" rx="4" fill="#000"></rect>
-                        <path d="M24 7l4.6 10.9 11.8.9-9 7.7 2.8 11.5L24 31.8 13.8 38l2.8-11.5-9-7.7 11.8-.9z" fill="var(--pic-accent, #ffcc01)"></path>
-                    </svg>
-                </span>
-                <span class="brand-text">
-                    <span class="brand-small">U.S. Army</span>
-                    <span class="brand-title">{siteTitle}</span>
-                </span>
+                <template lwc:if={showLogo}>
+                    <img class="mark" src={logoUrl} alt="U.S. Army" height="52" onerror={hideLogo} />
+                </template>
+                <span class="brand-title">{siteTitle}</span>
             </a>
 
             <nav class={navClass} aria-label="Primary">

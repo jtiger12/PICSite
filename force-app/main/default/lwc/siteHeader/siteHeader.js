@@ -10,6 +10,10 @@ const LINKS = [
 
 export default class SiteHeader extends LightningElement {
     @api siteTitle = 'Test on Army Ranges';
+    // The official Army logo file, unaltered: the harness serves
+    // src/assets/img/army-logo.svg; in Builder point it at a static resource.
+    @api logoUrl = '/assets/img/army-logo.svg';
+    logoFailed = false;
     menuOpen = false;
     path = '/';
 
@@ -27,6 +31,16 @@ export default class SiteHeader extends LightningElement {
 
     isCurrent(url) {
         return url === this.path || `${url}/` === this.path;
+    }
+
+    // A missing or broken logo file leaves the title on its own rather than
+    // a broken-image icon.
+    get showLogo() {
+        return Boolean(this.logoUrl) && !this.logoFailed;
+    }
+
+    hideLogo() {
+        this.logoFailed = true;
     }
 
     get homeHref() {

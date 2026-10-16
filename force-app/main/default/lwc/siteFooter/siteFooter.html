@@ -3,10 +3,9 @@
         <div class="container top">
             <div class="brand-col">
                 <div class="brand">
-                    <svg viewBox="0 0 48 48" width="36" height="36" aria-hidden="true">
-                        <rect width="48" height="48" rx="4" fill="#000"></rect>
-                        <path d="M24 7l4.6 10.9 11.8.9-9 7.7 2.8 11.5L24 31.8 13.8 38l2.8-11.5-9-7.7 11.8-.9z" fill="var(--pic-accent, #ffcc01)"></path>
-                    </svg>
+                    <template lwc:if={showLogo}>
+                        <img class="mark" src={logoUrl} alt="U.S. Army" height="48" onerror={hideLogo} />
+                    </template>
                     <span>Test on Army Ranges</span>
                 </div>
                 <p class="blurb">Private-industry access to Army test ranges for drone, counter-drone and long-range fires experimentation.</p>

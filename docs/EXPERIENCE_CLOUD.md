@@ -167,6 +167,14 @@ html, body {
 - **Hero image**: `heroBanner` defaults to the harness asset
   `/assets/img/contours.svg`. Upload the artwork as a static resource or CMS
   image and set *Background image URL* on each hero instance.
+- **Army logo**: the header and footer show the official U.S. Army logo,
+  unaltered (scaled by height only), next to the site title. Use "NEW Army
+  Logo 1 Rev - Horizontal" (the reverse version for dark backgrounds) from
+  the Family and MWR Brand Central *NEW U.S. Army Logo* collection
+  (https://www.mwrbrandcentral.com/collections/26115, sign-in required).
+  Upload it as a static resource and set *Army logo URL* on `PIC Site
+  Header` and `PIC Site Footer`; if the file can't load they show the title
+  alone.
 - **Page access**: `/request` and `/track` are *Requires Login* (Page
   Properties > Page Access). Home, Ranges, Login and Request an account
   stay public.

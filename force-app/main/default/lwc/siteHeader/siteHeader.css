@@ -31,23 +31,32 @@
     border-right: 1px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
 }
 
-.brand-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-}
-
-.brand-small {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--pic-text-2, #aeb4bc);
+/* Official Army logo, unaltered: scale by height only so the aspect ratio
+   is never changed (Army brand rule). */
+.mark {
+    display: block;
+    height: 52px;
+    width: auto;
 }
 
 .brand-title {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     font-weight: 700;
+    line-height: 1.15;
+}
+
+@media (max-width: 640px) {
+    .mark {
+        height: 40px;
+    }
+
+    .brand {
+        gap: 10px;
+    }
+
+    .brand-title {
+        font-size: 1rem;
+    }
 }
 
 .nav {
