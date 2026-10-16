@@ -1,0 +1,29 @@
+# On the target machine:
+#   docker compose up -d --build     build only what changed, then (re)start
+#   docker compose logs -f picsite   follow server output
+#   docker compose down              stop and remove the container
+#
+# With a containerd image store (Docker Desktop), set
+# BUILDX_NO_DEFAULT_ATTESTATIONS=1 so an unchanged rebuild keeps the same image
+# ID and `up --build` leaves the running container alone.
+#
+# Optional settings (environment or a .env file next to this file):
+#   PICSITE_PORT  host port to publish (default 3000)
+#   NODE_IMAGE    base image for the build, e.g. an Iron Bank Node 22 image
+services:
+  picsite:
+    build:
+      context: .
+      args:
+        NODE_IMAGE: ${NODE_IMAGE:-node:22-slim}
+    image: picsite:latest
+    ports:
+      - "${PICSITE_PORT:-3000}:3000"
+    restart: unless-stopped
+    healthcheck:
+      # Node's fetch, so the check works without curl/wget in the base image.
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3

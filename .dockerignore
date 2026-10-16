@@ -1,0 +1,15 @@
+# Rebuilt inside the image
+node_modules/
+site/
+__lwr_cache__/
+
+# Not needed for the harness image
+.git/
+.claude/
+.sf/
+.sfdx/
+.localdevserver/
+*.log
+Dockerfile
+docker-compose.yml
+.dockerignore

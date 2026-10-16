@@ -4,14 +4,18 @@
   "private": true,
   "description": "Army test range request portal - LWC components with a local LWR preview harness",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "sync": "node scripts/sync-lwr-modules.mjs",
     "dev": "node scripts/dev.mjs",
     "build": "npm run sync && lwr build",
-    "start": "lwr start"
+    "start": "node scripts/run.mjs",
+    "serve": "lwr start"
   },
   "dependencies": {
-    "lwc": "latest",
-    "lwr": "latest"
+    "lwc": "9.5.1",
+    "lwr": "0.24.3"
   }
 }

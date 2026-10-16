@@ -27,6 +27,49 @@ swaps in the harness mocks from `src/mock/`, then starts `lwr dev`. Re-run it
 after adding a component. The harness runs entirely on mock data; mock
 submissions live in `sessionStorage` for the browser session.
 
+## Run the built site
+
+```bash
+npm start
+```
+
+Serves the production build (`lwr start`) on http://localhost:3000, or
+`PORT`. Every step is skipped when it has nothing to do:
+
+- `npm ci` only when `package-lock.json` differs from the last install
+- `lwr build` into `site/` only when `src/`, `force-app/main/default/lwc` or
+  `lwr.config.json` changed since the last build
+
+`npm start -- --rebuild` forces a build. `npm run serve` serves the existing
+`site/` as-is. Requires Node 22+.
+
+## Run in Docker
+
+On the target machine (Docker with Compose v2):
+
+```bash
+docker compose up -d --build
+```
+
+The image builds the site inside a `node:22-slim` container and serves it on
+port 3000. Docker's layer cache skips steps whose inputs did not change:
+reinstalling only when `package*.json` changed, rebuilding only when sources
+did. Set `PICSITE_PORT` to publish a different host port, and `NODE_IMAGE` to
+use another glibc-based Node 22 base image (e.g. Iron Bank); both can go in a
+`.env` file next to `docker-compose.yml`. `docker compose logs -f picsite`
+follows output, `docker compose down` stops it.
+
+On Docker Desktop (or any containerd image store), BuildKit's timestamped
+provenance gives every build a new image ID, so the command above restarts the
+container even when nothing changed. To make an unchanged rerun a no-op:
+
+```bash
+BUILDX_NO_DEFAULT_ATTESTATIONS=1 docker compose up -d --build
+```
+
+Like `npm start`, the container serves the harness with mock data, for demos
+and review. The real site deploys to Experience Cloud (below).
+
 ## Layout
 
 ```

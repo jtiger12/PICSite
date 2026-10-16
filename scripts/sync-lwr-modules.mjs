@@ -32,6 +32,11 @@ const aliases = readdirSync(lwcDir, { withFileTypes: true })
     .sort((a, b) => a.name.localeCompare(b.name));
 
 const config = JSON.parse(readFileSync(configPath, 'utf8'));
-config.lwc.modules = [{ dir: '$rootDir/src/modules' }, ...aliases];
-writeFileSync(configPath, JSON.stringify(config, null, 4) + '\n');
+const modules = [{ dir: '$rootDir/src/modules' }, ...aliases];
+// Only touch the file when the aliases change: scripts/run.mjs uses its mtime
+// to decide whether site/ needs a rebuild.
+if (JSON.stringify(config.lwc.modules) !== JSON.stringify(modules)) {
+    config.lwc.modules = modules;
+    writeFileSync(configPath, JSON.stringify(config, null, 4) + '\n');
+}
 console.log(`lwr.config.json: ${aliases.length} c/ components aliased${mocked.length ? ` (harness mocks: ${mocked.join(', ')})` : ''}`);
