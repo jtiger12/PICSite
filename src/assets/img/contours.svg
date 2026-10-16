@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d2027"/>
+      <stop offset="1" stop-color="#16181c"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.78" cy="0.35" r="0.6">
+      <stop offset="0" stop-color="#ffcc01" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#ffcc01" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="none" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1.2">
+    <path d="M0 620 C 200 560, 380 700, 600 640 S 980 520, 1200 600 S 1500 700, 1600 640"/>
+    <path d="M0 660 C 220 600, 400 740, 620 680 S 1000 560, 1220 640 S 1520 740, 1600 680"/>
+    <path d="M0 700 C 240 640, 420 780, 640 720 S 1020 600, 1240 680 S 1540 780, 1600 720"/>
+    <path d="M0 740 C 260 680, 440 820, 660 760 S 1040 640, 1260 720 S 1560 820, 1600 760"/>
+    <path d="M0 780 C 280 720, 460 860, 680 800 S 1060 680, 1280 760 S 1580 860, 1600 800"/>
+    <path d="M0 820 C 300 760, 480 900, 700 840 S 1080 720, 1300 800 S 1600 900, 1600 840"/>
+    <path d="M900 180 C 1000 120, 1150 140, 1250 200 S 1400 330, 1300 400 S 1050 420, 980 340 S 820 240, 900 180 Z"/>
+    <path d="M930 210 C 1010 165, 1130 180, 1215 230 S 1340 325, 1260 375 S 1070 390, 1010 325 S 870 270, 930 210 Z"/>
+    <path d="M960 240 C 1020 210, 1110 220, 1180 260 S 1280 320, 1220 350 S 1090 360, 1040 310 S 920 290, 960 240 Z"/>
+    <path d="M990 270 C 1030 255, 1090 262, 1140 290 S 1210 315, 1180 330 S 1105 335, 1070 300 S 970 300, 990 270 Z"/>
+    <path d="M200 120 C 300 80, 420 110, 470 180 S 450 320, 350 330 S 150 290, 130 220 S 120 150, 200 120 Z"/>
+    <path d="M230 150 C 310 118, 400 140, 440 195 S 420 295, 345 302 S 185 270, 170 220 S 160 175, 230 150 Z"/>
+    <path d="M265 180 C 320 158, 380 172, 410 210 S 395 270, 340 275 S 225 250, 215 220 S 210 200, 265 180 Z"/>
+  </g>
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <path d="M0 0 L1600 900"/>
+    <path d="M0 450 L1600 450"/>
+    <path d="M800 0 L800 900"/>
+  </g>
+  <g stroke="#ffcc01" stroke-opacity="0.35" stroke-width="1" fill="none">
+    <circle cx="1180" cy="300" r="6"/>
+    <circle cx="1180" cy="300" r="18"/>
+    <path d="M1180 270 v-14 M1180 330 v14 M1150 300 h-14 M1210 300 h14"/>
+  </g>
+</svg>

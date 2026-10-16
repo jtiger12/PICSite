@@ -1,93 +1,114 @@
-# PICSite
+# PICSite - Test on Army Ranges portal
 
+Customer-facing portal for licensed customers to submit UAS, counter-UAS and
+long-range fires test requests on Army test ranges, track submission status,
+and browse range capabilities. Built as Lightning Web Components for an
+Experience Cloud (LWR) site, with a local LWR harness for previewing without
+an org. Data access is platform-native (GraphQL wire adapter, Lightning Data
+Service, Flows); there is no Apex.
 
+Design notes, tokens and the site map are in [DESIGN.md](DESIGN.md).
+Org deployment, page compositions and the access model are in
+[docs/EXPERIENCE_CLOUD.md](docs/EXPERIENCE_CLOUD.md).
 
-## Getting started
+## Run locally
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://sync.git.mil/atec/PICSite.git
-git branch -M main
-git push -uf origin main
+```bash
+npm install
+npm run dev
 ```
 
-## Integrate with your tools
+Open http://localhost:3000 (the launcher picks the next free port if 3000 is
+taken). Routes: `/`, `/ranges`, `/request`, `/track`, `/login`.
 
-* [Set up project integrations](https://web.git.mil/atec/PICSite/-/settings/integrations)
+`npm run dev` regenerates `lwr.config.json` module aliases from
+`force-app/main/default/lwc` so every SFDX component resolves as `c/<name>`,
+swaps in the harness mocks from `src/mock/`, then starts `lwr dev`. Re-run it
+after adding a component. The harness runs entirely on mock data; mock
+submissions live in `sessionStorage` for the browser session.
 
-## Collaborate with your team
+## Layout
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+```
+force-app/main/default/
+  lwc/                        the deployable components (c/ namespace)
+    picStyles/                shared CSS module: container, buttons, cards, form fields
+    portalModel/              pure data model: status steps, option lists, GraphQL -> template
+                              shaping, form -> Test_Request__c field mapping, href prefixing
+    portalApi/                data seam: GraphQL queries + wire adapter re-exports, createRecord,
+                              site base path (swapped for src/mock/portalApi in the harness)
+    fileUploader/             lightning-file-upload wrapper bound to a request record
+    govBanner, siteHeader, siteFooter
+    heroBanner, quickAccessPanel, valueProps, eventBanner, ctaBand, processStepper
+    rangeExplorer, capabilityList
+    requestForm, requestTracker, statusChip, loginPanel
+  objects/                    Test_Range__c + Capability_Group__c, Test_Event__c + Event_Session__c,
+                              Test_Request__c + Request_Activity__c, Account.License_ID__c
+  flows/                      PIC_Request_Created, PIC_Request_Status_Changed,
+                              PIC_Request_Needs_Info_Reminder (scheduled path, 5 days)
+  permissionsets/             PICSite_Customer, PICSite_Guest, PICSite_Range_Office
+  sharingSets/                PICSite_Customer: community users see their account's requests
+  labels/, tabs/              PIC_Portal_URL for the flow emails; tabs for the range office
+site-config/                  guest-user sharing rules (deploy after the site exists)
+config/project-scratch-def.json
+data/                         sample ranges and events for `sf data import tree`
+docs/EXPERIENCE_CLOUD.md      deployment order, head markup, page compositions, access
+src/                          local harness only (ignored by .forceignore)
+  mock/portalApi/             same exports as c/portalApi over mock GraphQL responses
+  mock/fileUploader/          plain file input stand-in for lightning-file-upload
+  modules/picsite/<page>/     page compositions for the LWR routes
+  layouts/main.html           document shell: Inter font + global.css
+  assets/global.css           :root design tokens
+  assets/img/contours.svg     placeholder hero background
+scripts/                      dev launcher and alias generator
+```
 
-## Test and Deploy
+Components use plain HTML/CSS and the `--pic-*` tokens only (no SLDS), so
+they render the same in the harness and in Experience Cloud. The one base
+component, `lightning-file-upload`, is isolated inside `c/fileUploader`.
 
-Use the built-in continuous integration in GitLab.
+## Data access
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+- **Reads** are UI API GraphQL queries wired straight into the components:
+  `@wire(graphql, { query: RANGES_QUERY })` in `rangeExplorer`, `EVENTS_QUERY`
+  in `eventBanner`, `MY_REQUESTS_QUERY` in `requestTracker`, and all three
+  plus `CURRENT_USER_QUERY` in `requestForm`. `c/portalModel` turns the
+  results into the shapes the templates expect.
+- **Writes**: `submitRequest()` in `c/portalApi` calls `createRecord` on
+  `Test_Request__c`. The record-triggered flows log the first activity, email
+  the contact, mirror every later status change into the activity timeline,
+  and remind the customer after five days in *Needs info*.
+- **Attachments**: after submit, the success panel (and the tracker for
+  requests in *Needs info*) shows `c/fileUploader` bound to the request.
+- **Links**: `href()` from `c/portalApi` prefixes the site base path, so the
+  components work at `/` locally and under `/picsite/` in the org.
+- **Harness swap**: `scripts/sync-lwr-modules.mjs` aliases any
+  `src/mock/<name>/<name>.js` over the force-app component of the same name.
+  The mock `graphql` is a wire adapter that answers the query tokens with
+  mock records in UI API response shape, so the shaping code runs unchanged.
 
-***
+## Deploying to Experience Cloud
 
-# Editing this README
+The short version (details, head markup and page-by-page compositions in
+[docs/EXPERIENCE_CLOUD.md](docs/EXPERIENCE_CLOUD.md)):
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+1. `sf org create scratch -f config/project-scratch-def.json -a picsite -d`
+   (or use a sandbox with Digital Experiences enabled).
+2. `sf project deploy start --source-dir force-app -o picsite`
+3. `sf community create --name PICSite --template-name "Build Your Own (LWR)" --url-path-prefix picsite -o picsite`
+4. `sf data import tree --files data/Test_Range__c.json,data/Test_Event__c.json -o picsite`
+5. `sf project deploy start --source-dir site-config -o picsite` (guest sharing rules)
+6. Set the `PIC_Portal_URL` custom label, assign the permission sets, paste
+   the head markup, build the pages, mark `/request` and `/track` as
+   *Requires Login*, and set email deliverability to *All email*.
 
-## Suggestions for a good README
+## Content still to confirm
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- Capability lists for West Cibola, Camp Grayling, Camp Shelby and AMTEC are
+  placeholders (`Pending__c` in `data/Test_Range__c.json` and
+  `src/mock/portalApi/data.js`); only Dugway's are carried over from the
+  current site.
+- Hero imagery and the official Army mark: `contours.svg` and the inline star
+  are placeholders.
+- Range office contact address (`usarmy.testrange@army.mil` is a placeholder).
+- The site URL in the `PIC_Portal_URL` custom label.

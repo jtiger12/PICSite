@@ -1,0 +1,40 @@
+@import 'c/picStyles';
+
+.uploader {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input--file {
+    padding: 9px 14px;
+}
+
+.input--file::file-selector-button {
+    margin-right: 12px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    background: var(--pic-surface, #212429);
+    color: var(--pic-text, #fff);
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.mock {
+    opacity: 0.7;
+}
+
+.files {
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9rem;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.files li::before {
+    content: '\2713\00a0';
+    color: var(--pic-ok, #4ade80);
+}

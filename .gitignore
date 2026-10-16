@@ -1,0 +1,7 @@
+node_modules/
+__lwr_cache__/
+site/
+.sf/
+.sfdx/
+.localdevserver/
+*.log

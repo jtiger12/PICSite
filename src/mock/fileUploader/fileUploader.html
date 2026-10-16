@@ -1,0 +1,19 @@
+<template>
+    <div class="uploader">
+        <label class="label" for="attachments">{label}</label>
+        <template lwc:if={recordId}>
+            <input id="attachments" class="input input--file" type="file" multiple accept={accept} onchange={handleFiles} />
+        </template>
+        <template lwc:else>
+            <p class="hint">Attachments become available once the request has been saved.</p>
+        </template>
+        <p class="hint">{hint} <span class="mock">(local harness: files are listed, not uploaded)</span></p>
+        <template lwc:if={hasFiles}>
+            <ul class="files" aria-label="Uploaded files">
+                <template for:each={files} for:item="file">
+                    <li key={file.id}>{file.name}</li>
+                </template>
+            </ul>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>PICSite_Guest_Reads_Active_Events</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>The PICSite guest user can read active test events (and their sessions) so the public home page can show the event banner.</description>
+        <label>PICSite guest reads active events</label>
+        <sharedTo>
+            <guestUser>PICSite</guestUser>
+        </sharedTo>
+        <criteriaItems>
+            <field>Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

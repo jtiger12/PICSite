@@ -1,0 +1,48 @@
+/* PICSite design tokens. Components reference these only; see DESIGN.md.
+   For Experience Cloud, paste this :root block into the site's head markup. */
+:root {
+    --pic-page: #16181c;
+    --pic-surface: #212429;
+    --pic-surface-2: #272a2f;
+    --pic-footer: #15171a;
+    --pic-border: rgba(255, 255, 255, 0.12);
+    --pic-border-strong: rgba(255, 255, 255, 0.22);
+    --pic-text: rgba(255, 255, 255, 0.92);
+    --pic-text-2: #aeb4bc;
+    --pic-accent: #ffcc01;
+    --pic-accent-hover: #e6b800;
+    --pic-ink: #1b1b1b;
+    --pic-link: #73b3e7;
+    --pic-ok: #4ade80;
+    --pic-warn: #fbbf24;
+    --pic-danger: #f87171;
+    --pic-radius: 16px;
+    --pic-radius-lg: 24px;
+    --pic-radius-btn: 12px;
+    --pic-container: 1265px;
+    --pic-gutter: 24px;
+    --pic-font: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    --pic-ease: 160ms ease;
+    --pic-shadow-card: 0 8px 24px rgba(255, 255, 255, 0.08);
+    --pic-shadow-glass: 0 24px 48px rgba(0, 0, 0, 0.35);
+}
+
+html {
+    background: var(--pic-page);
+    color: var(--pic-text);
+    font-family: var(--pic-font);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --pic-ease: 0ms linear;
+    }
+}

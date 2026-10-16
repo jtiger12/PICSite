@@ -1,0 +1,9 @@
+# Local LWR harness only - never deploy to the org
+src/
+scripts/
+lwr.config.json
+package.json
+package-lock.json
+node_modules/
+DESIGN.md
+**/.eslintrc.json
