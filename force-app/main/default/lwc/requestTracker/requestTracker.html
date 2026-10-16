@@ -1,0 +1,124 @@
+<template>
+    <section class="section">
+        <div class="container">
+            <!-- Summary tiles -->
+            <ul class="tiles">
+                <template for:each={tiles} for:item="t">
+                    <li key={t.label} class={t.cls}>
+                        <span class="tile-value">{t.value}</span>
+                        <span class="tile-label">{t.label}</span>
+                    </li>
+                </template>
+            </ul>
+
+            <div class="layout">
+                <!-- List -->
+                <div class="list-col">
+                    <div class="list-head">
+                        <div class="filters" role="tablist" aria-label="Filter requests">
+                            <template for:each={filters} for:item="f">
+                                <button key={f.value} type="button" role="tab" class={f.cls} aria-selected={f.selected} data-filter={f.value} onclick={setFilter}>{f.label}</button>
+                            </template>
+                        </div>
+                        <a class="btn btn--primary btn--sm" href={newRequestHref}>New request</a>
+                    </div>
+
+                    <template lwc:if={loading}>
+                        <p class="hint">Loading your requests…</p>
+                    </template>
+                    <template lwc:elseif={error}>
+                        <p class="error">{error}</p>
+                    </template>
+                    <template lwc:elseif={isEmpty}>
+                        <div class="card empty">
+                            <div class="card__body">
+                                <h3 class="card__title">No requests here yet</h3>
+                                <p class="card__text">Submit a test request and it will appear in this list with its status.</p>
+                            </div>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <ul class="requests">
+                            <template for:each={filteredRequests} for:item="r">
+                                <li key={r.id}>
+                                    <button type="button" class={r.cls} data-id={r.id} onclick={select} aria-pressed={r.pressed}>
+                                        <span class="req-top">
+                                            <span class="req-id">{r.id}</span>
+                                            <c-status-chip status={r.status}></c-status-chip>
+                                        </span>
+                                        <span class="req-title">{r.title}</span>
+                                        <span class="req-meta">{r.range} · {r.window}</span>
+                                        <span class="req-updated">Updated {r.updated}</span>
+                                    </button>
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                </div>
+
+                <!-- Detail -->
+                <div class="detail-col">
+                    <template lwc:if={selected}>
+                        <article class="card detail" id="detail">
+                            <div class="card__body">
+                                <div class="detail-head">
+                                    <div>
+                                        <p class="eyebrow">{selected.id} · {selected.testType}</p>
+                                        <h2 class="detail-title">{selected.title}</h2>
+                                    </div>
+                                    <c-status-chip status={selected.status}></c-status-chip>
+                                </div>
+
+                                <dl class="meta">
+                                    <div><dt>Range</dt><dd>{selected.range}</dd></div>
+                                    <div><dt>Requested window</dt><dd>{selected.window}</dd></div>
+                                    <div><dt>Range point of contact</dt><dd>{selected.owner}</dd></div>
+                                    <div><dt>Last updated</dt><dd>{selected.updated}</dd></div>
+                                </dl>
+
+                                <template lwc:if={sideNote}>
+                                    <div class={sideNoteClass}>
+                                        <strong>{selected.status}.</strong> {sideNote}
+                                    </div>
+                                </template>
+
+                                <c-process-stepper bare mode="progress" active-index={activeIndex}></c-process-stepper>
+
+                                <template lwc:if={selected.nextAction}>
+                                    <div class="next">
+                                        <span class="next-label">What happens next</span>
+                                        <p class="next-text">{selected.nextAction}</p>
+                                    </div>
+                                </template>
+
+                                <template lwc:if={canUpload}>
+                                    <div class="upload">
+                                        <c-file-uploader record-id={selected.recordId} label="Provide the requested information"></c-file-uploader>
+                                    </div>
+                                </template>
+
+                                <h3 class="timeline-title">Activity</h3>
+                                <ol class="timeline">
+                                    <template for:each={timeline} for:item="t">
+                                        <li key={t.key} class={t.cls}>
+                                            <span class="tl-dot" aria-hidden="true"></span>
+                                            <span class="tl-date">{t.date}</span>
+                                            <span class="tl-body">
+                                                <span class="tl-status">{t.status}</span>
+                                                <span class="tl-note">{t.note}</span>
+                                            </span>
+                                        </li>
+                                    </template>
+                                </ol>
+
+                                <div class="detail-actions">
+                                    <a class="btn btn--secondary btn--sm" href={contactHref}>Message the range office</a>
+                                </div>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>

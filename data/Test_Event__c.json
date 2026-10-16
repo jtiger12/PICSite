@@ -1,0 +1,46 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Test_Event__c",
+                "referenceId": "Emu2027"
+            },
+            "Name": "2027 Electromagnetic Unreliability Test Events",
+            "Code__c": "emu-2027",
+            "Lead__c": "Sign up in the request form.",
+            "Active__c": true,
+            "Sort_Order__c": 1,
+            "Event_Sessions__r": {
+                "records": [
+                    {
+                        "attributes": {
+                            "type": "Event_Session__c",
+                            "referenceId": "EmuFeb"
+                        },
+                        "Start_Date__c": "2027-02-01",
+                        "End_Date__c": "2027-02-05",
+                        "Location__c": "Dugway Proving Ground, UT"
+                    },
+                    {
+                        "attributes": {
+                            "type": "Event_Session__c",
+                            "referenceId": "EmuJun"
+                        },
+                        "Start_Date__c": "2027-06-14",
+                        "End_Date__c": "2027-06-18",
+                        "Location__c": "Yuma Proving Ground, AZ"
+                    },
+                    {
+                        "attributes": {
+                            "type": "Event_Session__c",
+                            "referenceId": "EmuSep"
+                        },
+                        "Start_Date__c": "2027-09-20",
+                        "End_Date__c": "2027-09-24",
+                        "Location__c": "Camp Shelby, MS"
+                    }
+                ]
+            }
+        }
+    ]
+}

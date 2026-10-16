@@ -1,0 +1,142 @@
+@import 'c/picStyles';
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(22, 24, 28, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+}
+
+.inner {
+    max-width: var(--pic-container, 1265px);
+    margin: 0 auto;
+    padding: 0 var(--pic-gutter, 24px);
+    height: 75px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    box-sizing: border-box;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: var(--pic-text, #fff);
+    padding-right: 24px;
+    border-right: 1px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.brand-small {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.brand-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: auto;
+}
+
+.link {
+    color: var(--pic-text-2, #aeb4bc);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+    transition: color var(--pic-ease), border-color var(--pic-ease);
+}
+
+.link:hover,
+.link--current {
+    color: var(--pic-text, #fff);
+}
+
+.link--current {
+    border-color: var(--pic-accent, #ffcc01);
+}
+
+.nav-actions {
+    display: flex;
+    gap: 10px;
+    margin-left: 12px;
+}
+
+.menu {
+    display: none;
+    margin-left: auto;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+.menu span {
+    display: block;
+    height: 2px;
+    background: var(--pic-text, #fff);
+    border-radius: 2px;
+}
+
+@media (max-width: 960px) {
+    .menu {
+        display: flex;
+    }
+
+    .nav {
+        display: none;
+        position: absolute;
+        top: 75px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        padding: 16px var(--pic-gutter, 24px) 24px;
+        background: var(--pic-surface, #212429);
+        border-bottom: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+    }
+
+    .nav--open {
+        display: flex;
+    }
+
+    .link {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+    }
+
+    .nav-actions {
+        margin: 16px 0 0;
+        flex-direction: column;
+    }
+
+    .brand {
+        border-right: 0;
+        padding-right: 0;
+    }
+}

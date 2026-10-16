@@ -1,0 +1,143 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Test_Range__c",
+                "referenceId": "Dugway"
+            },
+            "Name": "Dugway Proving Ground",
+            "Code__c": "dpg",
+            "State__c": "UT",
+            "Summary__c": "With more than 800,000 acres and up to 100 kilometers of long-range fires test range, Dugway Proving Ground offers expansive land and restricted airspace for the most demanding test missions.",
+            "Stats__c": "[{\"label\":\"Acres\",\"value\":\"800,000+\"},{\"label\":\"Fires range\",\"value\":\"100 km\"},{\"label\":\"Airspace\",\"value\":\"Restricted\"}]",
+            "Test_Types__c": "Drone / Counter-Drone;Long-Range Fires",
+            "Pending__c": false,
+            "Active__c": true,
+            "Sort_Order__c": 1,
+            "Capability_Groups__r": {
+                "records": [
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "DpgKinetic"
+                        },
+                        "Name": "Kinetic",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Projectile and rocket / missile",
+                        "Sort_Order__c": 1
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "DpgNonKinetic"
+                        },
+                        "Name": "Non-kinetic",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "Denied, Degraded, Intermittent and Limited: Electronic Attack / Conventional Threat\nDirected Energy: High Energy Laser / High Power Microwave",
+                        "Sort_Order__c": 2
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "DpgInstrumentation"
+                        },
+                        "Name": "Instrumentation",
+                        "Test_Type__c": "Drone / Counter-Drone",
+                        "Items__c": "None",
+                        "Sort_Order__c": 3
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "DpgRange"
+                        },
+                        "Name": "Range",
+                        "Test_Type__c": "Long-Range Fires",
+                        "Items__c": "< 75 km, no Flight Termination System (FTS) required\n75-100 km, requires coordination, FTS required",
+                        "Sort_Order__c": 4
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "DpgMunition"
+                        },
+                        "Name": "Munition type",
+                        "Test_Type__c": "Long-Range Fires",
+                        "Items__c": "High explosive - limited\nInert",
+                        "Sort_Order__c": 5
+                    },
+                    {
+                        "attributes": {
+                            "type": "Capability_Group__c",
+                            "referenceId": "DpgImpact"
+                        },
+                        "Name": "Impact area",
+                        "Test_Type__c": "Long-Range Fires",
+                        "Items__c": "Instrumentation - limited",
+                        "Sort_Order__c": 6
+                    }
+                ]
+            }
+        },
+        {
+            "attributes": {
+                "type": "Test_Range__c",
+                "referenceId": "WestCibola"
+            },
+            "Name": "West Cibola Range",
+            "Code__c": "wcr",
+            "State__c": "AZ",
+            "Summary__c": "Desert test range within the Yuma Proving Ground complex. Capability details are being finalized with the range office.",
+            "Stats__c": "[{\"label\":\"Region\",\"value\":\"Southwest\"}]",
+            "Test_Types__c": "Drone / Counter-Drone",
+            "Pending__c": true,
+            "Active__c": true,
+            "Sort_Order__c": 2
+        },
+        {
+            "attributes": {
+                "type": "Test_Range__c",
+                "referenceId": "CampGrayling"
+            },
+            "Name": "Camp Grayling",
+            "Code__c": "cgr",
+            "State__c": "MI",
+            "Summary__c": "Northern forested and lake terrain. Capability details are being finalized with the range office.",
+            "Stats__c": "[{\"label\":\"Region\",\"value\":\"Great Lakes\"}]",
+            "Test_Types__c": "Drone / Counter-Drone",
+            "Pending__c": true,
+            "Active__c": true,
+            "Sort_Order__c": 3
+        },
+        {
+            "attributes": {
+                "type": "Test_Range__c",
+                "referenceId": "CampShelby"
+            },
+            "Name": "Camp Shelby",
+            "Code__c": "csh",
+            "State__c": "MS",
+            "Summary__c": "Southern pine and mixed terrain. Hosts the September 2027 EMU test event. Capability details are being finalized with the range office.",
+            "Stats__c": "[{\"label\":\"Region\",\"value\":\"Gulf South\"}]",
+            "Test_Types__c": "Drone / Counter-Drone",
+            "Pending__c": true,
+            "Active__c": true,
+            "Sort_Order__c": 4
+        },
+        {
+            "attributes": {
+                "type": "Test_Range__c",
+                "referenceId": "Amtec"
+            },
+            "Name": "AMTEC",
+            "Code__c": "amtec",
+            "State__c": "Morocco",
+            "Summary__c": "Partner-nation test site. Capability details are being finalized with the range office.",
+            "Stats__c": "[{\"label\":\"Region\",\"value\":\"International\"}]",
+            "Test_Types__c": "Drone / Counter-Drone",
+            "Pending__c": true,
+            "Active__c": true,
+            "Sort_Order__c": 5
+        }
+    ]
+}

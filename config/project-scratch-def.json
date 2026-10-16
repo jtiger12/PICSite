@@ -1,0 +1,16 @@
+{
+    "orgName": "PICSite",
+    "edition": "Developer",
+    "features": ["Communities", "EnableSetPasswordInApi"],
+    "settings": {
+        "communitiesSettings": {
+            "enableNetworksEnabled": true
+        },
+        "flowSettings": {
+            "enableFlowDeployAsActiveEnabled": true
+        },
+        "lightningExperienceSettings": {
+            "enableS1DesktopEnabled": true
+        }
+    }
+}

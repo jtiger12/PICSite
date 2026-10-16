@@ -1,0 +1,286 @@
+<template>
+    <section class="section">
+        <div class="container">
+            <template lwc:if={submitted}>
+                <div class="card success">
+                    <div class="card__body success-body">
+                        <span class="success-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                        </span>
+                        <p class="eyebrow eyebrow--accent">Request submitted</p>
+                        <h2 class="h2">Your request number is {submitted.id}</h2>
+                        <p class="lead">The range office begins review within five business days. You'll get an email at each status change, and you can follow progress in the tracker at any time.</p>
+                        <div class="success-upload">
+                            <c-file-uploader record-id={submitted.recordId} label="Attach supporting documents"></c-file-uploader>
+                        </div>
+                        <div class="success-actions">
+                            <a class="btn btn--primary" href={trackHref}>Track this request</a>
+                            <button class="btn btn--secondary" type="button" onclick={startAnother}>Submit another request</button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <template lwc:else>
+                <!-- Before you begin -->
+                <div class="head">
+                    <p class="eyebrow eyebrow--bar">Before you begin</p>
+                    <h2 class="h2">What you'll need</h2>
+                </div>
+                <div class="grid grid--4 needs">
+                    <template for:each={needs} for:item="n">
+                        <div key={n.title} class="card need">
+                            <div class="card__body">
+                                <span class="need-num">{n.num}</span>
+                                <h3 class="card__title need-title">{n.title}</h3>
+                                <p class="card__text">{n.text}</p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Progress -->
+                <div class="head head--spaced">
+                    <p class="eyebrow eyebrow--bar">Your request</p>
+                    <h2 class="h2">{stepTitle}</h2>
+                </div>
+                <c-process-stepper bare mode="progress" steps={stepLabels} active-index={stepIndex}></c-process-stepper>
+
+                <!-- Form -->
+                <form class="card form" onsubmit={handleSubmit} novalidate>
+                    <div class="card__body">
+                        <!-- Step 1: Organization -->
+                        <template lwc:if={isStep0}>
+                            <div class="fields">
+                                <div class="field">
+                                    <label class="label" for="organization">Organization <span class="req">*</span></label>
+                                    <input id="organization" class={cls.organization} type="text" data-field="organization" value={form.organization} oninput={handleInput} />
+                                    <template lwc:if={errors.organization}><span class="error">{errors.organization}</span></template>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="uei">UEI / CAGE code</label>
+                                    <input id="uei" class="input" type="text" data-field="uei" value={form.uei} oninput={handleInput} placeholder="Optional" />
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="contactName">Point of contact <span class="req">*</span></label>
+                                    <input id="contactName" class={cls.contactName} type="text" data-field="contactName" value={form.contactName} oninput={handleInput} />
+                                    <template lwc:if={errors.contactName}><span class="error">{errors.contactName}</span></template>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="licenseId">License / sponsor ID <span class="req">*</span></label>
+                                    <input id="licenseId" class={cls.licenseId} type="text" data-field="licenseId" value={form.licenseId} oninput={handleInput} />
+                                    <span class="hint">From your licensed-customer account.</span>
+                                    <template lwc:if={errors.licenseId}><span class="error">{errors.licenseId}</span></template>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="email">Email <span class="req">*</span></label>
+                                    <input id="email" class={cls.email} type="email" data-field="email" value={form.email} oninput={handleInput} />
+                                    <template lwc:if={errors.email}><span class="error">{errors.email}</span></template>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="phone">Phone</label>
+                                    <input id="phone" class="input" type="tel" data-field="phone" value={form.phone} oninput={handleInput} />
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Step 2: Test type -->
+                        <template lwc:if={isStep1}>
+                            <fieldset class="fieldset">
+                                <legend class="label">Test type <span class="req">*</span></legend>
+                                <div class="choice-grid">
+                                    <template for:each={testTypeOptions} for:item="t">
+                                        <label key={t.value} class={t.cls}>
+                                            <input type="radio" name="testType" value={t.value} checked={t.selected} onchange={handleTestType} />
+                                            <span class="choice-title">{t.label}</span>
+                                            <span class="choice-help">{t.help}</span>
+                                        </label>
+                                    </template>
+                                </div>
+                                <template lwc:if={errors.testType}><span class="error">{errors.testType}</span></template>
+                            </fieldset>
+                            <div class="fields">
+                                <div class="field field--full">
+                                    <label class="label" for="systemName">System under test <span class="req">*</span></label>
+                                    <input id="systemName" class={cls.systemName} type="text" data-field="systemName" value={form.systemName} oninput={handleInput} placeholder="Platform or system name and variant" />
+                                    <template lwc:if={errors.systemName}><span class="error">{errors.systemName}</span></template>
+                                </div>
+                                <template lwc:if={showUasGroup}>
+                                    <div class="field">
+                                        <label class="label" for="uasGroup">UAS group</label>
+                                        <select id="uasGroup" class="input" data-field="uasGroup" onchange={handleInput}>
+                                            <template for:each={uasGroupOptions} for:item="o">
+                                                <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </template>
+                                <template lwc:if={isCuas}>
+                                    <div class="field">
+                                        <span class="label">Effect types</span>
+                                        <div class="checks">
+                                            <template for:each={effectOptions} for:item="e">
+                                                <label key={e.value} class="check">
+                                                    <input type="checkbox" data-field="effects" value={e.value} checked={e.checked} onchange={handleMulti} />
+                                                    {e.label}
+                                                </label>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template lwc:if={isLrf}>
+                                    <div class="field">
+                                        <label class="label" for="munition">Munition type</label>
+                                        <select id="munition" class="input" data-field="munition" onchange={handleInput}>
+                                            <template for:each={munitionOptions} for:item="o">
+                                                <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label" for="maxRangeKm">Maximum range (km)</label>
+                                        <input id="maxRangeKm" class="input" type="number" min="1" max="100" data-field="maxRangeKm" value={form.maxRangeKm} oninput={handleInput} />
+                                        <span class="hint">75 km and beyond requires coordination and a flight termination system.</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- Step 3: Range and dates -->
+                        <template lwc:if={isStep2}>
+                            <div class="fields">
+                                <div class="field">
+                                    <label class="label" for="rangeId">Preferred range <span class="req">*</span></label>
+                                    <select id="rangeId" class={cls.rangeId} data-field="rangeId" onchange={handleInput}>
+                                        <option value="">Select a range</option>
+                                        <template for:each={rangeOptions} for:item="o">
+                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                        </template>
+                                    </select>
+                                    <template lwc:if={errors.rangeId}><span class="error">{errors.rangeId}</span></template>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="altRangeId">Alternate range</label>
+                                    <select id="altRangeId" class="input" data-field="altRangeId" onchange={handleInput}>
+                                        <option value="">No alternate</option>
+                                        <template for:each={altRangeOptions} for:item="o">
+                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="startDate">Earliest start <span class="req">*</span></label>
+                                    <input id="startDate" class={cls.startDate} type="date" data-field="startDate" value={form.startDate} oninput={handleInput} />
+                                    <template lwc:if={errors.startDate}><span class="error">{errors.startDate}</span></template>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="endDate">Latest end <span class="req">*</span></label>
+                                    <input id="endDate" class={cls.endDate} type="date" data-field="endDate" value={form.endDate} oninput={handleInput} />
+                                    <template lwc:if={errors.endDate}><span class="error">{errors.endDate}</span></template>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="durationDays">Test days needed</label>
+                                    <input id="durationDays" class="input" type="number" min="1" max="60" data-field="durationDays" value={form.durationDays} oninput={handleInput} />
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="eventId">Join a scheduled test event</label>
+                                    <select id="eventId" class="input" data-field="eventId" onchange={handleInput}>
+                                        <option value="">Not part of an event</option>
+                                        <template for:each={eventOptions} for:item="o">
+                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                                <div class="field field--full">
+                                    <label class="check">
+                                        <input type="checkbox" data-field="flexible" checked={form.flexible} onchange={handleCheck} />
+                                        My dates are flexible. The range office may propose an alternate window.
+                                    </label>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Step 4: Test details -->
+                        <template lwc:if={isStep3}>
+                            <div class="fields">
+                                <div class="field field--full">
+                                    <label class="label" for="objectives">Test objectives <span class="req">*</span></label>
+                                    <textarea id="objectives" class={cls.objectives} data-field="objectives" oninput={handleInput} placeholder="What you intend to demonstrate or measure, and the test profile (altitudes, ranges, engagement geometry)">{form.objectives}</textarea>
+                                    <template lwc:if={errors.objectives}><span class="error">{errors.objectives}</span></template>
+                                </div>
+                                <div class="field field--full">
+                                    <label class="label" for="instrumentation">Instrumentation and data needs</label>
+                                    <textarea id="instrumentation" class="input" data-field="instrumentation" oninput={handleInput} placeholder="Tracking, telemetry, video, spectrum monitoring, impact scoring">{form.instrumentation}</textarea>
+                                </div>
+                                <div class="field">
+                                    <span class="label">Hazards present</span>
+                                    <div class="checks">
+                                        <template for:each={hazardOptions} for:item="h">
+                                            <label key={h.value} class="check">
+                                                <input type="checkbox" data-field="hazards" value={h.value} checked={h.checked} onchange={handleMulti} />
+                                                {h.label}
+                                            </label>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label" for="personnel">Personnel on site</label>
+                                    <input id="personnel" class="input" type="number" min="1" data-field="personnel" value={form.personnel} oninput={handleInput} />
+                                    <span class="hint">Everyone attending will need range access and a safety brief.</span>
+                                </div>
+                                <div class="field field--full">
+                                    <span class="label">Attachments</span>
+                                    <span class="hint">Safety data sheets, test plans and system specifications are attached right after you submit, on the confirmation screen, so they are filed against your request number.</span>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Step 5: Review -->
+                        <template lwc:if={isStep4}>
+                            <dl class="review">
+                                <template for:each={reviewRows} for:item="row">
+                                    <div key={row.label} class="review-row">
+                                        <dt>{row.label}</dt>
+                                        <dd>{row.value}</dd>
+                                    </div>
+                                </template>
+                            </dl>
+                            <label class="check attest">
+                                <input type="checkbox" data-field="attest" checked={form.attest} onchange={handleCheck} />
+                                I confirm the information is accurate and that my organization holds a current license or sponsorship to test on Army ranges.
+                            </label>
+                            <template lwc:if={errors.attest}><span class="error">{errors.attest}</span></template>
+                        </template>
+
+                        <template lwc:if={submitError}>
+                            <p class="error">{submitError}</p>
+                        </template>
+
+                        <div class="form-nav">
+                            <template lwc:if={isFirst}>
+                                <span></span>
+                            </template>
+                            <template lwc:else>
+                                <button class="btn btn--secondary" type="button" onclick={back}>Back</button>
+                            </template>
+                            <template lwc:if={isLast}>
+                                <button class="btn btn--primary" type="submit" disabled={submitting}>{submitLabel}</button>
+                            </template>
+                            <template lwc:else>
+                                <button class="btn btn--primary" type="button" onclick={next}>Continue &rarr;</button>
+                            </template>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="help">
+                    <div>
+                        <h3 class="help-title">Questions about your request?</h3>
+                        <p class="card__text">The range office can help scope the test before you submit.</p>
+                    </div>
+                    <a class="btn btn--secondary" href="mailto:usarmy.testrange@army.mil">Contact the range office</a>
+                </div>
+            </template>
+        </div>
+    </section>
+</template>

@@ -1,0 +1,86 @@
+@import 'c/picStyles';
+
+.footer {
+    background: var(--pic-footer, #15171a);
+    border-top: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+    color: var(--pic-text, #fff);
+    margin-top: 48px;
+}
+
+.top {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 40px;
+    padding-top: 56px;
+    padding-bottom: 48px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.blurb {
+    color: var(--pic-text-2, #aeb4bc);
+    max-width: 40ch;
+    font-size: 0.95rem;
+}
+
+.mail,
+.col a {
+    color: var(--pic-text-2, #aeb4bc);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color var(--pic-ease);
+}
+
+.mail:hover,
+.col a:hover {
+    color: var(--pic-accent, #ffcc01);
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.col-title {
+    margin: 0 0 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--pic-text, #fff);
+}
+
+.bottom {
+    border-top: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+    font-size: 0.8rem;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.bottom-inner {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 960px) {
+    .top {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .top {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+}

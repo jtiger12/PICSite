@@ -1,0 +1,26 @@
+<template>
+    <div class="uploader">
+        <template lwc:if={recordId}>
+            <lightning-file-upload
+                name="attachments"
+                label={label}
+                record-id={recordId}
+                accept={accept}
+                multiple
+                onuploadfinished={handleFinished}
+            ></lightning-file-upload>
+        </template>
+        <template lwc:else>
+            <span class="label">{label}</span>
+            <p class="hint">Attachments become available once the request has been saved.</p>
+        </template>
+        <p class="hint">{hint}</p>
+        <template lwc:if={hasFiles}>
+            <ul class="files" aria-label="Uploaded files">
+                <template for:each={files} for:item="file">
+                    <li key={file.id}>{file.name}</li>
+                </template>
+            </ul>
+        </template>
+    </div>
+</template>

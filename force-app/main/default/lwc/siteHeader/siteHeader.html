@@ -1,0 +1,32 @@
+<template>
+    <header class="header">
+        <div class="inner">
+            <a class="brand" href={homeHref}>
+                <span class="mark" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" width="40" height="40">
+                        <rect width="48" height="48" rx="4" fill="#000"></rect>
+                        <path d="M24 7l4.6 10.9 11.8.9-9 7.7 2.8 11.5L24 31.8 13.8 38l2.8-11.5-9-7.7 11.8-.9z" fill="var(--pic-accent, #ffcc01)"></path>
+                    </svg>
+                </span>
+                <span class="brand-text">
+                    <span class="brand-small">U.S. Army</span>
+                    <span class="brand-title">{siteTitle}</span>
+                </span>
+            </a>
+
+            <nav class={navClass} aria-label="Primary">
+                <template for:each={links} for:item="link">
+                    <a key={link.href} href={link.href} class={link.cls} aria-current={link.current}>{link.label}</a>
+                </template>
+                <div class="nav-actions">
+                    <a href={loginHref} class="btn btn--secondary btn--sm">Sign in</a>
+                    <a href={requestAccountHref} class="btn btn--primary btn--sm">Request an account</a>
+                </div>
+            </nav>
+
+            <button class="menu" type="button" onclick={toggleMenu} aria-expanded={menuOpen} aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+</template>

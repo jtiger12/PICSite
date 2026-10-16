@@ -1,0 +1,236 @@
+@import 'c/picStyles';
+
+.head {
+    margin-bottom: 24px;
+}
+
+.head--spaced {
+    margin-top: 56px;
+    scroll-margin-top: 90px;
+}
+
+.needs {
+    gap: 16px;
+}
+
+.need .card__body {
+    padding: 22px 22px 20px;
+}
+
+.need-num {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--pic-accent, #ffcc01);
+    margin-bottom: 10px;
+}
+
+.need-title {
+    font-size: 1.05rem;
+}
+
+.form {
+    margin-top: 20px;
+}
+
+.form .card__body {
+    padding: 32px;
+}
+
+.fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 24px;
+}
+
+.fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0 0 24px;
+}
+
+.fieldset legend {
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.choice-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.choice {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 16px 14px;
+    border-radius: 12px;
+    background: var(--pic-page, #16181c);
+    border: 1px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    cursor: pointer;
+    transition: border-color var(--pic-ease), background var(--pic-ease);
+}
+
+.choice:hover {
+    border-color: var(--pic-text, #fff);
+}
+
+.choice--selected {
+    border-color: var(--pic-accent, #ffcc01);
+    background: rgba(255, 204, 1, 0.08);
+    box-shadow: 0 0 0 3px rgba(255, 204, 1, 0.18);
+}
+
+.choice input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.choice-title {
+    font-weight: 700;
+}
+
+.choice-help {
+    font-size: 0.8rem;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.checks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 4px;
+}
+
+.review {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-row {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+}
+
+.review dt {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.review dd {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.attest {
+    margin-top: 24px;
+}
+
+.form-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+}
+
+.btn[disabled] {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.help {
+    margin-top: 24px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: var(--pic-surface-2, #272a2f);
+    border-radius: var(--pic-radius, 16px);
+}
+
+.help-title {
+    margin: 0 0 4px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.success-body {
+    padding: 48px 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--pic-accent, #ffcc01);
+    color: var(--pic-ink, #1b1b1b);
+    margin-bottom: 20px;
+}
+
+.success .lead {
+    text-align: center;
+    margin: 0 auto 28px;
+}
+
+.success-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media (max-width: 900px) {
+    .choice-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .fields,
+    .choice-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .form .card__body {
+        padding: 22px 18px;
+    }
+
+    .review-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 4px;
+    }
+
+    .help {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.success-upload {
+    width: min(560px, 100%);
+    margin: 8px auto 24px;
+    padding: 16px 20px;
+    text-align: left;
+    border: 1px dashed var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    border-radius: 12px;
+}

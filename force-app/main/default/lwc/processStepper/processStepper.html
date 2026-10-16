@@ -1,0 +1,30 @@
+<template>
+    <section class={wrapClass}>
+        <div class={containerClass}>
+            <template lwc:if={title}>
+                <div class="head">
+                    <template lwc:if={eyebrow}>
+                        <p class="eyebrow eyebrow--bar">{eyebrow}</p>
+                    </template>
+                    <h2 class="h2">{title}</h2>
+                </div>
+            </template>
+            <ol class="card steps" aria-label="Process steps">
+                <template for:each={renderSteps} for:item="step">
+                    <li key={step.label} class={step.cls} aria-current={step.current}>
+                        <span class="dot" aria-hidden="true">
+                            <template lwc:if={step.done}>
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                            </template>
+                            <template lwc:else>{step.number}</template>
+                        </span>
+                        <span class="label">{step.label}</span>
+                        <template lwc:if={step.description}>
+                            <span class="desc">{step.description}</span>
+                        </template>
+                    </li>
+                </template>
+            </ol>
+        </div>
+    </section>
+</template>

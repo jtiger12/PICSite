@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>PIC Hero Banner</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="eyebrow" type="String" label="Eyebrow" />
+            <property name="title" type="String" label="Title" />
+            <property name="subtitle" type="String" label="Subtitle" />
+            <property name="ctaLabel" type="String" label="Primary button label" />
+            <property name="ctaHref" type="String" label="Primary button URL" />
+            <property name="secondaryLabel" type="String" label="Secondary button label" />
+            <property name="secondaryHref" type="String" label="Secondary button URL" />
+            <property name="showQuickAccess" type="Boolean" default="false" label="Show quick access panel" />
+            <property name="compact" type="Boolean" default="false" label="Compact (inner page) height" />
+            <property name="imageUrl" type="String" label="Background image URL" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

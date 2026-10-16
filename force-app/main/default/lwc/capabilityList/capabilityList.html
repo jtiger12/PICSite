@@ -1,0 +1,17 @@
+<template>
+    <div class="card cap">
+        <div class="card__body">
+            <h4 class="card__title">{title}</h4>
+            <template for:each={renderGroups} for:item="g">
+                <div key={g.label} class="group">
+                    <span class="group-label">{g.label}</span>
+                    <ul class="items">
+                        <template for:each={g.items} for:item="it">
+                            <li key={it.key}>{it.text}</li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

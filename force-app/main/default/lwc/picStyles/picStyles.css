@@ -1,0 +1,295 @@
+/* Shared primitives. Import with `@import 'c/picStyles';` at the top of a
+   component stylesheet. Everything reads from the :root tokens in DESIGN.md. */
+
+.container {
+    width: 100%;
+    max-width: var(--pic-container, 1265px);
+    margin: 0 auto;
+    padding: 0 var(--pic-gutter, 24px);
+    box-sizing: border-box;
+}
+
+.section {
+    padding: 72px 0;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.eyebrow--bar::before {
+    content: '';
+    width: 3px;
+    height: 1.1em;
+    background: var(--pic-accent, #ffcc01);
+}
+
+.eyebrow--accent {
+    color: var(--pic-accent, #ffcc01);
+}
+
+.h2 {
+    margin: 0 0 12px;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    color: var(--pic-text, #fff);
+}
+
+.lead {
+    margin: 0;
+    max-width: 64ch;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.card {
+    background: var(--pic-surface, #212429);
+    border: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+    border-radius: var(--pic-radius, 16px);
+    box-shadow: var(--pic-shadow-card);
+    transition: border-color var(--pic-ease), transform var(--pic-ease);
+}
+
+.card--hover:hover {
+    border-color: var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    transform: translateY(-1px);
+}
+
+.card__body {
+    padding: 28px 28px 24px;
+}
+
+.card__title {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.card__text {
+    margin: 0;
+    color: var(--pic-text-2, #aeb4bc);
+    font-size: 0.95rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-sizing: border-box;
+    padding: 10px 22px;
+    border-radius: var(--pic-radius-btn, 12px);
+    border: 1px solid transparent;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background var(--pic-ease), border-color var(--pic-ease), transform var(--pic-ease);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--pic-accent, #ffcc01);
+    outline-offset: 2px;
+}
+
+.btn--primary {
+    background: var(--pic-accent, #ffcc01);
+    color: var(--pic-ink, #1b1b1b);
+}
+
+.btn--primary:hover {
+    background: var(--pic-accent-hover, #e6b800);
+}
+
+.btn--secondary {
+    background: transparent;
+    color: var(--pic-text, #fff);
+    border-color: var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+}
+
+.btn--secondary:hover {
+    border-color: var(--pic-text, #fff);
+}
+
+.btn--ghost {
+    background: transparent;
+    color: var(--pic-text, #fff);
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.btn--sm {
+    padding: 7px 16px;
+    font-size: 0.875rem;
+}
+
+.btn--block {
+    width: 100%;
+}
+
+.grid {
+    display: grid;
+    gap: 24px;
+}
+
+.grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1024px) {
+    .grid--4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid--3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .section {
+        padding: 48px 0;
+    }
+
+    .grid--2,
+    .grid--3,
+    .grid--4 {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .h2 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+/* Form primitives */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field--full {
+    grid-column: 1 / -1;
+}
+
+.label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--pic-text, #fff);
+}
+
+.label .req {
+    color: var(--pic-accent, #ffcc01);
+    margin-left: 2px;
+}
+
+.input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 14px;
+    background: var(--pic-page, #16181c);
+    border: 1px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    border-radius: 10px;
+    color: var(--pic-text, #fff);
+    font: inherit;
+    font-size: 0.95rem;
+    transition: border-color var(--pic-ease), box-shadow var(--pic-ease);
+}
+
+.input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--pic-accent, #ffcc01);
+    box-shadow: 0 0 0 3px rgba(255, 204, 1, 0.18);
+}
+
+.input--error {
+    border-color: var(--pic-danger, #f87171);
+}
+
+textarea.input {
+    min-height: 120px;
+    resize: vertical;
+}
+
+select.input {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--pic-text-2, #aeb4bc) 50%),
+        linear-gradient(135deg, var(--pic-text-2, #aeb4bc) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 36px;
+}
+
+select.input option {
+    background: var(--pic-surface, #212429);
+}
+
+.hint {
+    font-size: 0.8rem;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.error {
+    font-size: 0.8rem;
+    color: var(--pic-danger, #f87171);
+}
+
+.check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.check input {
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
+    accent-color: var(--pic-accent, #ffcc01);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}

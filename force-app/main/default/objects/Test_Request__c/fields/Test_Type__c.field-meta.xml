@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Test_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Test Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>UAS</fullName>
+                <default>false</default>
+                <label>UAS</label>
+            </value>
+            <value>
+                <fullName>Counter-UAS</fullName>
+                <default>false</default>
+                <label>Counter-UAS</label>
+            </value>
+            <value>
+                <fullName>Long-Range Fires</fullName>
+                <default>false</default>
+                <label>Long-Range Fires</label>
+            </value>
+            <value>
+                <fullName>Low-Cost Interceptor</fullName>
+                <default>false</default>
+                <label>Low-Cost Interceptor</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

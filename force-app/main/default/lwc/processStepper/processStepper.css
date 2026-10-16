@@ -1,0 +1,143 @@
+@import 'c/picStyles';
+
+.wrap--bare {
+    padding: 0;
+}
+
+.head {
+    margin-bottom: 28px;
+}
+
+.steps {
+    list-style: none;
+    margin: 0;
+    padding: 28px 24px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 8px;
+    counter-reset: step;
+}
+
+.wrap--bare .steps {
+    box-shadow: none;
+}
+
+.step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 0 8px;
+}
+
+/* connector line between dots */
+.step::before {
+    content: '';
+    position: absolute;
+    top: 17px;
+    left: calc(50% + 22px);
+    right: calc(-50% + 22px);
+    height: 2px;
+    background: var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+}
+
+.step:last-child::before {
+    display: none;
+}
+
+.step--done::before {
+    background: var(--pic-accent, #ffcc01);
+}
+
+.dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--pic-page, #16181c);
+    border: 2px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    color: var(--pic-text-2, #aeb4bc);
+    font-weight: 700;
+    font-size: 0.9rem;
+    z-index: 1;
+    transition: background var(--pic-ease), border-color var(--pic-ease);
+}
+
+.step--static .dot {
+    background: var(--pic-accent, #ffcc01);
+    border-color: var(--pic-accent, #ffcc01);
+    color: var(--pic-ink, #1b1b1b);
+}
+
+.step--done .dot {
+    background: var(--pic-accent, #ffcc01);
+    border-color: var(--pic-accent, #ffcc01);
+    color: var(--pic-ink, #1b1b1b);
+}
+
+.step--current .dot {
+    border-color: var(--pic-accent, #ffcc01);
+    color: var(--pic-accent, #ffcc01);
+    box-shadow: 0 0 0 5px rgba(255, 204, 1, 0.18);
+}
+
+.label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.step--static .label,
+.step--done .label,
+.step--current .label {
+    color: var(--pic-text, #fff);
+}
+
+.desc {
+    font-size: 0.85rem;
+    color: var(--pic-text-2, #aeb4bc);
+    max-width: 24ch;
+}
+
+@media (max-width: 760px) {
+    .steps {
+        grid-auto-flow: row;
+        gap: 18px;
+        padding: 24px 20px;
+    }
+
+    .step {
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr);
+        column-gap: 14px;
+        row-gap: 2px;
+        align-items: start;
+        text-align: left;
+        padding: 0;
+    }
+
+    .dot {
+        grid-row: 1 / span 2;
+    }
+
+    .step .label {
+        padding-top: 7px;
+    }
+
+    .step .desc {
+        max-width: none;
+    }
+
+    .step::before {
+        top: 36px;
+        left: 17px;
+        right: auto;
+        width: 2px;
+        height: calc(100% - 18px);
+    }
+}

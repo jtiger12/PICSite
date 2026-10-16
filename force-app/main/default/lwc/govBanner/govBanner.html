@@ -1,0 +1,26 @@
+<template>
+    <div class="banner">
+        <div class="inner">
+            <span class="flag" aria-hidden="true">
+                <svg viewBox="0 0 20 14" width="20" height="14">
+                    <rect width="20" height="14" fill="#b22234"></rect>
+                    <path d="M0 2h20M0 5h20M0 8h20M0 11h20" stroke="#fff" stroke-width="1.2"></path>
+                    <rect width="9" height="7.5" fill="#3c3b6e"></rect>
+                </svg>
+            </span>
+            <span class="text">An official website of the United States Government</span>
+            <button class="toggle" type="button" onclick={toggle} aria-expanded={expanded}>
+                Here's how you know
+                <span class="chev" aria-hidden="true"></span>
+            </button>
+        </div>
+        <template lwc:if={expanded}>
+            <div class="details">
+                <div class="inner details-inner">
+                    <p><strong>Official websites use .mil</strong><br />A <strong>.mil</strong> website belongs to an official U.S. Department of Defense organization.</p>
+                    <p><strong>Secure .mil websites use HTTPS</strong><br />A lock or <strong>https://</strong> means you've safely connected to the .mil website. Share sensitive information only on official, secure websites.</p>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

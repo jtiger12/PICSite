@@ -1,0 +1,33 @@
+@import 'c/picStyles';
+
+.uploader {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    /* Styling hooks so the base component's button and label follow the
+       portal tokens instead of the default SLDS look. */
+    --slds-c-button-brand-color-background: var(--pic-accent, #ffcc01);
+    --slds-c-button-brand-color-border: var(--pic-accent, #ffcc01);
+    --slds-c-button-brand-color-background-hover: var(--pic-accent-hover, #e6b800);
+    --slds-c-button-brand-color-border-hover: var(--pic-accent-hover, #e6b800);
+    --slds-c-button-brand-text-color: var(--pic-ink, #1b1b1b);
+    --slds-c-button-brand-text-color-hover: var(--pic-ink, #1b1b1b);
+    --slds-c-button-radius-border: var(--pic-radius-btn, 12px);
+    --slds-g-color-neutral-base-100: var(--pic-surface, #212429);
+    --sds-c-button-brand-color-background: var(--pic-accent, #ffcc01);
+    --sds-c-button-brand-text-color: var(--pic-ink, #1b1b1b);
+    color: var(--pic-text, #fff);
+}
+
+.files {
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9rem;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.files li::before {
+    content: '\2713\00a0';
+    color: var(--pic-ok, #4ade80);
+}

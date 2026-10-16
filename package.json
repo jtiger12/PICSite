@@ -1,0 +1,17 @@
+{
+  "name": "picsite",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Army test range request portal - LWC components with a local LWR preview harness",
+  "type": "module",
+  "scripts": {
+    "sync": "node scripts/sync-lwr-modules.mjs",
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run sync && lwr build",
+    "start": "lwr start"
+  },
+  "dependencies": {
+    "lwc": "latest",
+    "lwr": "latest"
+  }
+}

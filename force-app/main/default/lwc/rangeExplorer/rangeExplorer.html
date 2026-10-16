@@ -1,0 +1,83 @@
+<template>
+    <section class="section" id="ranges">
+        <div class="container">
+            <div class="head">
+                <p class="eyebrow eyebrow--bar">Available ranges</p>
+                <h2 class="h2">{heading}</h2>
+                <p class="lead">Each range lists the test types it supports and the kinetic, non-kinetic and instrumentation capabilities available on site.</p>
+            </div>
+
+            <template lwc:if={showTabs}>
+                <div class="tabs" role="tablist" aria-label="Ranges">
+                    <template for:each={tabs} for:item="t">
+                        <button key={t.id} type="button" role="tab" class={t.cls} aria-selected={t.selected} data-id={t.id} onclick={selectRange}>
+                            <span class="tab-name">{t.name}</span>
+                            <span class="tab-state">{t.state}</span>
+                        </button>
+                    </template>
+                </div>
+            </template>
+
+            <template for:each={visibleRanges} for:item="r">
+                <article key={r.id} class="panel" id={r.anchor} role="tabpanel">
+                    <div class="panel-head">
+                        <div>
+                            <template lwc:if={expanded}>
+                                <h3 class="panel-title">{r.name} <span class="panel-state">{r.state}</span></h3>
+                            </template>
+                            <p class="summary">{r.summary}</p>
+                            <ul class="types">
+                                <template for:each={r.testTypes} for:item="t">
+                                    <li key={t} class="type">{t}</li>
+                                </template>
+                            </ul>
+                        </div>
+                        <ul class="stats">
+                            <template for:each={r.stats} for:item="s">
+                                <li key={s.label} class="stat">
+                                    <span class="stat-value">{s.value}</span>
+                                    <span class="stat-label">{s.label}</span>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+
+                    <template lwc:if={r.pending}>
+                        <div class="pending">
+                            <span class="pending-dot" aria-hidden="true"></span>
+                            Capability details for this range are being finalized. Submit a request and the range office will confirm what's available for your test.
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <div class="grid grid--2 caps">
+                            <template for:each={r.capabilities} for:item="c">
+                                <c-capability-list key={c.title} title={c.title} groups={c.groups}></c-capability-list>
+                            </template>
+                        </div>
+                    </template>
+
+                    <div class="panel-actions">
+                        <a class="btn btn--primary" href={r.requestHref}>Request a test at {r.name}</a>
+                        <template lwc:if={showTabs}>
+                            <a class="btn btn--ghost" href={compareHref}>Compare all ranges &rarr;</a>
+                        </template>
+                    </div>
+                </article>
+            </template>
+
+            <div class="defs">
+                <p class="eyebrow">Test capability definitions</p>
+                <div class="grid grid--2">
+                    <div class="def">
+                        <h4 class="def-title">Drone / Counter-Drone</h4>
+                        <p class="card__text">Unmanned aircraft system flight test and counter-UAS engagements using kinetic effectors, electronic attack and directed energy against representative Group 1-5 threats.</p>
+                    </div>
+                    <div class="def">
+                        <h4 class="def-title">Long-Range Fires / Low-Cost Interceptor</h4>
+                        <p class="card__text">Projectile, rocket and missile firings up to 100 km with inert or limited high-explosive munitions, and interceptor live-fire into instrumented impact areas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>

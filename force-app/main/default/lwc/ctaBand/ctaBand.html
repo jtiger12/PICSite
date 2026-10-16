@@ -1,0 +1,20 @@
+<template>
+    <section class="wrap">
+        <div class="container">
+            <div class="band">
+                <div>
+                    <template lwc:if={eyebrow}>
+                        <p class="eyebrow eyebrow--accent">{eyebrow}</p>
+                    </template>
+                    <h2 class="title">{title}</h2>
+                    <template lwc:if={text}>
+                        <p class="lead">{text}</p>
+                    </template>
+                </div>
+                <template lwc:if={buttonLabel}>
+                    <a class="btn btn--primary" href={buttonUrl}>{buttonLabel}</a>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

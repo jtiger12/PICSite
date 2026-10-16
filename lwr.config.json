@@ -1,0 +1,124 @@
+{
+    "lwc": {
+        "modules": [
+            {
+                "dir": "$rootDir/src/modules"
+            },
+            {
+                "name": "c/capabilityList",
+                "path": "$rootDir/force-app/main/default/lwc/capabilityList/capabilityList.js"
+            },
+            {
+                "name": "c/ctaBand",
+                "path": "$rootDir/force-app/main/default/lwc/ctaBand/ctaBand.js"
+            },
+            {
+                "name": "c/eventBanner",
+                "path": "$rootDir/force-app/main/default/lwc/eventBanner/eventBanner.js"
+            },
+            {
+                "name": "c/fileUploader",
+                "path": "$rootDir/src/mock/fileUploader/fileUploader.js"
+            },
+            {
+                "name": "c/govBanner",
+                "path": "$rootDir/force-app/main/default/lwc/govBanner/govBanner.js"
+            },
+            {
+                "name": "c/heroBanner",
+                "path": "$rootDir/force-app/main/default/lwc/heroBanner/heroBanner.js"
+            },
+            {
+                "name": "c/loginPanel",
+                "path": "$rootDir/force-app/main/default/lwc/loginPanel/loginPanel.js"
+            },
+            {
+                "name": "c/picStyles",
+                "path": "$rootDir/force-app/main/default/lwc/picStyles/picStyles.css"
+            },
+            {
+                "name": "c/portalApi",
+                "path": "$rootDir/src/mock/portalApi/portalApi.js"
+            },
+            {
+                "name": "c/portalModel",
+                "path": "$rootDir/force-app/main/default/lwc/portalModel/portalModel.js"
+            },
+            {
+                "name": "c/processStepper",
+                "path": "$rootDir/force-app/main/default/lwc/processStepper/processStepper.js"
+            },
+            {
+                "name": "c/quickAccessPanel",
+                "path": "$rootDir/force-app/main/default/lwc/quickAccessPanel/quickAccessPanel.js"
+            },
+            {
+                "name": "c/rangeExplorer",
+                "path": "$rootDir/force-app/main/default/lwc/rangeExplorer/rangeExplorer.js"
+            },
+            {
+                "name": "c/requestForm",
+                "path": "$rootDir/force-app/main/default/lwc/requestForm/requestForm.js"
+            },
+            {
+                "name": "c/requestTracker",
+                "path": "$rootDir/force-app/main/default/lwc/requestTracker/requestTracker.js"
+            },
+            {
+                "name": "c/siteFooter",
+                "path": "$rootDir/force-app/main/default/lwc/siteFooter/siteFooter.js"
+            },
+            {
+                "name": "c/siteHeader",
+                "path": "$rootDir/force-app/main/default/lwc/siteHeader/siteHeader.js"
+            },
+            {
+                "name": "c/statusChip",
+                "path": "$rootDir/force-app/main/default/lwc/statusChip/statusChip.js"
+            },
+            {
+                "name": "c/valueProps",
+                "path": "$rootDir/force-app/main/default/lwc/valueProps/valueProps.js"
+            }
+        ]
+    },
+    "assets": [
+        {
+            "alias": "assetsDir",
+            "dir": "$rootDir/src/assets",
+            "urlPath": "/assets"
+        }
+    ],
+    "routes": [
+        {
+            "id": "home",
+            "path": "/",
+            "rootComponent": "picsite/home",
+            "layoutTemplate": "$layoutsDir/main.html"
+        },
+        {
+            "id": "ranges",
+            "path": "/ranges",
+            "rootComponent": "picsite/ranges",
+            "layoutTemplate": "$layoutsDir/main.html"
+        },
+        {
+            "id": "request",
+            "path": "/request",
+            "rootComponent": "picsite/request",
+            "layoutTemplate": "$layoutsDir/main.html"
+        },
+        {
+            "id": "track",
+            "path": "/track",
+            "rootComponent": "picsite/track",
+            "layoutTemplate": "$layoutsDir/main.html"
+        },
+        {
+            "id": "login",
+            "path": "/login",
+            "rootComponent": "picsite/login",
+            "layoutTemplate": "$layoutsDir/main.html"
+        }
+    ]
+}

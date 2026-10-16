@@ -1,0 +1,66 @@
+<template>
+    <section class="wrap">
+        <div class="container">
+            <div class="head">
+                <p class="eyebrow eyebrow--bar">Licensed customer portal</p>
+                <h1 class="title">Sign in to request and track tests</h1>
+                <p class="lead">Access is limited to licensed customers and sponsored organizations. If your organization is not yet licensed, request an account and the range office will verify eligibility.</p>
+            </div>
+
+            <div class="grid grid--2 panels">
+                <form class="card panel" onsubmit={handleSignIn} novalidate>
+                    <div class="card__body">
+                        <h2 class="card__title">Sign in</h2>
+                        <p class="card__text">Use the email address on your licensed account.</p>
+                        <div class="fields">
+                            <div class="field">
+                                <label class="label" for="signin-email">Email</label>
+                                <input id="signin-email" class="input" type="email" autocomplete="username" required />
+                            </div>
+                            <div class="field">
+                                <label class="label" for="signin-password">Password</label>
+                                <input id="signin-password" class="input" type="password" autocomplete="current-password" required />
+                            </div>
+                        </div>
+                        <template lwc:if={signInNote}><p class="note">{signInNote}</p></template>
+                        <div class="actions">
+                            <button class="btn btn--primary btn--block" type="submit">Sign in</button>
+                            <button class="btn btn--secondary btn--block" type="button" onclick={handleCac}>Sign in with CAC / PIV</button>
+                        </div>
+                        <a class="small-link" href="#forgot">Forgot your password?</a>
+                    </div>
+                </form>
+
+                <form class="card panel" id="request-account" onsubmit={handleRequestAccount} novalidate>
+                    <div class="card__body">
+                        <h2 class="card__title">Request an account</h2>
+                        <p class="card__text">Tell us who you are and we'll verify your license or sponsorship.</p>
+                        <div class="fields fields--2">
+                            <div class="field">
+                                <label class="label" for="ra-name">Full name</label>
+                                <input id="ra-name" class="input" type="text" required />
+                            </div>
+                            <div class="field">
+                                <label class="label" for="ra-org">Organization</label>
+                                <input id="ra-org" class="input" type="text" required />
+                            </div>
+                            <div class="field">
+                                <label class="label" for="ra-email">Work email</label>
+                                <input id="ra-email" class="input" type="email" required />
+                            </div>
+                            <div class="field">
+                                <label class="label" for="ra-license">License or sponsor ID</label>
+                                <input id="ra-license" class="input" type="text" placeholder="If you have one" />
+                            </div>
+                        </div>
+                        <template lwc:if={requestNote}><p class="note">{requestNote}</p></template>
+                        <div class="actions">
+                            <button class="btn btn--primary btn--block" type="submit">Request an account</button>
+                        </div>
+                        <p class="hint">Accounts are typically verified within three business days.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</template>

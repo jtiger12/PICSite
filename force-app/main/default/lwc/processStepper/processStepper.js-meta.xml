@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>PIC Process Stepper</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="eyebrow" type="String" label="Eyebrow" />
+            <property name="title" type="String" label="Title" />
+            <property name="mode" type="String" datasource="static,progress" default="static" label="Mode" />
+            <property name="activeIndex" type="Integer" default="0" label="Active step (progress mode)" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,31 @@
+<template>
+    <section class={sectionClass} style={bgStyle}>
+        <div class="overlay"></div>
+        <div class={innerClass}>
+            <div class="copy">
+                <template lwc:if={eyebrow}>
+                    <p class="eyebrow eyebrow--bar eyebrow--light">{eyebrow}</p>
+                </template>
+                <h1 class="title">{title}</h1>
+                <template lwc:if={subtitle}>
+                    <p class="subtitle">{subtitle}</p>
+                </template>
+                <template lwc:if={hasActions}>
+                    <div class="actions">
+                        <template lwc:if={ctaLabel}>
+                            <a class="btn btn--primary" href={ctaUrl}>{ctaLabel} <span class="arrow" aria-hidden="true">&rarr;</span></a>
+                        </template>
+                        <template lwc:if={secondaryLabel}>
+                            <a class="btn btn--secondary" href={secondaryUrl}>{secondaryLabel}</a>
+                        </template>
+                    </div>
+                </template>
+            </div>
+            <template lwc:if={showQuickAccess}>
+                <div class="aside">
+                    <c-quick-access-panel></c-quick-access-panel>
+                </div>
+            </template>
+        </div>
+    </section>
+</template>

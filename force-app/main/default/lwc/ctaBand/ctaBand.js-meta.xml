@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>PIC CTA Band</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="eyebrow" type="String" label="Eyebrow" />
+            <property name="title" type="String" label="Title" />
+            <property name="text" type="String" label="Text" />
+            <property name="buttonLabel" type="String" label="Button label" />
+            <property name="buttonHref" type="String" label="Button URL" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
