@@ -87,7 +87,7 @@ force-app/main/default/
     fileUploader/             lightning-file-upload wrapper bound to a request record
     govBanner, siteHeader, siteFooter
     heroBanner, quickAccessPanel, valueProps, eventBanner, ctaBand, processStepper
-    rangeExplorer, capabilityList
+    rangeExplorer, capabilityList, rangeFinder (capability search + rangeSearch.js scoring)
     requestForm, requestTracker, statusChip, loginPanel, accountRequestPanel
   objects/                    Test_Range__c + Capability_Group__c, Test_Event__c + Event_Session__c,
                               Test_Request__c + Request_Activity__c, Account.License_ID__c
@@ -117,7 +117,7 @@ component, `lightning-file-upload`, is isolated inside `c/fileUploader`.
 ## Data access
 
 - **Reads** are UI API GraphQL queries wired straight into the components:
-  `@wire(graphql, { query: RANGES_QUERY })` in `rangeExplorer`, `EVENTS_QUERY`
+  `@wire(graphql, { query: RANGES_QUERY })` in `rangeExplorer` and `rangeFinder`, `EVENTS_QUERY`
   in `eventBanner`, `MY_REQUESTS_QUERY` in `requestTracker`, and all three
   plus `CURRENT_USER_QUERY` in `requestForm`. `c/portalModel` turns the
   results into the shapes the templates expect.

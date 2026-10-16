@@ -63,7 +63,7 @@ with the strong border.
 | Route | Audience | Composition |
 |---|---|---|
 | `/` Home | public | govBanner, siteHeader, heroBanner + quickAccessPanel, valueProps, rangeExplorer, eventBanner, processStepper ("how it works"), ctaBand, siteFooter |
-| `/ranges` Ranges & capabilities | public | heroBanner (short), rangeExplorer (expanded), ctaBand |
+| `/ranges` Ranges & capabilities | public | heroBanner (short), rangeFinder (capability search), rangeExplorer (expanded), ctaBand |
 | `/request` Submit a test request | licensed customer | heroBanner (short), valueProps ("what you'll need"), processStepper (form progress), requestForm, ctaBand (help) |
 | `/track` Track requests | licensed customer | heroBanner (short), requestTracker (list + detail with timeline stepper) |
 | `/login` Sign in | public | loginPanel |
@@ -78,7 +78,8 @@ are visual only.
 Layout: `govBanner`, `siteHeader`, `siteFooter`
 Blocks: `heroBanner`, `quickAccessPanel`, `valueProps`, `sectionHeading`,
 `ctaBand`, `eventBanner`, `processStepper`, `statusChip`
-Ranges: `rangeExplorer`, `capabilityList`
+Ranges: `rangeExplorer`, `capabilityList`, `rangeFinder` (capability search;
+also the range step of `requestForm`)
 Portal: `requestForm`, `requestTracker`, `loginPanel`, `accountRequestPanel`
 Services (no template): `portalApi` (data access: GraphQL wire adapter,
 `createRecord`, site base path; swapped for `src/mock/portalApi` in the

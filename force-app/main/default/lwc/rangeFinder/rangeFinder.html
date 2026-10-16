@@ -1,0 +1,174 @@
+<template>
+    <section class={sectionClass}>
+        <div class={containerClass}>
+            <template lwc:if={isBrowse}>
+                <div class="head">
+                    <p class="eyebrow eyebrow--bar">{eyebrow}</p>
+                    <h2 class="h2">{heading}</h2>
+                    <p class="lead">Describe the test and every range is scored on how many of your criteria it lists, best match first.</p>
+                </div>
+            </template>
+
+            <div class="finder">
+                <!-- Search: free text with capability suggestions -->
+                <div class="search">
+                    <label class="label" for="finder-input">{label}</label>
+                    <div class="box" onclick={focusInput}>
+                        <template for:each={chipItems} for:item="c">
+                            <span key={c.key} class="chip">
+                                <span class="chip-label">{c.label}</span>
+                                <button class="chip-remove" type="button" data-index={c.index} onclick={removeChip} aria-label={c.removeLabel}>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                                </button>
+                            </span>
+                        </template>
+                        <input
+                            id="finder-input"
+                            class="box-input"
+                            type="text"
+                            role="combobox"
+                            autocomplete="off"
+                            aria-autocomplete="list"
+                            aria-controls="finder-options"
+                            aria-expanded={expanded}
+                            aria-activedescendant={activeDescendant}
+                            aria-describedby="finder-help"
+                            placeholder={placeholder}
+                            value={query}
+                            oninput={handleInput}
+                            onkeydown={handleKeyDown}
+                            onfocus={handleFocus}
+                            onblur={handleBlur}
+                        />
+                    </div>
+
+                    <ul id="finder-options" class={optionsClass} role="listbox" aria-label="Suggested capabilities">
+                        <template for:each={suggestionItems} for:item="s">
+                            <li key={s.id} id={s.id} class={s.cls} role="option" aria-selected={s.selected} data-label={s.label} onmousedown={handleOptionMouseDown}>
+                                <span class="opt-text">
+                                    <span class="opt-label">{s.label}</span>
+                                    <span class="opt-meta">{s.kind} · {s.where}</span>
+                                </span>
+                                <span class="opt-score" title="How closely this matches what you typed">{s.percent}%</span>
+                            </li>
+                        </template>
+                    </ul>
+
+                    <p id="finder-help" class="hint help">{helpText}</p>
+
+                    <template lwc:if={showStarters}>
+                        <div class="starters">
+                            <span class="hint">Try</span>
+                            <template for:each={starters} for:item="t">
+                                <button key={t} class="starter" type="button" data-label={t} onclick={addStarter}>{t}</button>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Results: ranges ranked by match -->
+                <div class="results">
+                    <template lwc:if={isSelect}>
+                        <dl class="picked">
+                            <div class="picked-row">
+                                <dt>Preferred</dt>
+                                <dd>
+                                    <span class={preferredClass}>{preferredName}</span>
+                                    <template lwc:if={preferredId}>
+                                        <button class="link-btn" type="button" data-role="preferred" onclick={clearChoice}>Clear</button>
+                                    </template>
+                                </dd>
+                            </div>
+                            <div class="picked-row">
+                                <dt>Alternate</dt>
+                                <dd>
+                                    <span class={alternateClass}>{alternateName}</span>
+                                    <template lwc:if={alternateId}>
+                                        <button class="link-btn" type="button" data-role="alternate" onclick={clearChoice}>Clear</button>
+                                    </template>
+                                </dd>
+                            </div>
+                        </dl>
+                    </template>
+
+                    <p class="sr-only" aria-live="polite">{statusText}</p>
+
+                    <template lwc:if={error}>
+                        <p class="card empty-text error-box">{error}</p>
+                    </template>
+                    <template lwc:elseif={loading}>
+                        <p class="hint">Loading ranges…</p>
+                    </template>
+                    <template lwc:elseif={hasResults}>
+                        <ol class="cards" aria-label="Matching ranges, best match first">
+                            <template for:each={results} for:item="r">
+                                <li key={r.id} class={r.cls}>
+                                    <div class="res-head">
+                                        <span class="rank" aria-hidden="true">{r.rank}</span>
+                                        <div class="res-title">
+                                            <h3 class="res-name">{r.name}</h3>
+                                            <p class="res-meta">
+                                                {r.state}
+                                                <template lwc:if={r.pending}><span class="pending">Details pending</span></template>
+                                            </p>
+                                        </div>
+                                        <p class="score"><strong>{r.percent}%</strong><span>match</span></p>
+                                    </div>
+                                    <div class="bar" aria-hidden="true"><span class="bar-fill" style={r.barStyle}></span></div>
+                                    <ul class="checks">
+                                        <template for:each={r.checks} for:item="c">
+                                            <li key={c.key} class={c.cls}>
+                                                <template lwc:if={c.met}>
+                                                    <svg class="check-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
+                                                </template>
+                                                <template lwc:else>
+                                                    <svg class="check-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                                                </template>
+                                                <span class="sr-only">{c.srText}</span>
+                                                <span class="check-label">{c.label}</span>
+                                                <template lwc:if={c.via}><span class="check-via">{c.via}</span></template>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                    <div class="res-actions">
+                                        <template lwc:if={isSelect}>
+                                            <button class={r.preferClass} type="button" aria-pressed={r.preferPressed} data-id={r.id} onclick={handlePrefer}>{r.preferLabel}</button>
+                                            <button class={r.altClass} type="button" aria-pressed={r.altPressed} data-id={r.id} onclick={handleAlternate} disabled={r.isPreferred}>{r.altLabel}</button>
+                                        </template>
+                                        <template lwc:else>
+                                            <a class="btn btn--secondary btn--sm" href={r.requestHref}>Request a test here</a>
+                                        </template>
+                                    </div>
+                                </li>
+                            </template>
+                        </ol>
+                        <template lwc:if={unmatchedText}>
+                            <p class="hint unmatched">{unmatchedText}</p>
+                        </template>
+                    </template>
+                    <template lwc:elseif={hasCriteria}>
+                        <div class="card empty">
+                            <p class="empty-title">No range lists that yet</p>
+                            <p class="empty-text">Try broader words, remove a criterion, or contact the range office: four ranges are still confirming their capability details.</p>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <div class="card empty">
+                            <p class="empty-title">Matching ranges appear here, best first</p>
+                            <p class="empty-text">Each range is scored on how many of your criteria it lists.</p>
+                            <ul class="ghosts" aria-hidden="true">
+                                <template for:each={ghosts} for:item="g">
+                                    <li key={g.id} class="ghost">
+                                        <span class="ghost-name">{g.name}</span>
+                                        <span class="ghost-state">{g.state}</span>
+                                        <span class="ghost-score">–%</span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>

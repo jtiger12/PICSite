@@ -209,6 +209,7 @@ point the link at `/` if the template has no anchor option.
 | Component | Properties |
 |---|---|
 | PIC Hero Banner | Eyebrow `Ranges`; Title `Range capabilities`; Subtitle `Five Army test ranges across the United States and partner nations. Compare terrain, airspace, instrumentation and the test types each range supports.`; Compact ✔ |
+| PIC Range Finder | Eyebrow `Find a range`; Title `Search ranges by capability` |
 | PIC Range Explorer | Show all ranges stacked ✔ |
 | PIC CTA Band | Eyebrow `Not sure which range fits?`; Title `Tell us about the test and we'll match the range`; Text `Submit a request with your objectives and preferred dates. The range office reviews it and coordinates the right range, airspace and instrumentation.`; Button `Request a test` → `/request` |
 
@@ -224,6 +225,20 @@ the signed-in user's record and account (`License_ID__c`), accepts
 `?range=<Code__c>` and `?event=<Code__c>` deep links, creates the
 `Test_Request__c`, and then shows `lightning-file-upload` bound to the new
 record so attachments land on the request.
+
+The range step embeds the range finder (`rangeFinder`, `mode="select"`)
+instead of dropdowns: the customer describes what the range must support,
+starting from the test type chosen in the step before, and picks the
+preferred and alternate range from the ranked matches.
+
+**Range finder search.** Ranges are scored on their own data: test types,
+`Capability_Group__c` items, `Stats__c`, state and region, and terrain words
+in the summary (each criterion scores 0-100%, the range score is the
+average). Shorthand such as HPM, HEL, EW, C-UAS, HE and FTS, and the
+synonyms behind it, live in `rangeFinder/rangeSearch.js`. Ranges with
+`Pending__c` set only have a test type, region and summary to match, so they
+rank below Dugway until their capability groups are entered; no code change
+is needed when they are.
 
 ### Track requests `/track` (Requires Login)
 

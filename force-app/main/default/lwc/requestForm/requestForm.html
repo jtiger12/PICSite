@@ -149,24 +149,18 @@
                         <!-- Step 3: Range and dates -->
                         <template lwc:if={isStep2}>
                             <div class="fields">
-                                <div class="field">
-                                    <label class="label" for="rangeId">Preferred range <span class="req">*</span></label>
-                                    <select id="rangeId" class={cls.rangeId} data-field="rangeId" onchange={handleInput}>
-                                        <option value="">Select a range</option>
-                                        <template for:each={rangeOptions} for:item="o">
-                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
-                                        </template>
-                                    </select>
+                                <div class="field field--full">
+                                    <p class="label">Preferred range <span class="req">*</span> and alternate</p>
+                                    <c-range-finder
+                                        mode="select"
+                                        label="Describe what the range needs to support"
+                                        criteria={rangeCriteria}
+                                        preferred-id={form.rangeId}
+                                        alternate-id={form.altRangeId}
+                                        oncriteriachange={handleRangeCriteria}
+                                        onrangeselect={handleRangeSelect}
+                                    ></c-range-finder>
                                     <template lwc:if={errors.rangeId}><span class="error">{errors.rangeId}</span></template>
-                                </div>
-                                <div class="field">
-                                    <label class="label" for="altRangeId">Alternate range</label>
-                                    <select id="altRangeId" class="input" data-field="altRangeId" onchange={handleInput}>
-                                        <option value="">No alternate</option>
-                                        <template for:each={altRangeOptions} for:item="o">
-                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
-                                        </template>
-                                    </select>
                                 </div>
                                 <div class="field">
                                     <label class="label" for="startDate">Earliest start <span class="req">*</span></label>

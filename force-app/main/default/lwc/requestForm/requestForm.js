@@ -79,6 +79,7 @@ export default class RequestForm extends LightningElement {
     userVars = { userId: CURRENT_USER_ID };
     userApplied = false;
     deepLinks = {};
+    rangeCriteriaEdited;
 
     needs = [
         { num: '01', title: 'A licensed account', text: 'Requests are accepted from licensed customers and sponsored organizations only.' },
@@ -200,11 +201,12 @@ export default class RequestForm extends LightningElement {
     get munitionOptions() {
         return MUNITIONS.map((o) => ({ ...o, selected: o.value === this.form.munition }));
     }
-    get rangeOptions() {
-        return this.ranges.map((r) => ({ value: r.id, label: `${r.name} | ${r.state}`, selected: r.id === this.form.rangeId }));
-    }
-    get altRangeOptions() {
-        return this.ranges.filter((r) => r.id !== this.form.rangeId).map((r) => ({ value: r.id, label: `${r.name} | ${r.state}`, selected: r.id === this.form.altRangeId }));
+    // Range finder criteria: start from the test type chosen in step 2 until
+    // the visitor edits them, then keep their list across step changes.
+    get rangeCriteria() {
+        if (this.rangeCriteriaEdited) return this.rangeCriteriaEdited;
+        const type = TEST_TYPES.find((t) => t.value === this.form.testType);
+        return type ? [type.label] : [];
     }
     get eventOptions() {
         return this.events.map((e) => ({ value: e.id, label: e.title, selected: e.id === this.form.eventId }));
@@ -266,6 +268,21 @@ export default class RequestForm extends LightningElement {
         this.errors = { ...this.errors, testType: '' };
     }
 
+    handleRangeCriteria(event) {
+        this.rangeCriteriaEdited = event.detail.criteria;
+    }
+
+    handleRangeSelect(event) {
+        const { role, id } = event.detail;
+        if (role === 'preferred') {
+            // The same range can't be both; picking it as preferred drops it as alternate.
+            this.form = { ...this.form, rangeId: id, altRangeId: id && this.form.altRangeId === id ? '' : this.form.altRangeId };
+            if (this.errors.rangeId) this.errors = { ...this.errors, rangeId: '' };
+        } else if (role === 'alternate') {
+            this.form = { ...this.form, altRangeId: id };
+        }
+    }
+
     validate() {
         const errors = {};
         (REQUIRED[this.stepIndex] || []).forEach((field) => {
@@ -273,6 +290,7 @@ export default class RequestForm extends LightningElement {
             if (v === '' || v === false || v == null) errors[field] = 'Required';
         });
         if (this.stepIndex === 0 && this.form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.form.email)) errors.email = 'Enter a valid email address';
+        if (errors.rangeId) errors.rangeId = 'Choose a preferred range from the matches';
         if (this.stepIndex === 2 && this.form.startDate && this.form.endDate && this.form.endDate < this.form.startDate) errors.endDate = 'Latest end must be after the earliest start';
         if (this.stepIndex === 4 && !this.form.attest) errors.attest = 'Please confirm before submitting';
         this.errors = errors;
@@ -335,6 +353,7 @@ export default class RequestForm extends LightningElement {
     startAnother() {
         this.submitted = undefined;
         this.form = blankForm(this.user);
+        this.rangeCriteriaEdited = undefined;
         this.errors = {};
         this.stepIndex = 0;
     }

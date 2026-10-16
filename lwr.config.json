@@ -61,6 +61,10 @@
                 "path": "$rootDir/force-app/main/default/lwc/rangeExplorer/rangeExplorer.js"
             },
             {
+                "name": "c/rangeFinder",
+                "path": "$rootDir/force-app/main/default/lwc/rangeFinder/rangeFinder.js"
+            },
+            {
                 "name": "c/requestForm",
                 "path": "$rootDir/force-app/main/default/lwc/requestForm/requestForm.js"
             },
