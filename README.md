@@ -45,14 +45,17 @@ Serves the production build (`lwr start`) on http://localhost:3000, or
 
 ## Run in Docker
 
-On the target machine (Docker with Compose v2):
+On the target machine (Docker 23+ with Compose v2; the Dockerfile needs
+BuildKit):
 
 ```bash
 docker compose up -d --build
 ```
 
 The image builds the site inside a `node:22-slim` container and serves it on
-port 3000. Docker's layer cache skips steps whose inputs did not change:
+port 3000. The runtime image keeps only the generated `site/` and `express`,
+the server `lwr start` uses for it, so it is the Node base image plus about
+6 MB. Docker's layer cache skips steps whose inputs did not change:
 reinstalling only when `package*.json` changed, rebuilding only when sources
 did. Set `PICSITE_PORT` to publish a different host port, and `NODE_IMAGE` to
 use another glibc-based Node 22 base image (e.g. Iron Bank); both can go in a
