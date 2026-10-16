@@ -164,11 +164,14 @@ The short version (details, head markup and page-by-page compositions in
 - Atterbury-Muscatatuck is *Coming soon*: the Indiana delegation asked the
   Army to designate it on Sept 30, 2026; switch `Status__c` to *Open* once
   it is.
-- The official Army logo: save "NEW Army Logo 1 Rev - Horizontal" from the
-  Family and MWR Brand Central *NEW U.S. Army Logo* collection
-  (https://www.mwrbrandcentral.com/collections/26115, sign-in required) as
-  `src/assets/img/army-logo.svg`. Until it's there the header and footer
-  show the title alone.
+- The Army logo: the header and footer use `src/assets/img/army-logo-dark.png`,
+  made from `army-logo.jpg` (the stacked logo for light backgrounds, from the
+  Family and MWR Brand Central *NEW U.S. Army Logo* collection) by cropping,
+  making the white background transparent and turning the black "U.S. ARMY"
+  wordmark white, as in the official reverse version. Before launch, replace
+  it with Brand Central's own reverse file ("NEW Army Logo 1 Rev -
+  Horizontal", or "NEW US Army Logo 2 - Vertical" rev) at
+  https://www.mwrbrandcentral.com/collections/26115 (sign-in required).
 - Hero imagery: `contours.svg` is a placeholder.
 - Range office contact address (`usarmy.testrange@army.mil` is a placeholder).
 - The site URL in the `PIC_Portal_URL` custom label.

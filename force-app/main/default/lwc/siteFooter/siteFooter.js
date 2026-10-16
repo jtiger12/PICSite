@@ -3,7 +3,7 @@ import { href } from 'c/portalApi';
 
 export default class SiteFooter extends LightningElement {
     // Same official Army logo file as the header (see siteHeader).
-    @api logoUrl = '/assets/img/army-logo.svg';
+    @api logoUrl = '/assets/img/army-logo-dark.png';
     logoFailed = false;
 
     get showLogo() {

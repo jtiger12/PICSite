@@ -35,7 +35,7 @@
    is never changed (Army brand rule). */
 .mark {
     display: block;
-    height: 52px;
+    height: 60px;
     width: auto;
 }
 
@@ -47,7 +47,7 @@
 
 @media (max-width: 640px) {
     .mark {
-        height: 40px;
+        height: 48px;
     }
 
     .brand {
