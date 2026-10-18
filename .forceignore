@@ -10,3 +10,7 @@ Dockerfile
 docker-compose.yml
 .dockerignore
 **/.eslintrc.json
+
+# Local harness settings
+.env
+.env.example

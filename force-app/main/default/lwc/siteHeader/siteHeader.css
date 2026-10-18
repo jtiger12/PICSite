@@ -87,8 +87,16 @@
 
 .nav-actions {
     display: flex;
+    align-items: center;
     gap: 10px;
     margin-left: 12px;
+}
+
+.account {
+    color: var(--pic-text, #fff);
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .menu {

@@ -7,4 +7,9 @@
         <target>lightningCommunity__Page</target>
         <target>lightningCommunity__Default</target>
     </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="starUrl" type="String" default="/assets/img/army-logo-dark.png" label="Army logo URL" description="URL of the official U.S. Army logo file (static resource); the collapsed request list shows its star." />
+        </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>

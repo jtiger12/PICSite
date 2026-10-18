@@ -1,59 +1,126 @@
 <template>
     <section class="section">
         <div class="container">
-            <!-- Summary tiles -->
+            <!-- Summary tiles: each opens the requests it counts -->
             <ul class="tiles">
                 <template for:each={tiles} for:item="t">
-                    <li key={t.label} class={t.cls}>
-                        <span class="tile-value">{t.value}</span>
-                        <span class="tile-label">{t.label}</span>
+                    <li key={t.key}>
+                        <button type="button" class={t.cls} data-key={t.key} onclick={openTile} disabled={t.disabled} aria-haspopup="dialog">
+                            <span class="tile-value">{t.value}</span>
+                            <span class="tile-label">{t.label}</span>
+                        </button>
                     </li>
                 </template>
             </ul>
 
-            <div class="layout">
-                <!-- List -->
-                <div class="list-col">
-                    <div class="list-head">
-                        <div class="filters" role="tablist" aria-label="Filter requests">
-                            <template for:each={filters} for:item="f">
-                                <button key={f.value} type="button" role="tab" class={f.cls} aria-selected={f.selected} data-filter={f.value} onclick={setFilter}>{f.label}</button>
-                            </template>
-                        </div>
-                        <a class="btn btn--primary btn--sm" href={newRequestHref}>New request</a>
+            <!-- Picker for a tile that counts more than one request -->
+            <dialog class="picker" aria-labelledby="picker-title" onclose={handlePickerClose} onclick={handlePickerBackdrop}>
+                <div class="picker-body">
+                    <div class="picker-head">
+                        <h2 class="picker-title" id="picker-title">{pickerTitle}</h2>
+                        <button type="button" class="picker-close" aria-label="Close" onclick={closePicker}>&times;</button>
                     </div>
+                    <!-- Typeahead: narrows as you type; Enter opens the top match -->
+                    <div class="search">
+                        <input
+                            class="input search-input picker-search"
+                            type="search"
+                            placeholder="Type to filter these requests"
+                            aria-label="Filter these requests"
+                            value={pickerQuery}
+                            oninput={handlePickerSearch}
+                            onkeydown={handlePickerKeydown}
+                        />
+                        <template lwc:if={pickerQuery}>
+                            <span class="search-count" aria-live="polite">{pickerMatchCount}</span>
+                        </template>
+                    </div>
+                    <ul class="requests picker-list">
+                        <template for:each={pickerItems} for:item="r">
+                            <li key={r.id}>
+                                <button type="button" class="req" data-id={r.id} onclick={pickRequest}>
+                                    <span class="req-top">
+                                        <span class="req-id">{r.id}</span>
+                                        <c-status-chip status={r.status}></c-status-chip>
+                                    </span>
+                                    <span class="req-title">{r.title}</span>
+                                    <span class="req-meta">{r.range} · {r.window}</span>
+                                </button>
+                            </li>
+                        </template>
+                    </ul>
+                    <template lwc:if={pickerEmpty}>
+                        <p class="hint">Nothing matches "{pickerQuery}".</p>
+                    </template>
+                </div>
+            </dialog>
 
-                    <template lwc:if={loading}>
-                        <p class="hint">Loading your requests…</p>
-                    </template>
-                    <template lwc:elseif={error}>
-                        <p class="error">{error}</p>
-                    </template>
-                    <template lwc:elseif={isEmpty}>
-                        <div class="card empty">
-                            <div class="card__body">
-                                <h3 class="card__title">No requests here yet</h3>
-                                <p class="card__text">Submit a test request and it will appear in this list with its status.</p>
+            <div class="layout">
+                <!-- List: tucked behind the Army star, opens on hover or keyboard focus -->
+                <div class="list-col">
+                    <div class="rail">
+                        <button class="rail-btn" type="button" aria-label={railLabel} title={railLabel}>
+                            <img class="rail-star" src={starUrl} alt="" />
+                            <span class="rail-count" aria-hidden="true">{requestCount}</span>
+                            <span class="rail-label" aria-hidden="true">My requests</span>
+                        </button>
+                    </div>
+                    <div class="list-panel">
+                        <div class="list-head">
+                            <div class="filters" role="tablist" aria-label="Filter requests">
+                                <template for:each={filters} for:item="f">
+                                    <button key={f.value} type="button" role="tab" class={f.cls} aria-selected={f.selected} data-filter={f.value} onclick={setFilter}>{f.label}</button>
+                                </template>
                             </div>
+                            <a class="btn btn--primary btn--sm" href={newRequestHref}>New request</a>
                         </div>
-                    </template>
-                    <template lwc:else>
-                        <ul class="requests">
-                            <template for:each={filteredRequests} for:item="r">
-                                <li key={r.id}>
-                                    <button type="button" class={r.cls} data-id={r.id} onclick={select} aria-pressed={r.pressed}>
-                                        <span class="req-top">
-                                            <span class="req-id">{r.id}</span>
-                                            <c-status-chip status={r.status}></c-status-chip>
-                                        </span>
-                                        <span class="req-title">{r.title}</span>
-                                        <span class="req-meta">{r.range} · {r.window}</span>
-                                        <span class="req-updated">Updated {r.updated}</span>
-                                    </button>
-                                </li>
+
+                        <div class="search">
+                            <input
+                                class="input search-input"
+                                type="search"
+                                placeholder="Search your requests"
+                                aria-label="Search your requests"
+                                value={query}
+                                oninput={handleSearch}
+                            />
+                            <template lwc:if={query}>
+                                <span class="search-count" aria-live="polite">{matchCount}</span>
                             </template>
-                        </ul>
-                    </template>
+                        </div>
+
+                        <template lwc:if={loading}>
+                            <p class="hint">Loading your requests…</p>
+                        </template>
+                        <template lwc:elseif={error}>
+                            <p class="error">{error}</p>
+                        </template>
+                        <template lwc:elseif={isEmpty}>
+                            <div class="card empty">
+                                <div class="card__body">
+                                    <h3 class="card__title">{emptyTitle}</h3>
+                                    <p class="card__text">{emptyText}</p>
+                                </div>
+                            </div>
+                        </template>
+                        <template lwc:else>
+                            <ul class="requests">
+                                <template for:each={filteredRequests} for:item="r">
+                                    <li key={r.id}>
+                                        <button type="button" class={r.cls} data-id={r.id} onclick={select} aria-pressed={r.pressed}>
+                                            <span class="req-top">
+                                                <span class="req-id">{r.id}</span>
+                                                <c-status-chip status={r.status}></c-status-chip>
+                                            </span>
+                                            <span class="req-title">{r.title}</span>
+                                            <span class="req-meta">{r.range} · {r.window}</span>
+                                            <span class="req-updated">Updated {r.updated}</span>
+                                        </button>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                    </div>
                 </div>
 
                 <!-- Detail -->
@@ -76,9 +143,18 @@
                                     <div><dt>Last updated</dt><dd>{selected.updated}</dd></div>
                                 </dl>
 
+                                <!-- Needs info / Declined: the office's question or reason, and for Needs info the place to answer it -->
                                 <template lwc:if={sideNote}>
                                     <div class={sideNoteClass}>
-                                        <strong>{selected.status}.</strong> {sideNote}
+                                        <p class="side-text"><strong>{selected.status}.</strong> {sideNote}</p>
+                                        <template lwc:if={sideSource}>
+                                            <p class="side-source">{sideSource}</p>
+                                        </template>
+                                        <template lwc:if={canUpload}>
+                                            <div class="upload">
+                                                <c-file-uploader record-id={selected.recordId} label="Provide the requested information"></c-file-uploader>
+                                            </div>
+                                        </template>
                                     </div>
                                 </template>
 
@@ -88,12 +164,6 @@
                                     <div class="next">
                                         <span class="next-label">What happens next</span>
                                         <p class="next-text">{selected.nextAction}</p>
-                                    </div>
-                                </template>
-
-                                <template lwc:if={canUpload}>
-                                    <div class="upload">
-                                        <c-file-uploader record-id={selected.recordId} label="Provide the requested information"></c-file-uploader>
                                     </div>
                                 </template>
 

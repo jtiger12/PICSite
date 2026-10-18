@@ -3,6 +3,11 @@
     <description>Licensed customer in the Test on Army Ranges portal: submits test requests, reads its own requests and activity, reads ranges and events. Assign to Customer Community users of the PICSite site; record visibility comes from the PICSite_Customer sharing set.</description>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.CAGE_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.License_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>

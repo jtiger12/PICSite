@@ -31,11 +31,11 @@ const REQUIRED = {
 };
 
 // Fields the signed-in user's record pre-fills on the first step.
-const USER_FIELDS = ['organization', 'contactName', 'licenseId', 'email', 'phone'];
+const USER_FIELDS = ['organization', 'uei', 'contactName', 'licenseId', 'email', 'phone'];
 
 const blankForm = (user) => ({
     organization: (user && user.organization) || '',
-    uei: '',
+    uei: (user && user.cageCode) || '',
     contactName: (user && user.name) || '',
     licenseId: (user && user.licenseId) || '',
     email: (user && user.email) || '',
@@ -82,7 +82,7 @@ export default class RequestForm extends LightningElement {
     rangeCriteriaEdited;
 
     needs = [
-        { num: '01', title: 'A licensed account', text: 'Requests are accepted from licensed customers and sponsored organizations only.' },
+        { num: '01', title: 'A CAGE code', text: 'Requests are accepted from customers that have a Commercial and Government Entity (CAGE) code.' },
         { num: '02', title: 'Test description', text: 'The system under test, objectives and the profile you intend to fly or fire.' },
         { num: '03', title: 'Preferred dates', text: 'An earliest start, latest end and how many range days you need.' },
         { num: '04', title: 'Safety data', text: 'Hazard information for munitions, lasers, emitters or hazardous materials.' }

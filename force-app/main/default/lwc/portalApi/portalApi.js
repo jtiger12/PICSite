@@ -12,6 +12,7 @@
 import { gql, graphql, refreshGraphQL } from 'lightning/uiGraphQLApi';
 import { createRecord } from 'lightning/uiRecordApi';
 import USER_ID from '@salesforce/user/Id';
+import IS_GUEST from '@salesforce/user/isGuest';
 import basePath from '@salesforce/community/basePath';
 import { toRequestFields, toSubmitted, prefixHref } from 'c/portalModel';
 
@@ -41,6 +42,22 @@ export const CURRENT_USER_ID = USER_ID;
 // every portal link goes through href() so it works with or without one.
 export const BASE_PATH = basePath || '';
 export const href = (path) => prefixHref(BASE_PATH, path);
+
+// Session, in the same shape as the harness's mock backend. The site's own
+// login page and session handle authentication here, so signIn() only
+// explains that and signOut() leaves through the standard logout URL.
+export function getSession() {
+    return Promise.resolve({ available: true, signedIn: !IS_GUEST, account: null });
+}
+
+export function signIn() {
+    return Promise.reject(new Error('Sign-in is handled by the Experience Cloud login page.'));
+}
+
+export function signOut() {
+    window.location.assign(href('/secur/logout.jsp'));
+    return Promise.resolve();
+}
 
 // Active ranges with their capability groups, for rangeExplorer, rangeFinder
 // and the request form. Child ordering is finished in toRanges().
@@ -114,12 +131,14 @@ export const EVENTS_QUERY = gql`
 
 // The requests the running user can see. Sharing does the filtering: the
 // object is private and the PICSite sharing set grants community users their
-// own account's records, so no where-clause is needed.
+// own account's records, so no where-clause is needed. A customer rarely has
+// more than 100, so the tracker loads them all in one response and searches
+// them in the browser; 200 leaves headroom (UI API allows up to 2000).
 export const MY_REQUESTS_QUERY = gql`
     query PicMyRequests {
         uiapi {
             query {
-                Test_Request__c(first: 100, orderBy: { LastModifiedDate: { order: DESC } }) {
+                Test_Request__c(first: 200, orderBy: { LastModifiedDate: { order: DESC } }) {
                     edges {
                         node {
                             Id
@@ -174,6 +193,7 @@ export const CURRENT_USER_QUERY = gql`
                             Account {
                                 Name { value }
                                 License_ID__c { value }
+                                CAGE_Code__c { value }
                             }
                         }
                     }

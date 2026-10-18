@@ -19,7 +19,11 @@
                             <template lwc:else>{step.number}</template>
                         </span>
                         <span class="label">{step.label}</span>
-                        <template lwc:if={step.description}>
+                        <template lwc:if={step.start}>
+                            <span class="desc">Use <a class="desc-link" href={wizardHref}>the wizard</a> to build a capability matrix or</span>
+                            <a class="btn btn--secondary btn--sm desc-btn" href={contactHref}>Contact us</a>
+                        </template>
+                        <template lwc:elseif={step.description}>
                             <span class="desc">{step.description}</span>
                         </template>
                     </li>

@@ -5,3 +5,6 @@ site/
 .sfdx/
 .localdevserver/
 *.log
+
+# Local settings and secrets (template: .env.example)
+.env

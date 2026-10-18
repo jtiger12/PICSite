@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { href } from 'c/portalApi';
+import { href, getSession, signOut } from 'c/portalApi';
 
 const LINKS = [
     { label: 'Ranges', href: '/ranges' },
@@ -17,9 +17,34 @@ export default class SiteHeader extends LightningElement {
     logoFailed = false;
     menuOpen = false;
     path = '/';
+    session = null;
 
     connectedCallback() {
         this.path = typeof window !== 'undefined' ? window.location.pathname : '/';
+        getSession().then((session) => {
+            this.session = session;
+        });
+    }
+
+    // Signed in: the account name and Sign out replace Sign in / Request an
+    // account. The org's session carries no account here, hence the fallback.
+    get signedIn() {
+        return Boolean(this.session && this.session.signedIn);
+    }
+
+    get accountLabel() {
+        const account = this.session && this.session.account;
+        return (account && (account.company || account.username)) || 'Signed in';
+    }
+
+    get accountTitle() {
+        const account = this.session && this.session.account;
+        if (!account) return null;
+        return `Signed in as ${account.username}${account.cageCode ? ` · CAGE ${account.cageCode}` : ''}`;
+    }
+
+    handleSignOut() {
+        signOut();
     }
 
     get links() {

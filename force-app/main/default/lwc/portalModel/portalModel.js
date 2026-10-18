@@ -293,7 +293,8 @@ export function toUser(data) {
         accountId: v(n.AccountId) || null,
         contactId: v(n.ContactId) || null,
         organization: (account && str(v(account.Name))) || str(v(n.CompanyName)),
-        licenseId: (account && str(v(account.License_ID__c))) || ''
+        licenseId: (account && str(v(account.License_ID__c))) || '',
+        cageCode: (account && str(v(account.CAGE_Code__c))) || ''
     };
 }
 

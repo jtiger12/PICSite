@@ -1,27 +1,59 @@
 import { LightningElement } from 'lwc';
-import { href } from 'c/portalApi';
+import { href, signIn } from 'c/portalApi';
 
-// Visual-only in the local harness. In Experience Cloud the site's own login
-// page handles authentication; this component becomes the styled wrapper
-// around the standard login flow. Requesting an account is its own page
-// (accountRequestPanel at /request-account).
+// Sign-in goes through c/portalApi. In the local harness that is the mock
+// backend (scripts/mock-backend.mjs, account in .env). In Experience Cloud the
+// site's own login page handles authentication: signIn() only explains that,
+// and this component becomes the styled wrapper around the standard login
+// flow. Requesting an account is its own page (accountRequestPanel at
+// /request-account).
 export default class LoginPanel extends LightningElement {
     signInNote = '';
+    signInError = false;
+    signingIn = false;
 
     get requestAccountHref() {
         return href('/request-account');
     }
 
-    handleSignIn(event) {
+    get noteClass() {
+        return this.signInError ? 'note note--error' : 'note';
+    }
+
+    get signInLabel() {
+        return this.signingIn ? 'Signing in…' : 'Sign in';
+    }
+
+    showNote(message, isError) {
+        this.signInNote = message;
+        this.signInError = Boolean(isError);
+    }
+
+    async handleSignIn(event) {
         event.preventDefault();
-        this.signInNote = 'Sign-in is handled by the Experience Cloud login page once deployed.';
+        if (this.signingIn) return;
+        const username = this.template.querySelector('[name="username"]').value.trim();
+        const password = this.template.querySelector('[name="password"]').value;
+        if (!username || !password) {
+            this.showNote('Enter your username and password.', true);
+            return;
+        }
+        this.signingIn = true;
+        this.showNote('');
+        try {
+            await signIn(username, password);
+            window.location.assign(href('/track'));
+        } catch (error) {
+            this.showNote(error.message, true);
+            this.signingIn = false;
+        }
     }
 
     handleCac() {
-        this.signInNote = 'CAC / PIV sign-in will redirect to the DoD identity provider once configured.';
+        this.showNote('CAC / PIV sign-in will redirect to the DoD identity provider once configured.');
     }
 
     handleForgot() {
-        this.signInNote = 'Password reset is handled by the Experience Cloud login page once deployed.';
+        this.showNote('Password reset is handled by the Experience Cloud login page once deployed.');
     }
 }

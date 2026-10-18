@@ -10,7 +10,7 @@ customers and the range office. No Apex is involved anywhere.
 | Folder | Contents |
 |---|---|
 | `lwc/` | The portal components. Data access goes through `c/portalApi` (GraphQL wire adapter + `createRecord`), shaping and option lists live in `c/portalModel`, `c/fileUploader` wraps `lightning-file-upload`. Exposed components carry a `PIC` master label. |
-| `objects/` | `Test_Range__c` + `Capability_Group__c` (master-detail), `Test_Event__c` + `Event_Session__c` (master-detail), `Test_Request__c` + `Request_Activity__c` (master-detail), and `Account.License_ID__c`. |
+| `objects/` | `Test_Range__c` + `Capability_Group__c` (master-detail), `Test_Event__c` + `Event_Session__c` (master-detail), `Test_Request__c` + `Request_Activity__c` (master-detail), and `Account.License_ID__c` + `Account.CAGE_Code__c`. |
 | `flows/` | `PIC_Request_Created` (first activity + confirmation email), `PIC_Request_Status_Changed` (activity + email on every status change), `PIC_Request_Needs_Info_Reminder` (scheduled path, 5 days after a request enters Needs info). |
 | `permissionsets/` | `PICSite_Customer` (community users), `PICSite_Guest` (public pages), `PICSite_Range_Office` (internal staff, with the three tabs). |
 | `sharingSets/` | `PICSite_Customer`: Customer Community users get Edit on `Test_Request__c` where `Account__c` = their contact's account. |
@@ -91,7 +91,7 @@ Then, in Setup:
    changed the status; switch the action's sender to an org-wide address in
    Flow Builder if the range office wants a shared mailbox as sender.
 4. **Customer users**: create a Contact on a customer Account (fill
-   `Account.License_ID__c`), enable it as a Customer user with the
+   `Account.License_ID__c` and `CAGE_Code__c`), enable it as a Customer user with the
    `Customer Community User` profile, assign `PICSite_Customer`, and add the
    site membership (Builder > Administration > Members > the profile).
 
@@ -200,7 +200,7 @@ pages in `src/modules/picsite/*/*.html`.
 
 | Component | Properties |
 |---|---|
-| PIC Hero Banner | Eyebrow `Test on Army Ranges`; Title `Accelerate your drone, counter-drone and long-range fires solutions.`; Subtitle `U.S. Army ranges give private industry access to massive, specialized, realistic environments for rapid prototyping, proving system components and conducting full-scale experiments.`; Primary button `Request a test` → `/request`; Secondary button `Explore range capabilities` → `/ranges`; Show quick access panel ✔ |
+| PIC Hero Banner | Eyebrow `Test on Army Ranges`; Title `Accelerate your drone, counter-drone and long-range fires solutions.`; Subtitle `U.S. Army now gives private industry access to large, specialized, realistic environments for rapid prototyping, proving system components and conducting full-scale experiments.`; Primary button `Request a test` → `/request`; Secondary button `Explore range capabilities` → `/ranges`; Show quick access panel ✔ |
 | PIC Value Props | – |
 | PIC Event Banner | – (shows the first active `Test_Event__c`) |
 | PIC Range Explorer | Show all ranges stacked ✘ (tabs) |
@@ -230,8 +230,8 @@ point the link at `/` if the template has no anchor option.
 | PIC Hero Banner | Eyebrow `For licensed customers`; Title `Submit a test request`; Subtitle `Tell us what you're testing, where and when. The range office reviews every request and coordinates airspace, impact areas and instrumentation.`; Compact ✔ |
 | PIC Test Request Form | – |
 
-The form pre-fills organization, contact, licence ID, email and phone from
-the signed-in user's record and account (`License_ID__c`), accepts
+The form pre-fills organization, CAGE code, contact, licence ID, email and phone from
+the signed-in user's record and account (`License_ID__c`, `CAGE_Code__c`), accepts
 `?range=<Code__c>` and `?event=<Code__c>` deep links, creates the
 `Test_Request__c`, and then shows `lightning-file-upload` bound to the new
 record so attachments land on the request.

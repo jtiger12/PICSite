@@ -24,9 +24,24 @@ taken). Routes: `/`, `/ranges`, `/request`, `/track`, `/login`,
 
 `npm run dev` regenerates `lwr.config.json` module aliases from
 `force-app/main/default/lwc` so every SFDX component resolves as `c/<name>`,
-swaps in the harness mocks from `src/mock/`, then starts `lwr dev`. Re-run it
-after adding a component. The harness runs entirely on mock data; mock
-submissions live in `sessionStorage` for the browser session.
+swaps in the harness mocks from `src/mock/`, loads `.env`, then runs the LWR
+dev server (hot reload on) with a small mock backend in front of it
+(`scripts/mock-backend.mjs`). Re-run it after adding a component or changing
+`.env` or `scripts/`. `npm run dev -- --port 3001` picks another port. The
+harness runs on mock data; mock submissions live in `sessionStorage` for the
+browser session.
+
+### Mock account
+
+Copy `.env.example` to `.env` (ignored by git, Docker and `sf deploy`) and set
+the mock account. Sign in at `/login` with its username and password: the
+header then shows the company with *Sign out*, and the request form pre-fills
+the organization and CAGE code. The backend checks the password and
+keeps the session in an httpOnly cookie, so the password never reaches the
+browser; restarting `npm run dev` signs you out. Routes: `POST /api/login`,
+`POST /api/logout`, `GET /api/session`. Without a `.env`, or in the static
+build below (no backend), sign-in explains that and the request form falls
+back to the built-in demo user.
 
 ## Run the built site
 
@@ -90,7 +105,7 @@ force-app/main/default/
     rangeExplorer, capabilityList, rangeFinder (capability search + rangeSearch.js scoring)
     requestForm, requestTracker, statusChip, loginPanel, accountRequestPanel
   objects/                    Test_Range__c + Capability_Group__c, Test_Event__c + Event_Session__c,
-                              Test_Request__c + Request_Activity__c, Account.License_ID__c
+                              Test_Request__c + Request_Activity__c, Account.License_ID__c + CAGE_Code__c
   flows/                      PIC_Request_Created, PIC_Request_Status_Changed,
                               PIC_Request_Needs_Info_Reminder (scheduled path, 5 days)
   permissionsets/             PICSite_Customer, PICSite_Guest, PICSite_Range_Office
@@ -107,7 +122,7 @@ src/                          local harness only (ignored by .forceignore)
   layouts/main.html           document shell: Inter font + global.css
   assets/global.css           :root design tokens
   assets/img/contours.svg     placeholder hero background
-scripts/                      dev launcher and alias generator
+scripts/                      dev launcher, mock backend (/api, .env account) and alias generator
 ```
 
 Components use plain HTML/CSS and the `--pic-*` tokens only (no SLDS), so

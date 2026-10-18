@@ -15,16 +15,16 @@
                     <div class="fields">
                         <div class="field">
                             <label class="label" for="signin-email">Email</label>
-                            <input id="signin-email" class="input" type="email" autocomplete="username" required />
+                            <input id="signin-email" name="username" class="input" type="email" autocomplete="username" required />
                         </div>
                         <div class="field">
                             <label class="label" for="signin-password">Password</label>
-                            <input id="signin-password" class="input" type="password" autocomplete="current-password" required />
+                            <input id="signin-password" name="password" class="input" type="password" autocomplete="current-password" required />
                         </div>
                     </div>
-                    <template lwc:if={signInNote}><p class="note">{signInNote}</p></template>
+                    <template lwc:if={signInNote}><p class={noteClass} role="status">{signInNote}</p></template>
                     <div class="actions">
-                        <button class="btn btn--primary btn--block" type="submit">Sign in</button>
+                        <button class="btn btn--primary btn--block" type="submit" disabled={signingIn}>{signInLabel}</button>
                         <button class="btn btn--secondary btn--block" type="button" onclick={handleCac}>Sign in with CAC / PIV</button>
                     </div>
                     <button class="small-link" type="button" onclick={handleForgot}>Forgot your password?</button>

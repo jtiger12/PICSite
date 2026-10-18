@@ -104,6 +104,15 @@
     max-width: 24ch;
 }
 
+.desc-link {
+    color: var(--pic-accent, #ffcc01);
+    font-weight: 600;
+}
+
+.desc-btn {
+    margin-top: 4px;
+}
+
 @media (max-width: 760px) {
     .steps {
         grid-auto-flow: row;
@@ -131,6 +140,11 @@
 
     .step .desc {
         max-width: none;
+    }
+
+    .step .desc-btn {
+        grid-column: 2;
+        justify-self: start;
     }
 
     .step::before {

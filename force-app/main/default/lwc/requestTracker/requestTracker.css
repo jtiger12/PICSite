@@ -17,12 +17,33 @@
 }
 
 .tile {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     padding: 18px 22px;
+    text-align: left;
     background: var(--pic-surface, #212429);
     border: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
     border-radius: var(--pic-radius, 16px);
+    color: var(--pic-text, #fff);
+    font: inherit;
+    cursor: pointer;
+    transition: border-color var(--pic-ease), background var(--pic-ease);
+}
+
+.tile:hover:not(:disabled) {
+    border-color: var(--pic-accent, #ffcc01);
+    background: var(--pic-surface-2, #272a2f);
+}
+
+.tile:focus-visible {
+    outline: 2px solid var(--pic-accent, #ffcc01);
+    outline-offset: 2px;
+}
+
+.tile:disabled {
+    cursor: default;
 }
 
 .tile--warn {
@@ -51,9 +72,113 @@
 
 .layout {
     display: grid;
-    grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+    grid-template-columns: 56px minmax(0, 1fr);
     gap: 24px;
-    align-items: start;
+}
+
+/* The request list collapses to a small Army star so the detail gets the
+   full width. Hovering the star (or tabbing to it) opens the whole list over
+   the detail, running the full height of the column. */
+.list-col {
+    position: relative;
+    z-index: 2;
+}
+
+/* A quiet left-hand nav column the full height of the detail, so it reads
+   as navigation without competing with the request itself. */
+.rail {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--pic-surface, #212429), rgba(33, 36, 41, 0.4));
+    border: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+    border-radius: 14px;
+    transition: border-color var(--pic-ease);
+}
+
+.list-col:hover .rail {
+    border-color: rgba(255, 204, 1, 0.45);
+}
+
+/* The star stays in view under the sticky site header while the detail scrolls. */
+.rail-btn {
+    position: sticky;
+    top: 91px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 0 18px;
+    background: none;
+    border: 0;
+    color: var(--pic-text-2, #aeb4bc);
+    font: inherit;
+    cursor: pointer;
+}
+
+/* The logo file is the star with the wordmark below: show the top square. */
+.rail-star {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    object-position: top;
+}
+
+.rail-count {
+    min-width: 24px;
+    padding: 2px 6px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    background: var(--pic-page, #16181c);
+    color: var(--pic-text, #fff);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.rail-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.list-panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 380px;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background: var(--pic-page, #16181c);
+    border: 1px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    border-radius: var(--pic-radius, 16px);
+    box-shadow: var(--pic-shadow-glass, 0 24px 48px rgba(0, 0, 0, 0.35));
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-12px);
+    transition: opacity 160ms ease, transform 160ms ease, visibility 0s linear 160ms;
+}
+
+/* :focus-visible, not :focus-within, so a mouse click on a request doesn't
+   pin the list open once the pointer leaves. */
+.list-col:hover .list-panel,
+.list-col:has(:focus-visible) .list-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+}
+
+.list-panel .requests {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 .list-head {
@@ -96,26 +221,49 @@
     color: var(--pic-text, #fff);
 }
 
+.search {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.search-input {
+    padding: 8px 110px 8px 12px;
+    background: var(--pic-surface, #212429);
+    font-size: 0.88rem;
+}
+
+/* Sits inside the box, left of the browser's clear button. */
+.search-count {
+    position: absolute;
+    top: 50%;
+    right: 36px;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: var(--pic-text-2, #aeb4bc);
+    pointer-events: none;
+}
+
+/* Compact cards so a long list (up to ~100 requests) stays scannable. */
 .requests {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
 }
 
 .req {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 16px 18px;
+    gap: 3px;
+    padding: 10px 14px;
     text-align: left;
     background: var(--pic-surface, #212429);
     border: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
     border-left: 3px solid transparent;
-    border-radius: 12px;
+    border-radius: 10px;
     color: var(--pic-text, #fff);
     font: inherit;
     cursor: pointer;
@@ -139,25 +287,89 @@
 }
 
 .req-id {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     color: var(--pic-text-2, #aeb4bc);
 }
 
 .req-title {
+    font-size: 0.92rem;
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.25;
 }
 
 .req-meta,
 .req-updated {
-    font-size: 0.82rem;
+    font-size: 0.76rem;
     color: var(--pic-text-2, #aeb4bc);
+}
+
+/* Clears the sticky site header when a tile or pick scrolls the detail into view. */
+.detail {
+    scroll-margin-top: 90px;
 }
 
 .detail .card__body {
     padding: 32px;
+}
+
+/* Picker for a tile that counts several requests (native modal dialog:
+   focus trap, Esc to close). */
+.picker {
+    width: min(560px, calc(100vw - 32px));
+    max-height: min(640px, calc(100vh - 64px));
+    padding: 0;
+    background: var(--pic-page, #16181c);
+    color: var(--pic-text, #fff);
+    border: 1px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    border-radius: var(--pic-radius, 16px);
+    box-shadow: var(--pic-shadow-glass, 0 24px 48px rgba(0, 0, 0, 0.35));
+}
+
+.picker::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.picker-body {
+    display: flex;
+    flex-direction: column;
+    max-height: inherit;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.picker-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.picker-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.picker-close {
+    padding: 0 4px;
+    background: none;
+    border: 0;
+    color: var(--pic-text-2, #aeb4bc);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.picker-close:hover {
+    color: var(--pic-text, #fff);
+}
+
+.picker-list {
+    min-height: 0;
+    overflow-y: auto;
 }
 
 .detail-head {
@@ -217,6 +429,22 @@
     border: 1px solid rgba(248, 113, 113, 0.45);
 }
 
+.side-text {
+    margin: 0;
+}
+
+.side-source {
+    margin: 4px 0 0;
+    font-size: 0.78rem;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+/* The upload sits inside the Needs info banner, right under the question. */
+.side .upload {
+    margin-top: 14px;
+    background: rgba(0, 0, 0, 0.18);
+}
+
 .next {
     margin-top: 20px;
     padding: 16px 20px;
@@ -261,14 +489,26 @@
     padding-bottom: 20px;
 }
 
+/* Climbing rope from each knob down to the one below: twisted two-tone
+   strands with a highlight and shadow across the width so it reads round.
+   Grey by default (steps not reached yet), gold below a step that is done. */
 .tl::before {
     content: '';
     position: absolute;
-    left: 7px;
-    top: 16px;
-    bottom: -2px;
-    width: 2px;
-    background: var(--pic-border, rgba(255, 255, 255, 0.12));
+    left: 5px;
+    top: 19px;
+    bottom: -3px;
+    width: 6px;
+    border-radius: 3px;
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18), transparent 45%, rgba(0, 0, 0, 0.35)),
+        repeating-linear-gradient(-60deg, #6b7079 0 3px, #41454c 3px 6px);
+}
+
+.tl--done::before {
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.3), transparent 45%, rgba(0, 0, 0, 0.35)),
+        repeating-linear-gradient(-60deg, var(--pic-accent, #ffcc01) 0 3px, #a07f00 3px 6px);
 }
 
 .tl:last-child::before {
@@ -285,9 +525,25 @@
     box-sizing: border-box;
 }
 
-.tl--latest .tl-dot {
+.tl--done .tl-dot {
     border-color: var(--pic-accent, #ffcc01);
     background: var(--pic-accent, #ffcc01);
+}
+
+.tl--latest .tl-dot {
+    box-shadow: 0 0 0 4px rgba(255, 204, 1, 0.2);
+}
+
+.tl--upcoming .tl-status {
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.tl--upcoming .tl-date {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding-top: 4px;
 }
 
 .tl-date {
@@ -339,8 +595,26 @@
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .detail {
-        scroll-margin-top: 90px;
+    /* No hover on phones and small tablets: the list stays stacked above the detail. */
+    .rail {
+        display: none;
+    }
+
+    .list-panel {
+        position: static;
+        width: auto;
+        min-height: 0;
+        padding: 0;
+        background: none;
+        border: 0;
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+
+    .list-panel .requests {
+        overflow: visible;
     }
 }
 
@@ -368,6 +642,12 @@
 
     .tl-body {
         grid-column: 2;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .list-panel {
+        transition: none;
     }
 }
 

@@ -13,8 +13,14 @@
                     <a key={link.href} href={link.href} class={link.cls} aria-current={link.current}>{link.label}</a>
                 </template>
                 <div class="nav-actions">
-                    <a href={loginHref} class="btn btn--secondary btn--sm" aria-current={loginCurrent}>Sign in</a>
-                    <a href={requestAccountHref} class="btn btn--primary btn--sm" aria-current={requestAccountCurrent}>Request an account</a>
+                    <template lwc:if={signedIn}>
+                        <span class="account" title={accountTitle}>{accountLabel}</span>
+                        <button class="btn btn--secondary btn--sm" type="button" onclick={handleSignOut}>Sign out</button>
+                    </template>
+                    <template lwc:else>
+                        <a href={loginHref} class="btn btn--secondary btn--sm" aria-current={loginCurrent}>Sign in</a>
+                        <a href={requestAccountHref} class="btn btn--primary btn--sm" aria-current={requestAccountCurrent}>Request an account</a>
+                    </template>
                 </div>
             </nav>
 

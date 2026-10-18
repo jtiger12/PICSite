@@ -1,8 +1,10 @@
 import { LightningElement, api } from 'lwc';
 import { STATUS_STEPS } from 'c/portalModel';
+import { href } from 'c/portalApi';
 
+// The first step (Submitted) has no description: in static mode it shows the
+// two ways in instead, the request wizard or a Contact us button.
 const DESCRIPTIONS = {
-    Submitted: 'Tell us the test, the range and your preferred dates.',
     'Under review': 'Range safety and technical review of your request.',
     Coordination: 'Airspace, spectrum, impact areas and instrumentation are reserved.',
     Scheduled: 'Your test window is confirmed and the check-in packet is issued.',
@@ -35,6 +37,14 @@ export default class ProcessStepper extends LightningElement {
         return this.bare ? '' : 'container';
     }
 
+    get wizardHref() {
+        return href('/request');
+    }
+
+    get contactHref() {
+        return 'mailto:usarmy.testrange@army.mil';
+    }
+
     get renderSteps() {
         const isStatic = this.mode === 'static';
         const active = Number(this.activeIndex);
@@ -46,6 +56,7 @@ export default class ProcessStepper extends LightningElement {
                 number: i + 1,
                 done,
                 current: current ? 'step' : null,
+                start: isStatic && label === STATUS_STEPS[0],
                 description: isStatic ? DESCRIPTIONS[label] : null,
                 cls: ['step', done ? 'step--done' : '', current ? 'step--current' : '', isStatic ? 'step--static' : ''].join(' ').trim()
             };

@@ -76,6 +76,11 @@
     font-size: 0.9rem;
 }
 
+.note--error {
+    background: rgba(248, 113, 113, 0.12);
+    border-color: rgba(248, 113, 113, 0.45);
+}
+
 @media (max-width: 900px) {
     .layout {
         grid-template-columns: minmax(0, 1fr);

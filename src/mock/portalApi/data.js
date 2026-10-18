@@ -401,6 +401,23 @@ export const USER_NODE = {
     }
 };
 
+// The account signed in through the mock backend (scripts/mock-backend.mjs,
+// configured in .env) as a User node. It keeps the demo user's Id so
+// CURRENT_USER_ID still matches; .env has no contact details, so the form
+// collects those.
+export const accountUserNode = (account) => ({
+    ...USER_NODE,
+    Name: f(''),
+    Email: f(''),
+    Phone: f(''),
+    CompanyName: f(account.company),
+    Account: {
+        Name: f(account.company),
+        License_ID__c: f(''),
+        CAGE_Code__c: f(account.cageCode)
+    }
+});
+
 export const activity = (status, date, note) => ({
     Id: id('a05'),
     Status__c: f(status),

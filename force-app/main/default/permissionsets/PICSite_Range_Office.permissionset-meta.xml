@@ -3,6 +3,11 @@
     <description>Internal range office staff: full access to test ranges, events, requests and activities, including status changes that drive the customer-facing flows.</description>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.CAGE_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.License_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -13,3 +13,6 @@ __lwr_cache__/
 Dockerfile
 docker-compose.yml
 .dockerignore
+
+# Local settings and secrets: never baked into the image
+.env
