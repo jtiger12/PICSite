@@ -73,10 +73,10 @@ port 3000. The runtime image keeps only the generated `site/` and `express`,
 the server `lwr start` uses for it, so it is the Node base image plus about
 6 MB. Docker's layer cache skips steps whose inputs did not change:
 reinstalling only when `package*.json` changed, rebuilding only when sources
-did. Set `PICSITE_PORT` to publish a different host port, and `NODE_IMAGE` to
-use another glibc-based Node 22 base image (e.g. Iron Bank); both can go in a
-`.env` file next to `docker-compose.yml`. `docker compose logs -f picsite`
-follows output, `docker compose down` stops it.
+did. Set `NODE_IMAGE` to use another glibc-based Node 22 base image (e.g.
+Iron Bank); it can go in a `.env` file next to `docker-compose.yml`.
+`docker compose logs -f picsite` follows output, `docker compose down` stops
+it.
 
 On Docker Desktop (or any containerd image store), BuildKit's timestamped
 provenance gives every build a new image ID, so the command above restarts the
@@ -88,6 +88,21 @@ BUILDX_NO_DEFAULT_ATTESTATIONS=1 docker compose up -d --build
 
 Like `npm start`, the container serves the harness with mock data, for demos
 and review. The real site deploys to Experience Cloud (below).
+
+### Hostinger VPS
+
+The demo runs on the Hostinger VPS `srv828657.hstgr.cloud` at
+http://168.231.74.69:3000/. Every push to `main` on GitHub redeploys it:
+[deploy.yml](.github/workflows/deploy.yml) opens an SSH session to the VPS and
+pipes in [scripts/deploy-vps.sh](scripts/deploy-vps.sh), which updates the
+checkout under `/src/PICSite` and runs `docker compose up -d --build`. The
+workflow needs one repository secret, `VPS_SSH_KEY`: a private key whose public
+half is attached to the VPS (hPanel > VPS > SSH keys). The same script deploys
+by hand from any machine whose key is on the VPS:
+
+```bash
+ssh root@srv828657.hstgr.cloud 'bash -s' < scripts/deploy-vps.sh
+```
 
 ## Layout
 

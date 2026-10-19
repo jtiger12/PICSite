@@ -7,8 +7,7 @@
 # BUILDX_NO_DEFAULT_ATTESTATIONS=1 so an unchanged rebuild keeps the same image
 # ID and `up --build` leaves the running container alone.
 #
-# Optional settings (environment or a .env file next to this file):
-#   PICSITE_PORT  host port to publish (default 3000)
+# Optional setting (environment or a .env file next to this file):
 #   NODE_IMAGE    base image for the build, e.g. an Iron Bank Node 22 image
 services:
   picsite:
@@ -17,13 +16,9 @@ services:
       args:
         NODE_IMAGE: ${NODE_IMAGE:-node:22-slim}
     image: picsite:latest
+    container_name: picsite
     ports:
-      - "${PICSITE_PORT:-3000}:3000"
+      - "3000:3000"
     restart: unless-stopped
-    healthcheck:
-      # Node's fetch, so the check works without curl/wget in the base image.
-      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
-      interval: 30s
-      timeout: 5s
-      start_period: 20s
-      retries: 3
+    environment:
+      NODE_ENV: production

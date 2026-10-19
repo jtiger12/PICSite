@@ -1,0 +1,50 @@
+# Deploys the Docker harness to the Hostinger VPS on every push to main (or by
+# hand from the Actions tab). The runner only opens an SSH session;
+# scripts/deploy-vps.sh does the work on the VPS: clone or update this
+# repository under /src/PICSite, then `docker compose up -d --build`.
+#
+# One-time setup, in the GitHub repository under Settings > Secrets and
+# variables > Actions: a secret VPS_SSH_KEY holding an OpenSSH private key whose
+# public half is attached to the VPS (hPanel > VPS > SSH keys, or the Hostinger
+# API). Nothing else is needed: the host and its SSH host key are pinned below.
+name: Deploy to Hostinger VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+env:
+  VPS_HOST: srv828657.hstgr.cloud
+  # From `ssh-keyscan -t ed25519 srv828657.hstgr.cloud`. Pinned so the runner
+  # refuses to talk to anything else answering at that name.
+  VPS_HOST_KEY: srv828657.hstgr.cloud ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBLlKjUVwS8dFtKYJjGWazZUXatSvZ18bZW7lTJ5RrUX
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the deploy key
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          if [ -z "$VPS_SSH_KEY" ]; then
+            echo "::error::Secret VPS_SSH_KEY is not set (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$VPS_HOST_KEY" > ~/.ssh/known_hosts
+
+      - name: Deploy
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -o BatchMode=yes \
+            "root@$VPS_HOST" 'bash -s' < scripts/deploy-vps.sh
