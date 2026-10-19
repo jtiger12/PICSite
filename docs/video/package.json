@@ -1,0 +1,17 @@
+{
+  "name": "picsite-walkthrough-video",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Builds the PICSite walkthrough video from script.md: offline narration, scripted browser capture, ffmpeg assembly. Not part of the site build.",
+  "type": "module",
+  "scripts": {
+    "narrate": "pwsh -NoProfile -ExecutionPolicy Bypass -File narrate.ps1",
+    "record": "node record.mjs",
+    "assemble": "node assemble.mjs",
+    "build": "npm run narrate && npm run record && npm run assemble"
+  },
+  "devDependencies": {
+    "ffmpeg-static": "5.2.0",
+    "playwright": "1.48.2"
+  }
+}
