@@ -7,8 +7,11 @@
 # BUILDX_NO_DEFAULT_ATTESTATIONS=1 so an unchanged rebuild keeps the same image
 # ID and `up --build` leaves the running container alone.
 #
-# Optional setting (environment or a .env file next to this file):
-#   NODE_IMAGE    base image for the build, e.g. an Iron Bank Node 22 image
+# Optional settings (environment or a .env file next to this file):
+#   NODE_IMAGE        base image for the build, e.g. an Iron Bank Node 22 image
+#   COMPOSE_PROFILES  `vps` also starts Caddy, the HTTPS front for
+#                     picsite.jhlab.online (see Caddyfile); only for the VPS,
+#                     where scripts/deploy-vps.sh sets it.
 services:
   picsite:
     build:
@@ -22,3 +25,23 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: production
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: picsite-caddy
+    profiles: [vps]
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - picsite
+
+volumes:
+  caddy_data:
+  caddy_config:

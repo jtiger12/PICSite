@@ -92,7 +92,10 @@ and review. The real site deploys to Experience Cloud (below).
 ### Hostinger VPS
 
 The demo runs on the Hostinger VPS `srv828657.hstgr.cloud` at
-http://168.231.74.69:3000/. Every push to `main` on GitHub redeploys it:
+https://picsite.jhlab.online/ (plain HTTP on http://168.231.74.69:3000/).
+Caddy, started there by the `vps` compose profile, terminates TLS with a
+Let's Encrypt certificate and proxies to the container; its hostnames are in
+[Caddyfile](Caddyfile). Every push to `main` on GitHub redeploys it:
 [deploy.yml](.github/workflows/deploy.yml) opens an SSH session to the VPS and
 pipes in [scripts/deploy-vps.sh](scripts/deploy-vps.sh), which updates the
 checkout under `/src/PICSite` and runs `docker compose up -d --build`. The

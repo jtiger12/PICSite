@@ -1,0 +1,8 @@
+# Public HTTPS front for the demo on the Hostinger VPS (the `vps` compose
+# profile). Caddy obtains and renews the Let's Encrypt certificate itself; DNS
+# for jhlab.online (apex and *) already points at the VPS. To serve another
+# hostname, add it to the first line, comma-separated.
+picsite.jhlab.online {
+    encode zstd gzip
+    reverse_proxy picsite:3000
+}

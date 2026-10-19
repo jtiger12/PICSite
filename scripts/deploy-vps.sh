@@ -31,6 +31,10 @@ main() {
     git reset --hard "origin/$branch"
     echo "Deploying $(git log -1 --format='%h %s')"
 
+    # The HTTPS front (Caddy) belongs only on the VPS: the `vps` compose
+    # profile. Kept in the (git-ignored) .env so hPanel's Docker Manager
+    # actions on the project include it too.
+    grep -qx 'COMPOSE_PROFILES=vps' .env 2>/dev/null || echo 'COMPOSE_PROFILES=vps' >> .env
     docker compose up -d --build --remove-orphans
     docker image prune -f >/dev/null
     docker compose ps
