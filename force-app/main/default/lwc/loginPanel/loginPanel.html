@@ -25,7 +25,9 @@
                     <template lwc:if={signInNote}><p class={noteClass} role="status">{signInNote}</p></template>
                     <div class="actions">
                         <button class="btn btn--primary btn--block" type="submit" disabled={signingIn}>{signInLabel}</button>
-                        <button class="btn btn--secondary btn--block" type="button" onclick={handleCac}>Sign in with CAC / PIV</button>
+                        <template lwc:if={showCac}>
+                            <button class="btn btn--secondary btn--block" type="button" onclick={handleCac}>Sign in with CAC / PIV</button>
+                        </template>
                     </div>
                     <button class="small-link" type="button" onclick={handleForgot}>Forgot your password?</button>
                 </div>

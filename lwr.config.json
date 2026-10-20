@@ -26,7 +26,7 @@
             },
             {
                 "name": "c/govBanner",
-                "path": "$rootDir/force-app/main/default/lwc/govBanner/govBanner.js"
+                "path": "$rootDir/src/mock/govBanner/govBanner.js"
             },
             {
                 "name": "c/heroBanner",

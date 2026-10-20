@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { href, getSession, signOut } from 'c/portalApi';
+import { href, getSession, signOut, BRAND } from 'c/portalApi';
 
 const LINKS = [
     { label: 'Ranges', href: '/ranges' },
@@ -10,10 +10,12 @@ const LINKS = [
 
 export default class SiteHeader extends LightningElement {
     @api siteTitle = 'Test on Army Ranges';
-    // The official Army logo file, unaltered: the harness serves
-    // src/assets/img/army-logo-dark.png (the reverse logo for dark
-    // backgrounds); in Builder point it at a static resource.
-    @api logoUrl = '/assets/img/army-logo-dark.png';
+    // The official Army logo file, unaltered (BRAND in c/portalApi points at
+    // src/assets/img/army-logo-dark.png, the reverse logo for dark
+    // backgrounds); in Builder point it at a static resource. The local
+    // harness's mock portalApi substitutes its own mark.
+    @api logoUrl = BRAND.logoUrl;
+    @api logoAlt = BRAND.logoAlt;
     logoFailed = false;
     menuOpen = false;
     path = '/';

@@ -36,6 +36,20 @@ export const CURRENT_USER_ID = USER_NODE.Id;
 export const BASE_PATH = '';
 export const href = (path) => prefixHref(BASE_PATH, path);
 
+// The public demo runs on a non-.mil domain, where official Army insignia and
+// "official website" wording next to a sign-in form read as phishing to web
+// proxies (and would mislead anyone who lands there), so the harness brands
+// itself as a demonstration with a mascot of its own. c/govBanner is swapped
+// for a demonstration strip the same way (src/mock/govBanner).
+export const BRAND = {
+    logoUrl: '/assets/img/demo-mascot.svg',
+    logoAlt: 'Demo mascot: a German Shepherd',
+    starUrl: '/assets/img/demo-mascot.svg',
+    orgLine: 'PICSite demonstration',
+    siteLine: 'Sample data only. Not an official U.S. Government website.',
+    cacSignIn: false
+};
+
 // On the platform these are gql documents; here they are just tokens the mock
 // adapter dispatches on.
 export const RANGES_QUERY = 'PicRanges';

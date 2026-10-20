@@ -43,6 +43,20 @@ export const CURRENT_USER_ID = USER_ID;
 export const BASE_PATH = basePath || '';
 export const href = (path) => prefixHref(BASE_PATH, path);
 
+// Branding: the official Army logo file (unaltered; the harness serves
+// src/assets/img/army-logo-dark.png, in Builder point at a static resource),
+// the footer's bottom bar, and whether the login panel offers CAC / PIV.
+// Components take these as their @api defaults, so Builder can still override
+// them. The harness's mock portalApi exports a BRAND of its own.
+export const BRAND = {
+    logoUrl: '/assets/img/army-logo-dark.png',
+    logoAlt: 'U.S. Army',
+    starUrl: '/assets/img/army-logo-dark.png',
+    orgLine: 'U.S. Army Test and Evaluation Command',
+    siteLine: 'An official website of the United States Army',
+    cacSignIn: true
+};
+
 // Session, in the same shape as the harness's mock backend. The site's own
 // login page and session handle authentication here, so signIn() only
 // explains that and signOut() leaves through the standard logout URL.

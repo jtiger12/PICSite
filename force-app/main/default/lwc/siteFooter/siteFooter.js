@@ -1,9 +1,14 @@
 import { LightningElement, api } from 'lwc';
-import { href } from 'c/portalApi';
+import { href, BRAND } from 'c/portalApi';
 
 export default class SiteFooter extends LightningElement {
-    // Same official Army logo file as the header (see siteHeader).
-    @api logoUrl = '/assets/img/army-logo-dark.png';
+    // Same official Army logo file as the header (see siteHeader), and the
+    // organisation / official-site lines of the bottom bar; all from BRAND so
+    // the local harness can substitute demo values.
+    @api logoUrl = BRAND.logoUrl;
+    @api logoAlt = BRAND.logoAlt;
+    @api orgLine = BRAND.orgLine;
+    @api siteLine = BRAND.siteLine;
     logoFailed = false;
 
     get showLogo() {

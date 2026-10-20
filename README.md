@@ -116,7 +116,8 @@ force-app/main/default/
     portalModel/              pure data model: status steps, option lists, GraphQL -> template
                               shaping, form -> Test_Request__c field mapping, href prefixing
     portalApi/                data seam: GraphQL queries + wire adapter re-exports, createRecord,
-                              site base path (swapped for src/mock/portalApi in the harness)
+                              site base path, BRAND (logo, footer lines, CAC sign-in)
+                              (swapped for src/mock/portalApi in the harness)
     fileUploader/             lightning-file-upload wrapper bound to a request record
     govBanner, siteHeader, siteFooter
     heroBanner, quickAccessPanel, valueProps, eventBanner, ctaBand, processStepper
@@ -134,12 +135,15 @@ config/project-scratch-def.json
 data/                         sample ranges and events for `sf data import tree`
 docs/EXPERIENCE_CLOUD.md      deployment order, head markup, page compositions, access
 src/                          local harness only (ignored by .forceignore)
-  mock/portalApi/             same exports as c/portalApi over mock GraphQL responses
+  mock/portalApi/             same exports as c/portalApi over mock GraphQL responses;
+                              its BRAND swaps the Army insignia for the demo mascot
   mock/fileUploader/          plain file input stand-in for lightning-file-upload
+  mock/govBanner/             demonstration strip in place of the government banner
   modules/picsite/<page>/     page compositions for the LWR routes
   layouts/main.html           document shell: Inter font + global.css
   assets/global.css           :root design tokens
   assets/img/contours.svg     placeholder hero background
+  assets/img/demo-mascot.svg  the demo's mascot (a German Shepherd), in place of the Army logo
 scripts/                      dev launcher, mock backend (/api, .env account) and alias generator
 ```
 
@@ -166,6 +170,14 @@ component, `lightning-file-upload`, is isolated inside `c/fileUploader`.
   `src/mock/<name>/<name>.js` over the force-app component of the same name.
   The mock `graphql` is a wire adapter that answers the query tokens with
   mock records in UI API response shape, so the shaping code runs unchanged.
+- **Demo branding**: the harness is also what runs on the public demo, on a
+  non-.mil domain, where the government banner, Army insignia and an
+  "official website" line next to a sign-in form read as phishing to web
+  proxies. So the mock `portalApi` exports a `BRAND` with the demo mascot, a
+  demonstration footer line and no CAC / PIV button, and `src/mock/govBanner`
+  replaces the banner with a demonstration strip. The deployable components
+  read their defaults from `BRAND` in `c/portalApi`, which keeps the official
+  values, and Builder can still override them per page.
 
 ## Deploying to Experience Cloud
 

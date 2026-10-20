@@ -1,5 +1,5 @@
 import { LightningElement, api, wire } from 'lwc';
-import { graphql, href, refreshGraphQL, MY_REQUESTS_QUERY, toRequests, STATUS_STEPS, SIDE_STATUSES } from 'c/portalApi';
+import { graphql, href, refreshGraphQL, MY_REQUESTS_QUERY, toRequests, STATUS_STEPS, SIDE_STATUSES, BRAND } from 'c/portalApi';
 
 const FILTERS = [
     { value: 'all', label: 'All' },
@@ -47,8 +47,9 @@ const matchesWords = (r, query) =>
 export default class RequestTracker extends LightningElement {
     // The request list collapses behind the star of the official Army logo
     // (the same unaltered file siteHeader uses, cropped to the star by CSS);
-    // in Builder point it at the static resource.
-    @api starUrl = '/assets/img/army-logo-dark.png';
+    // in Builder point it at the static resource. From BRAND so the harness
+    // can substitute its mascot.
+    @api starUrl = BRAND.starUrl;
     requests = [];
     selectedId;
     filter = 'all';

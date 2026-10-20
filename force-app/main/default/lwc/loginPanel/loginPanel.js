@@ -1,5 +1,5 @@
 import { LightningElement } from 'lwc';
-import { href, signIn } from 'c/portalApi';
+import { href, signIn, BRAND } from 'c/portalApi';
 
 // Sign-in goes through c/portalApi. In the local harness that is the mock
 // backend (scripts/mock-backend.mjs, account in .env). In Experience Cloud the
@@ -22,6 +22,12 @@ export default class LoginPanel extends LightningElement {
 
     get signInLabel() {
         return this.signingIn ? 'Signing in…' : 'Sign in';
+    }
+
+    // CAC / PIV is an Experience Cloud concern; the local harness (BRAND from
+    // the mock portalApi) has no identity provider to send anyone to.
+    get showCac() {
+        return BRAND.cacSignIn;
     }
 
     showNote(message, isError) {

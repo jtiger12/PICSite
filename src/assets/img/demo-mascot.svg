@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="German Shepherd">
+  <!-- Stylized German Shepherd head: the demo's mascot (harness only). -->
+  <!-- ears -->
+  <path d="M12 30 L8 4 L26 20 Z" fill="#1b1b1b"/>
+  <path d="M52 30 L56 4 L38 20 Z" fill="#1b1b1b"/>
+  <path d="M14 27 L11 9 L24 21 Z" fill="#c9955a"/>
+  <path d="M50 27 L53 9 L40 21 Z" fill="#c9955a"/>
+  <!-- head -->
+  <path d="M12 28 C12 16 20 12 32 12 C44 12 52 16 52 28 C52 40 44 52 32 58 C20 52 12 40 12 28 Z" fill="#c9955a"/>
+  <!-- black mask / saddle -->
+  <path d="M14 26 C16 16 22 13 32 13 C42 13 48 16 50 26 C46 30 42 34 32 36 C22 34 18 30 14 26 Z" fill="#1b1b1b"/>
+  <!-- tan brow dots -->
+  <circle cx="24" cy="24" r="2.4" fill="#c9955a"/>
+  <circle cx="40" cy="24" r="2.4" fill="#c9955a"/>
+  <!-- eyes -->
+  <ellipse cx="24.5" cy="31" rx="2.8" ry="3.2" fill="#1b1b1b"/>
+  <ellipse cx="39.5" cy="31" rx="2.8" ry="3.2" fill="#1b1b1b"/>
+  <circle cx="25.4" cy="30" r="0.9" fill="#fff"/>
+  <circle cx="40.4" cy="30" r="0.9" fill="#fff"/>
+  <!-- muzzle -->
+  <path d="M22 40 C22 36 27 35 32 35 C37 35 42 36 42 40 C42 47 37 52 32 52 C27 52 22 47 22 40 Z" fill="#e2c196"/>
+  <!-- nose -->
+  <path d="M26.5 40 L37.5 40 C37.5 44 35 46.5 32 46.5 C29 46.5 26.5 44 26.5 40 Z" fill="#1b1b1b"/>
+  <path d="M32 46.5 L32 49.5 M28 50.5 C29.5 52 31 52 32 49.5 C33 52 34.5 52 36 50.5" fill="none" stroke="#1b1b1b" stroke-width="1.4" stroke-linecap="round"/>
+</svg>
