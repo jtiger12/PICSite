@@ -122,17 +122,21 @@ force-app/main/default/
     govBanner, siteHeader, siteFooter
     heroBanner, quickAccessPanel, valueProps, eventBanner, ctaBand, processStepper
     rangeExplorer, capabilityList, rangeFinder (capability search + rangeSearch.js scoring)
+    rangeCalendar/              availability calendar: Range_Block__c as a month grid or list,
+                              per-range filter; the request form warns on blocked windows
     requestForm, requestTracker, statusChip, loginPanel, accountRequestPanel
   objects/                    Test_Range__c + Capability_Group__c, Test_Event__c + Event_Session__c,
+                              Range_Block__c (blocked days per range),
                               Test_Request__c + Request_Activity__c, Account.License_ID__c + CAGE_Code__c
   flows/                      PIC_Request_Created, PIC_Request_Status_Changed,
                               PIC_Request_Needs_Info_Reminder (scheduled path, 5 days)
   permissionsets/             PICSite_Customer, PICSite_Guest, PICSite_Range_Office
   sharingSets/                PICSite_Customer: community users see their account's requests
   labels/, tabs/              PIC_Portal_URL for the flow emails; tabs for the range office
+  quickActions/               New Range Block on the Range record (range filled in)
 site-config/                  guest-user sharing rules (deploy after the site exists)
 config/project-scratch-def.json
-data/                         sample ranges and events for `sf data import tree`
+data/                         sample ranges, events and range blocks for `sf data import tree`
 docs/EXPERIENCE_CLOUD.md      deployment order, head markup, page compositions, access
 src/                          local harness only (ignored by .forceignore)
   mock/portalApi/             same exports as c/portalApi over mock GraphQL responses;
@@ -166,6 +170,14 @@ component, `lightning-file-upload`, is isolated inside `c/fileUploader`.
   requests in *Needs info*) shows `c/fileUploader` bound to the request.
 - **Links**: `href()` from `c/portalApi` prefixes the site base path, so the
   components work at `/` locally and under `/picsite/` in the org.
+- **Range availability**: `Range_Block__c` records (range, inclusive start
+  and end dates, type, optional public label, *Show on Public Calendar*)
+  feed `c/rangeCalendar` on the Ranges page through `RANGE_BLOCKS_QUERY`.
+  On the dates step the request form loads the preferred range's blocks
+  (`RANGE_BLOCKS_BY_RANGE_QUERY`) and warns, without blocking, when the
+  requested window overlaps one. The range office enters blocks from the
+  Range record or its Lightning calendar; new block types are picklist
+  values. Setup steps in [docs/EXPERIENCE_CLOUD.md](docs/EXPERIENCE_CLOUD.md).
 - **Harness swap**: `scripts/sync-lwr-modules.mjs` aliases any
   `src/mock/<name>/<name>.js` over the force-app component of the same name.
   The mock `graphql` is a wire adapter that answers the query tokens with
@@ -193,7 +205,7 @@ The short version (details, head markup and page-by-page compositions in
    (or use a sandbox with Digital Experiences enabled).
 2. `sf project deploy start --source-dir force-app -o picsite`
 3. `sf community create --name PICSite --template-name "Build Your Own (LWR)" --url-path-prefix picsite -o picsite`
-4. `sf data import tree --files data/Test_Range__c.json,data/Test_Event__c.json -o picsite`
+4. `sf data import tree --files data/Test_Range__c.json,data/Test_Event__c.json,data/Range_Block__c.json -o picsite`
 5. `sf project deploy start --source-dir site-config -o picsite` (guest sharing rules)
 6. Set the `PIC_Portal_URL` custom label, assign the permission sets, paste
    the head markup, build the pages, mark `/request` and `/track` as
@@ -211,6 +223,9 @@ The short version (details, head markup and page-by-page compositions in
   Laguna Army Airfield and Tan-Tan); dates for the next quarterly DDIL event.
   Edit `src/mock/portalApi/data.js`, then `npm run sample-data` rewrites
   `data/*.json`.
+- The sample range blocks are placeholders in the pattern of the current
+  site's calendar, placed relative to the day `npm run sample-data` ran; the
+  range office enters the real ones.
 - Atterbury-Muscatatuck is *Coming soon*: the Indiana delegation asked the
   Army to designate it on Sept 30, 2026; switch `Status__c` to *Open* once
   it is.

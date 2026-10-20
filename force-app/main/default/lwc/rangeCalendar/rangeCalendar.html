@@ -1,0 +1,100 @@
+<template>
+    <section class="section" id="availability">
+        <div class="container">
+            <div class="head">
+                <p class="eyebrow eyebrow--bar">{eyebrow}</p>
+                <h2 class="h2">{title}</h2>
+                <p class="lead">{lead}</p>
+            </div>
+
+            <template lwc:if={error}><p class="error" role="alert">{error}</p></template>
+
+            <div class="toolbar">
+                <div class="nav">
+                    <button class="nav-btn" type="button" onclick={prev} aria-label="Previous month">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+                    </button>
+                    <button class="nav-btn" type="button" onclick={next} aria-label="Next month">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+                    </button>
+                    <button class="btn btn--ghost btn--sm" type="button" onclick={goToday}>Today</button>
+                    <h3 class="month-label" aria-live="polite">{monthLabel}</h3>
+                </div>
+                <div class="views" role="group" aria-label="Calendar view">
+                    <button class={monthBtnClass} type="button" aria-pressed={monthPressed} onclick={showMonth}>Month</button>
+                    <button class={listBtnClass} type="button" aria-pressed={listPressed} onclick={showList}>List</button>
+                </div>
+            </div>
+
+            <div class="filters">
+                <template lwc:if={useSelect}>
+                    <label class="label" for="range-filter">Range</label>
+                    <select id="range-filter" class="input filter-select" onchange={selectFromDropdown}>
+                        <option value="">All ranges</option>
+                        <template for:each={rangeOptions} for:item="r">
+                            <option key={r.id} value={r.id} selected={r.selected}>{r.name}</option>
+                        </template>
+                    </select>
+                </template>
+                <template lwc:else>
+                    <div class="chips" role="group" aria-label="Filter by range">
+                        <button class={allChipClass} type="button" aria-pressed={allPressed} data-id="" onclick={selectRange}>All ranges</button>
+                        <template for:each={rangeOptions} for:item="r">
+                            <button key={r.id} class={r.cls} type="button" aria-pressed={r.pressed} data-id={r.id} style={r.style} onclick={selectRange}>
+                                <span class="dot" aria-hidden="true"></span>{r.name}
+                            </button>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+            <template lwc:if={isMonth}>
+                <div class="month" role="grid" aria-label={monthLabel}>
+                    <div class="dow" role="row">
+                        <template for:each={dayLabels} for:item="d">
+                            <span key={d} role="columnheader">{d}</span>
+                        </template>
+                    </div>
+                    <template for:each={weeks} for:item="w">
+                        <div key={w.key} class="week" role="row">
+                            <template for:each={w.days} for:item="d">
+                                <div key={d.key} class={d.cls} role="gridcell" aria-label={d.label}>
+                                    <span class="daynum">{d.n}</span>
+                                </div>
+                            </template>
+                            <template for:each={w.segments} for:item="s">
+                                <div key={s.key} class={s.cls} style={s.style} title={s.title} aria-hidden="true">
+                                    <span class="seg-text">{s.text}</span>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <div class={listClass}>
+                <template lwc:if={hasUpcoming}>
+                    <template for:each={listGroups} for:item="g">
+                        <div key={g.key} class="list-group">
+                            <h3 class="list-month">{g.label}</h3>
+                            <ul class="list-items">
+                                <template for:each={g.items} for:item="b">
+                                    <li key={b.key} class="list-item" style={b.style}>
+                                        <span class="list-dates">{b.dates}</span>
+                                        <span class="list-range">{b.rangeName}</span>
+                                        <span class="list-label">{b.label}</span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
+                </template>
+                <template lwc:else>
+                    <p class="empty">{emptyText}</p>
+                </template>
+            </div>
+
+            <p class="foot">Need a window that is open? <a href={requestHref}>Request a test</a> and the range office will confirm the dates with you.</p>
+        </div>
+    </section>
+</template>

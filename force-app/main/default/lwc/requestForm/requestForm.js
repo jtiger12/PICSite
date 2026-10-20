@@ -8,7 +8,11 @@ import {
     CURRENT_USER_ID,
     toRanges,
     toEvents,
+    toBlocks,
+    overlappingBlocks,
     toUser,
+    isoDate,
+    RANGE_BLOCKS_BY_RANGE_QUERY,
     TEST_TYPES,
     UAS_GROUPS,
     EFFECTS,
@@ -106,7 +110,34 @@ export default class RequestForm extends LightningElement {
         // Coming soon ranges can be browsed but not requested yet.
         if (wanted && !this.form.rangeId && this.ranges.some((r) => r.id === wanted && !r.comingSoon)) {
             this.form = { ...this.form, rangeId: wanted };
+            this.blockVars = { code: wanted, from: isoDate() };
         }
+    }
+
+    // The preferred range's blocked days (public blocks from today on), for
+    // the availability notice on the dates step. The variables change with
+    // the preferred range, so only that range's blocks are ever loaded.
+    blocks = [];
+    blockVars = { code: '', from: isoDate() };
+
+    @wire(graphql, { query: RANGE_BLOCKS_BY_RANGE_QUERY, variables: '$blockVars' })
+    wiredBlocks({ data }) {
+        this.blocks = data ? toBlocks(data) : [];
+    }
+
+    // A warning, not a stop: the range office decides, and flexible dates or
+    // the alternate range may still work.
+    get availabilityNotice() {
+        const f = this.form;
+        const hits = overlappingBlocks(this.blocks, f.rangeId, f.startDate, f.endDate);
+        if (!hits.length) return '';
+        const range = this.ranges.find((r) => r.id === f.rangeId);
+        const name = range ? range.name : 'The preferred range';
+        const spans = hits
+            .slice(0, 3)
+            .map((b) => `${b.dates} (${b.label.toLowerCase()})`)
+            .join(', ');
+        return `${name} is blocked ${spans}${hits.length > 3 ? ' and more' : ''}. Pick another window, mark your dates flexible, or choose an alternate range.`;
     }
 
     @wire(graphql, { query: EVENTS_QUERY })
@@ -278,6 +309,7 @@ export default class RequestForm extends LightningElement {
         if (role === 'preferred') {
             // The same range can't be both; picking it as preferred drops it as alternate.
             this.form = { ...this.form, rangeId: id, altRangeId: id && this.form.altRangeId === id ? '' : this.form.altRangeId };
+            this.blockVars = { code: id || '', from: isoDate() };
             if (this.errors.rangeId) this.errors = { ...this.errors, rangeId: '' };
         } else if (role === 'alternate') {
             this.form = { ...this.form, altRangeId: id };

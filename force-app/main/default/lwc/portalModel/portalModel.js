@@ -241,6 +241,39 @@ export function toEvents(data) {
         .sort(byOrder);
 }
 
+// Range_Block__c -> the availability calendar shape: inclusive calendar days
+// (YYYY-MM-DD strings, so they compare as text), the range's code as rangeId
+// (the same id toRanges gives), and the wording the public sees: the public
+// label when the office set one, else the type.
+export function toBlocks(data) {
+    return queryNodes(data, 'Range_Block__c')
+        .map((n) => {
+            const range = n.Range__r || {};
+            const type = str(v(n.Type__c)) || 'Reserved';
+            const start = str(v(n.Start_Date__c)).slice(0, 10);
+            const end = str(v(n.End_Date__c)).slice(0, 10) || start;
+            return {
+                id: n.Id,
+                rangeId: str(v(range.Code__c)),
+                rangeName: str(v(range.Name)),
+                start,
+                end,
+                type,
+                label: str(v(n.Public_Label__c)) || type,
+                dates: formatSpan(start, end)
+            };
+        })
+        .filter((b) => b.start)
+        .sort((a, b) => a.start.localeCompare(b.start) || a.rangeName.localeCompare(b.rangeName));
+}
+
+// The blocks of one range that overlap a requested window (inclusive days).
+export function overlappingBlocks(blocks, rangeId, start, end) {
+    if (!rangeId || !start) return [];
+    const to = end || start;
+    return (blocks || []).filter((b) => b.rangeId === rangeId && b.start <= to && b.end >= start);
+}
+
 function toRequest(n) {
     const created = str(v(n.CreatedDate));
     const timeline = nodes(n.Request_Activities__r)

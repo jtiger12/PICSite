@@ -57,6 +57,10 @@
                 "path": "$rootDir/force-app/main/default/lwc/quickAccessPanel/quickAccessPanel.js"
             },
             {
+                "name": "c/rangeCalendar",
+                "path": "$rootDir/force-app/main/default/lwc/rangeCalendar/rangeCalendar.js"
+            },
+            {
                 "name": "c/rangeExplorer",
                 "path": "$rootDir/force-app/main/default/lwc/rangeExplorer/rangeExplorer.js"
             },

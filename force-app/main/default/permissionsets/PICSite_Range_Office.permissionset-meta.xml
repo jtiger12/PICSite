@@ -32,6 +32,26 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Range_Block__c.Label__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Range_Block__c.Note__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Range_Block__c.Public_Label__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Range_Block__c.Public__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Request_Activity__c.Activity_Date__c</field>
         <readable>true</readable>
@@ -292,6 +312,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Range_Block__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Request_Activity__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -322,6 +351,10 @@
         <object>Test_Request__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <tabSettings>
+        <tab>Range_Block__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <tabSettings>
         <tab>Test_Range__c</tab>
         <visibility>Visible</visibility>

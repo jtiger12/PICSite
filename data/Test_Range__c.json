@@ -8,7 +8,7 @@
             "Name": "Dugway Proving Ground",
             "Code__c": "dpg",
             "State__c": "UT",
-            "Summary__c": "The Army's chemical and biological defense proving ground in Utah's Great Salt Lake Desert: nearly 800,000 acres of salt flats, desert and mountains under nearly 8,000 square miles of restricted airspace, with up to 100 kilometers of long-range fires range. Open to industry for drone, counter-drone, long-range fires and interceptor testing.",
+            "Summary__c": "The Army's chemical and biological defense proving ground in Utah's West Desert, Tooele County: nearly 800,000 acres of salt flats, desert and mountains under nearly 8,000 square miles of restricted airspace, with up to 100 kilometers of long-range fires range. Open to industry for drone, counter-drone, long-range fires and interceptor testing.",
             "Stats__c": "[{\"label\":\"Acres\",\"value\":\"800,000\"},{\"label\":\"Restricted airspace\",\"value\":\"8,000 sq mi\"},{\"label\":\"Fires range\",\"value\":\"100 km\"},{\"label\":\"Elevation\",\"value\":\"4,500-7,000 ft\"}]",
             "Test_Types__c": "Drone / Counter-Drone;Long-Range Fires;Low-Cost Interceptor",
             "Status__c": "Open",
@@ -115,7 +115,7 @@
                         },
                         "Name": "Terrain and climate",
                         "Test_Type__c": "Range environment",
-                        "Items__c": "Salt flats (playa), mixed desert and mountains\nElectronically and acoustically quiet, no light pollution or urban encroachment\nSummer highs above 100°F; winds up to 60 mph",
+                        "Items__c": "Salt flats (playa), mixed desert and mountains\nElectronically and acoustically quiet, far from light pollution and development\nSummer highs above 100°F; winds up to 60 mph",
                         "Sort_Order__c": 10
                     },
                     {

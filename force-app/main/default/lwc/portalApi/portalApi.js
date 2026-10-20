@@ -30,10 +30,15 @@ export {
     ATTACHMENT_HINT,
     toRanges,
     toEvents,
+    toBlocks,
+    overlappingBlocks,
     toRequests,
     toUser,
     formatWindow,
-    formatDate
+    formatDate,
+    formatSpan,
+    parseDate,
+    isoDate
 } from 'c/portalModel';
 
 export const CURRENT_USER_ID = USER_ID;
@@ -220,6 +225,73 @@ export const CURRENT_USER_QUERY = gql`
 // Creates the Test_Request__c as the running user. Status__c takes its
 // picklist default (Submitted); the PIC_Request_Created flow writes the first
 // activity and emails the contact.
+// Blocked days for the availability calendar: every block marked public that
+// ends on or after $from (an ISO date), oldest first. The calendar asks from
+// a few months back so it can page into recent history.
+export const RANGE_BLOCKS_QUERY = gql`
+    query PicRangeBlocks($from: Date) {
+        uiapi {
+            query {
+                Range_Block__c(
+                    first: 500
+                    where: { and: [{ Public__c: { eq: true } }, { End_Date__c: { gte: { value: $from } } }] }
+                    orderBy: { Start_Date__c: { order: ASC } }
+                ) {
+                    edges {
+                        node {
+                            Id
+                            Start_Date__c { value }
+                            End_Date__c { value }
+                            Type__c { value }
+                            Public_Label__c { value }
+                            Range__r {
+                                Name { value }
+                                Code__c { value }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
+// The same for one range (by Code__c), for the request form's overlap check,
+// so a form never loads every range's blocks.
+export const RANGE_BLOCKS_BY_RANGE_QUERY = gql`
+    query PicRangeBlocksByRange($code: String, $from: Date) {
+        uiapi {
+            query {
+                Range_Block__c(
+                    first: 200
+                    where: {
+                        and: [
+                            { Public__c: { eq: true } }
+                            { End_Date__c: { gte: { value: $from } } }
+                            { Range__r: { Code__c: { eq: $code } } }
+                        ]
+                    }
+                    orderBy: { Start_Date__c: { order: ASC } }
+                ) {
+                    edges {
+                        node {
+                            Id
+                            Start_Date__c { value }
+                            End_Date__c { value }
+                            Type__c { value }
+                            Public_Label__c { value }
+                            Range__r {
+                                Name { value }
+                                Code__c { value }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
 export function submitRequest(payload) {
     return createRecord({ apiName: 'Test_Request__c', fields: toRequestFields(payload) }).then((record) => toSubmitted(record, payload));
 }

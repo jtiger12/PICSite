@@ -1,0 +1,117 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Range_Block__c",
+                "referenceId": "Block1"
+            },
+            "Range__c": "@RangeDpg",
+            "Start_Date__c": "2026-10-02",
+            "End_Date__c": "2026-10-06",
+            "Type__c": "Reserved",
+            "Public__c": true
+        },
+        {
+            "attributes": {
+                "type": "Range_Block__c",
+                "referenceId": "Block2"
+            },
+            "Range__c": "@RangeDpg",
+            "Start_Date__c": "2026-10-13",
+            "End_Date__c": "2026-10-17",
+            "Type__c": "Reserved",
+            "Public__c": true
+        },
+        {
+            "attributes": {
+                "type": "Range_Block__c",
+                "referenceId": "Block3"
+            },
+            "Range__c": "@RangeDpg",
+            "Start_Date__c": "2026-11-03",
+            "End_Date__c": "2026-11-07",
+            "Type__c": "Reserved",
+            "Public__c": true
+        },
+        {
+            "attributes": {
+                "type": "Range_Block__c",
+                "referenceId": "Block4"
+            },
+            "Range__c": "@RangeDpg",
+            "Start_Date__c": "2026-11-24",
+            "End_Date__c": "2026-11-28",
+            "Type__c": "Reserved",
+            "Public__c": true
+        },
+        {
+            "attributes": {
+                "type": "Range_Block__c",
+                "referenceId": "Block5"
+            },
+            "Range__c": "@RangeWcr",
+            "Start_Date__c": "2026-10-01",
+            "End_Date__c": "2026-10-31",
+            "Type__c": "Reserved",
+            "Public_Label__c": "Range hold",
+            "Public__c": true
+        },
+        {
+            "attributes": {
+                "type": "Range_Block__c",
+                "referenceId": "Block6"
+            },
+            "Range__c": "@RangeWcr",
+            "Start_Date__c": "2026-11-10",
+            "End_Date__c": "2026-11-14",
+            "Type__c": "Maintenance",
+            "Public__c": true
+        },
+        {
+            "attributes": {
+                "type": "Range_Block__c",
+                "referenceId": "Block7"
+            },
+            "Range__c": "@RangeCgr",
+            "Start_Date__c": "2026-11-15",
+            "End_Date__c": "2026-11-19",
+            "Type__c": "Reserved",
+            "Public_Label__c": "DDIL test event",
+            "Public__c": true
+        },
+        {
+            "attributes": {
+                "type": "Range_Block__c",
+                "referenceId": "Block8"
+            },
+            "Range__c": "@RangeCsh",
+            "Start_Date__c": "2026-10-20",
+            "End_Date__c": "2026-10-22",
+            "Type__c": "Closed",
+            "Public_Label__c": "Airspace closure",
+            "Public__c": true
+        },
+        {
+            "attributes": {
+                "type": "Range_Block__c",
+                "referenceId": "Block9"
+            },
+            "Range__c": "@RangeAmtec",
+            "Start_Date__c": "2026-11-25",
+            "End_Date__c": "2026-12-03",
+            "Type__c": "Training",
+            "Public__c": true
+        },
+        {
+            "attributes": {
+                "type": "Range_Block__c",
+                "referenceId": "Block10"
+            },
+            "Range__c": "@RangeDpg",
+            "Start_Date__c": "2026-11-20",
+            "End_Date__c": "2026-11-21",
+            "Type__c": "Maintenance",
+            "Public__c": false
+        }
+    ]
+}

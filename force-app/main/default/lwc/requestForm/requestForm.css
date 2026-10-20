@@ -234,3 +234,14 @@
     border: 1px dashed var(--pic-border-strong, rgba(255, 255, 255, 0.22));
     border-radius: 12px;
 }
+
+/* Dates step: the preferred range is blocked in the requested window. */
+.availability {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--pic-warn, #fbbf24);
+    background: rgba(251, 191, 36, 0.1);
+    color: var(--pic-text, #fff);
+    font-size: 0.9rem;
+}

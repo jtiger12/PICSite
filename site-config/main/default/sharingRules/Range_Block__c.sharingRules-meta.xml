@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>PICSite_Guest_Reads_Public_Range_Blocks</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>The PICSite guest user can read range blocks marked public, so the availability calendar on the public ranges page can show them.</description>
+        <label>PICSite guest reads public range blocks</label>
+        <sharedTo>
+            <guestUser>PICSite</guestUser>
+        </sharedTo>
+        <criteriaItems>
+            <field>Public__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

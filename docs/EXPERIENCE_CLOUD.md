@@ -10,26 +10,28 @@ customers and the range office. No Apex is involved anywhere.
 | Folder | Contents |
 |---|---|
 | `lwc/` | The portal components. Data access goes through `c/portalApi` (GraphQL wire adapter + `createRecord`), shaping and option lists live in `c/portalModel`, `c/fileUploader` wraps `lightning-file-upload`. Exposed components carry a `PIC` master label. |
-| `objects/` | `Test_Range__c` + `Capability_Group__c` (master-detail), `Test_Event__c` + `Event_Session__c` (master-detail), `Test_Request__c` + `Request_Activity__c` (master-detail), and `Account.License_ID__c` + `Account.CAGE_Code__c`. |
+| `objects/` | `Test_Range__c` + `Capability_Group__c` (master-detail), `Test_Event__c` + `Event_Session__c` (master-detail), `Test_Request__c` + `Request_Activity__c` (master-detail), `Range_Block__c` (lookup to `Test_Range__c`: the blocked days behind the availability calendar, with two list views and a validation rule), and `Account.License_ID__c` + `Account.CAGE_Code__c`. |
 | `flows/` | `PIC_Request_Created` (first activity + confirmation email), `PIC_Request_Status_Changed` (activity + email on every status change), `PIC_Request_Needs_Info_Reminder` (scheduled path, 5 days after a request enters Needs info). |
-| `permissionsets/` | `PICSite_Customer` (community users), `PICSite_Guest` (public pages), `PICSite_Range_Office` (internal staff, with the three tabs). |
+| `permissionsets/` | `PICSite_Customer` (community users), `PICSite_Guest` (public pages), `PICSite_Range_Office` (internal staff, with the four tabs). |
 | `sharingSets/` | `PICSite_Customer`: Customer Community users get Edit on `Test_Request__c` where `Account__c` = their contact's account. |
 | `labels/` | `PIC_Portal_URL`, the site URL the flow emails link to. Set it after the site exists. |
-| `tabs/` | Tabs for ranges, events and requests so the range office can work the records in Lightning. |
+| `tabs/` | Tabs for ranges, range blocks, events and requests so the range office can work the records in Lightning. |
+| `quickActions/` | `Test_Range__c.New_Range_Block`: *New Range Block* on the Range record with the range filled in. Add it to the Range page layout (Mobile & Lightning Actions). |
 
 Outside `force-app`:
 
 | Path | Purpose |
 |---|---|
-| `site-config/` | Guest-user sharing rules on `Test_Range__c` and `Test_Event__c`. They reference the site by name, so deploy them only after the site exists. |
+| `site-config/` | Guest-user sharing rules on `Test_Range__c`, `Test_Event__c` and `Range_Block__c` (public blocks only). They reference the site by name, so deploy them only after the site exists. |
 | `config/project-scratch-def.json` | Scratch org with Digital Experiences enabled and flows deploying active. |
-| `data/` | Sample data for `sf data import tree`: the six ranges with their capability groups (public-source profiles, October 2026; Atterbury-Muscatatuck as *Coming soon*) and the quarterly electromagnetic unreliability (DDIL) event at Camp Grayling. Generated from the harness mock with `npm run sample-data`; edit `src/mock/portalApi/data.js`, not the JSON. |
+| `data/` | Sample data for `sf data import tree`: the six ranges with their capability groups (public-source profiles, October 2026; Atterbury-Muscatatuck as *Coming soon*) and the quarterly electromagnetic unreliability (DDIL) event at Camp Grayling, and ten range blocks placed relative to the day the sample was generated. Generated from the harness mock with `npm run sample-data`; edit `src/mock/portalApi/data.js`, not the JSON. |
 
 ### Sharing model
 
 | Object | Internal OWD | External OWD | Who sees what |
 |---|---|---|---|
 | `Test_Range__c`, `Test_Event__c` | Public Read Only | Public Read Only | Authenticated users read everything active. Guests need the sharing rules in `site-config/` (guest users ignore OWD). Children follow the parent. |
+| `Range_Block__c` | Public Read Only | Public Read Only | Everyone signed in reads blocks; guests only those with *Show on Public Calendar* set (sharing rule in `site-config/`). The range office creates and edits them. The site's queries filter on `Public__c` too, so a block the office hides is hidden from signed-in customers as well; `Note__c` is readable only by the range office. |
 | `Test_Request__c` | Private | Private | The submitting user owns the record. The sharing set extends Edit to every community user on the same account. Range office staff get View All / Modify All from `PICSite_Range_Office`. |
 | `Request_Activity__c` | Controlled by parent | Controlled by parent | Visible wherever the request is. Written by the flows in system context, so customers need no Create permission. |
 
@@ -64,10 +66,11 @@ sf community create --name PICSite --template-name "Build Your Own (LWR)" --url-
 ```
 
 Seed the reference data (ranges with capability groups, the event with its
-sessions; `Code__c` is an external ID so re-running updates in place):
+sessions, the sample range blocks; `Code__c` is an external ID so re-running
+updates ranges and events in place, while blocks are inserted again):
 
 ```bash
-sf data import tree --files data/Test_Range__c.json,data/Test_Event__c.json -o picsite
+sf data import tree --files data/Test_Range__c.json,data/Test_Event__c.json,data/Range_Block__c.json -o picsite
 ```
 
 Guest access to the public pages, once the site named `PICSite` exists:
@@ -94,6 +97,18 @@ Then, in Setup:
    `Account.License_ID__c` and `CAGE_Code__c`), enable it as a Customer user with the
    `Customer Community User` profile, assign `PICSite_Customer`, and add the
    site membership (Builder > Administration > Members > the profile).
+5. **Range blocks** (the availability calendar's data). On the Test Range
+   page layout add the *Range Blocks* related list and the *New Range Block*
+   action under Mobile & Lightning Actions, so the office blocks days from
+   the Range record with the range filled in. For a calendar view in
+   Lightning: Calendar > *Add Calendar from object* > Range Block, field
+   range *Start Date* to *End Date*, display field *Label*, filtered by a
+   list view (*All Blocks*, *Upcoming Blocks*, or one list view per
+   installation or command, each as its own coloured calendar, which keeps
+   dozens of ranges readable). New kinds of block are picklist values on
+   *Type*; a block with *Show on Public Calendar* cleared stays internal.
+   Onboarding a range is data only: a Test Range record, its capability
+   groups, and the office's blocks.
 
 A sandbox follows the same order; `sf project deploy start --source-dir
 force-app -o <sandbox>` needs *Deploy processes and flows as active* enabled
@@ -221,6 +236,7 @@ point the link at `/` if the template has no anchor option.
 | PIC Hero Banner | Eyebrow `Ranges`; Title `Range capabilities`; Subtitle `Five Army test ranges open to industry in the United States and Morocco, with Indiana coming soon. Compare terrain, airspace, instrumentation and the test types each range supports.`; Compact ✔ |
 | PIC Range Finder | Eyebrow `Find a range`; Title `Search ranges by capability` |
 | PIC Range Explorer | Show all ranges stacked ✔ |
+| PIC Range Calendar | Eyebrow `Range availability`; Title `Blocked dates`; Lead text as default |
 | PIC CTA Band | Eyebrow `Not sure which range fits?`; Title `Tell us about the test and we'll match the range`; Text `Submit a request with your objectives and preferred dates. The range office reviews it and coordinates the right range, airspace and instrumentation.`; Button `Request a test` → `/request` |
 
 ### Submit a test request `/request` (Requires Login)
@@ -288,8 +304,9 @@ give that page that URL or update the three `href`s.
 ## 5. Data access, for maintainers
 
 - `c/portalApi` exports `graphql` and `gql` (re-exported from
-  `lightning/uiGraphQLApi`), four query documents (`RANGES_QUERY`,
-  `EVENTS_QUERY`, `MY_REQUESTS_QUERY`, `CURRENT_USER_QUERY`), `submitRequest`
+  `lightning/uiGraphQLApi`), six query documents (`RANGES_QUERY`,
+  `EVENTS_QUERY`, `MY_REQUESTS_QUERY`, `CURRENT_USER_QUERY`,
+  `RANGE_BLOCKS_QUERY`, `RANGE_BLOCKS_BY_RANGE_QUERY`), `submitRequest`
   (`createRecord` on `Test_Request__c`), `href`, and the model re-exports.
   Components wire queries directly: `@wire(graphql, { query: RANGES_QUERY })`.
 - `c/portalModel` is pure JavaScript: status steps, option lists (whose
@@ -298,6 +315,13 @@ give that page that URL or update the three `href`s.
   `toRequestFields` (form payload → record fields, empties dropped).
 - Child ordering happens in JavaScript (`Sort_Order__c`, `Activity_Date__c`),
   so the queries only page (`first:`) their child relationships.
+- Range blocks are inclusive calendar days. `toBlocks` keeps them as
+  `YYYY-MM-DD` strings (they compare as text) with the range's `Code__c` as
+  `rangeId`, and `overlappingBlocks` is what the request form's notice uses.
+  `c/rangeCalendar` asks for public blocks from three months back (`$from`)
+  and draws them itself (month grid with bars, or a list; chips to filter up
+  to eight ranges, a select beyond that). The form asks for one range's
+  blocks (`$code`) from today, so it never loads every range's.
 - `Stats__c` on a range is a JSON array of `{label, value}` pairs; bad JSON
   renders as no stats rather than an error.
 - `Status__c` on a range is *Open* or *Coming soon*; coming-soon ranges show

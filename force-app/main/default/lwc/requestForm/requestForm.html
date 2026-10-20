@@ -172,6 +172,11 @@
                                     <input id="endDate" class={cls.endDate} type="date" data-field="endDate" value={form.endDate} oninput={handleInput} />
                                     <template lwc:if={errors.endDate}><span class="error">{errors.endDate}</span></template>
                                 </div>
+                                <template lwc:if={availabilityNotice}>
+                                    <div class="field field--full">
+                                        <p class="availability" role="status">{availabilityNotice}</p>
+                                    </div>
+                                </template>
                                 <div class="field">
                                     <label class="label" for="durationDays">Test days needed</label>
                                     <input id="durationDays" class="input" type="number" min="1" max="60" data-field="durationDays" value={form.durationDays} oninput={handleInput} />

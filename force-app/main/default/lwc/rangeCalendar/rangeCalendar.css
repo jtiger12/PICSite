@@ -1,0 +1,308 @@
+@import 'c/picStyles';
+
+.head {
+    margin-bottom: 24px;
+}
+
+/* ----- toolbar ----- */
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    background: var(--pic-surface, #212429);
+    color: var(--pic-text, #fff);
+    cursor: pointer;
+    transition: border-color var(--pic-ease), background var(--pic-ease);
+}
+
+.nav-btn:hover {
+    border-color: var(--pic-accent, #ffcc01);
+}
+
+.month-label {
+    margin: 0 0 0 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--pic-text, #fff);
+}
+
+.views {
+    display: inline-flex;
+    border: 1px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.view-btn {
+    padding: 8px 16px;
+    border: 0;
+    background: var(--pic-surface, #212429);
+    color: var(--pic-text-2, #aeb4bc);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.view-btn--on {
+    background: var(--pic-accent, #ffcc01);
+    color: var(--pic-ink, #1b1b1b);
+}
+
+/* ----- range filter ----- */
+
+.filters {
+    margin-bottom: 16px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    background: var(--pic-surface, #212429);
+    color: var(--pic-text-2, #aeb4bc);
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: color var(--pic-ease), border-color var(--pic-ease);
+}
+
+.chip:hover,
+.chip--on {
+    color: var(--pic-text, #fff);
+    border-color: var(--pic-text, #fff);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--seg, var(--pic-accent, #ffcc01));
+}
+
+.filter-select {
+    max-width: 360px;
+}
+
+/* ----- month grid ----- */
+
+.month {
+    border: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+    border-radius: var(--pic-radius, 16px);
+    overflow: hidden;
+    background: var(--pic-surface, #212429);
+}
+
+.dow {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    background: var(--pic-surface-2, #272a2f);
+    border-bottom: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+}
+
+.dow span {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+/* Day cells sit on the first grid row; the week's bars are placed underneath
+   on the columns of the days they cover. The column rules are painted on the
+   row itself so the bars can lie across them. */
+.week {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-auto-rows: min-content;
+    align-content: start;
+    min-height: 104px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+    background-image: linear-gradient(to right, var(--pic-border, rgba(255, 255, 255, 0.12)) 1px, transparent 1px);
+    background-size: calc(100% / 7) 100%;
+    background-position: -1px 0;
+}
+
+.week:last-child {
+    border-bottom: 0;
+}
+
+.day {
+    grid-row: 1;
+    padding: 8px 10px 4px;
+    min-width: 0;
+}
+
+.daynum {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 6px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--pic-text, #fff);
+}
+
+.day--outside .daynum {
+    color: var(--pic-text-2, #aeb4bc);
+    opacity: 0.55;
+}
+
+.day--today .daynum {
+    background: var(--pic-accent, #ffcc01);
+    color: var(--pic-ink, #1b1b1b);
+}
+
+.seg {
+    margin: 2px 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: var(--seg, var(--pic-accent, #ffcc01));
+    color: var(--pic-ink, #1b1b1b);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.3;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.seg-text {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.seg--from-left {
+    margin-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.seg--to-right {
+    margin-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* ----- list view ----- */
+
+.list--toggled-off {
+    display: none;
+}
+
+.list-group + .list-group {
+    margin-top: 20px;
+}
+
+.list-month {
+    margin: 0 0 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.list-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.list-item {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--pic-border, rgba(255, 255, 255, 0.12));
+    border-left: 6px solid var(--seg, var(--pic-accent, #ffcc01));
+    background: var(--pic-surface, #212429);
+}
+
+.list-dates {
+    font-weight: 700;
+    color: var(--pic-text, #fff);
+    white-space: nowrap;
+}
+
+.list-range {
+    color: var(--pic-text, #fff);
+}
+
+.list-label {
+    font-size: 0.85rem;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.empty {
+    margin: 0;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px dashed var(--pic-border-strong, rgba(255, 255, 255, 0.22));
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.foot {
+    margin: 16px 0 0;
+    font-size: 0.9rem;
+    color: var(--pic-text-2, #aeb4bc);
+}
+
+.foot a {
+    color: var(--pic-link, #73b3e7);
+}
+
+/* Narrow screens: the list is the calendar; the grid and its toggle go. */
+@media (max-width: 640px) {
+    .month,
+    .views {
+        display: none;
+    }
+
+    .list--toggled-off {
+        display: block;
+    }
+
+    .list-item {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 4px;
+    }
+}

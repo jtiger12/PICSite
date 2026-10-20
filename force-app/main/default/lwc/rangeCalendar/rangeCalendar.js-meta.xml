@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>PIC Range Calendar</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="eyebrow" type="String" default="Range availability" label="Eyebrow" />
+            <property name="title" type="String" default="Blocked dates" label="Title" />
+            <property name="lead" type="String" default="Days a range is reserved, closed or in maintenance and cannot host a test. Dates are inclusive. Open days are not a reservation: the range office confirms every window when it reviews a request." label="Lead text" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

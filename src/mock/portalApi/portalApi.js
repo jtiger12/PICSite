@@ -9,7 +9,7 @@
 //   - `getSession` / `signIn` / `signOut` talk to the mock backend that
 //     `npm run dev` mounts (scripts/mock-backend.mjs, account in .env).
 import { toRequestFields, toSubmitted, DEFAULT_NEXT_ACTION, isoDate, prefixHref } from 'c/portalModel';
-import { RANGE_NODES, EVENT_NODES, REQUEST_NODES, USER_NODE, accountUserNode, conn, f, activity, nextId } from './data';
+import { RANGE_NODES, EVENT_NODES, RANGE_BLOCK_NODES, REQUEST_NODES, USER_NODE, accountUserNode, conn, f, activity, nextId } from './data';
 
 export {
     STATUS_STEPS,
@@ -24,10 +24,15 @@ export {
     ATTACHMENT_HINT,
     toRanges,
     toEvents,
+    toBlocks,
+    overlappingBlocks,
     toRequests,
     toUser,
     formatWindow,
-    formatDate
+    formatDate,
+    formatSpan,
+    parseDate,
+    isoDate
 } from 'c/portalModel';
 
 export const CURRENT_USER_ID = USER_NODE.Id;
@@ -56,6 +61,8 @@ export const RANGES_QUERY = 'PicRanges';
 export const EVENTS_QUERY = 'PicEvents';
 export const MY_REQUESTS_QUERY = 'PicMyRequests';
 export const CURRENT_USER_QUERY = 'PicCurrentUser';
+export const RANGE_BLOCKS_QUERY = 'PicRangeBlocks';
+export const RANGE_BLOCKS_BY_RANGE_QUERY = 'PicRangeBlocksByRange';
 
 export const gql = (strings, ...values) => strings.reduce((out, s, i) => out + s + (i < values.length ? values[i] : ''), '');
 
@@ -115,9 +122,17 @@ async function currentUserNode() {
     return session.available ? null : USER_NODE;
 }
 
+// What the org's where-clause does: public blocks ending on or after $from.
+const publicBlocks = (variables) =>
+    RANGE_BLOCK_NODES.filter((b) => b.Public__c.value && (!variables || !variables.from || b.End_Date__c.value >= variables.from));
+
 const RESOLVERS = {
     PicRanges: () => ({ uiapi: { query: { Test_Range__c: conn(RANGE_NODES) } } }),
     PicEvents: () => ({ uiapi: { query: { Test_Event__c: conn(EVENT_NODES) } } }),
+    PicRangeBlocks: (variables) => ({ uiapi: { query: { Range_Block__c: conn(publicBlocks(variables)) } } }),
+    PicRangeBlocksByRange: (variables) => ({
+        uiapi: { query: { Range_Block__c: conn(publicBlocks(variables).filter((b) => Boolean(variables) && b.Range__r.Code__c.value === variables.code)) } }
+    }),
     PicMyRequests: () => ({ uiapi: { query: { Test_Request__c: conn(REQUEST_NODES) } } }),
     PicCurrentUser: async (variables) => {
         const node = variables && variables.userId && variables.userId !== USER_NODE.Id ? null : await currentUserNode();

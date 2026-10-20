@@ -387,6 +387,48 @@ export const EVENT_NODES = [
     }
 ];
 
+// Blocked days, placed relative to the current month so the demo calendar
+// always has entries: the pattern of the current site (Dugway reserved in
+// weekly windows, West Cibola held for a month, a training cycle at AMTEC),
+// plus one internal hold (Public__c false) the public never sees.
+// scripts/export-sample-data.mjs writes these to data/Range_Block__c.json.
+const monthStart = (k) => {
+    const t = new Date();
+    return new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + k, 1));
+};
+// ISO date of day `d` of the month `k` months from now; 'end' for its last day.
+const onDay = (k, d) => {
+    const m = monthStart(k);
+    const date = d === 'end' ? new Date(Date.UTC(m.getUTCFullYear(), m.getUTCMonth() + 1, 0)) : new Date(Date.UTC(m.getUTCFullYear(), m.getUTCMonth(), d));
+    return date.toISOString().slice(0, 10);
+};
+const rangeRef = (code) => {
+    const r = RANGE_NODES.find((n) => n.Code__c.value === code);
+    return { Name: f(r ? r.Name.value : code), Code__c: f(code) };
+};
+const block = (code, [k1, d1], [k2, d2], type = 'Reserved', label = null, isPublic = true) => ({
+    Id: id('a04'),
+    Start_Date__c: f(onDay(k1, d1)),
+    End_Date__c: f(onDay(k2, d2)),
+    Type__c: f(type),
+    Public_Label__c: f(label),
+    Public__c: f(isPublic),
+    Range__r: rangeRef(code)
+});
+
+export const RANGE_BLOCK_NODES = [
+    block('dpg', [0, 2], [0, 6]),
+    block('dpg', [0, 13], [0, 17]),
+    block('dpg', [1, 3], [1, 7]),
+    block('dpg', [1, 24], [1, 28]),
+    block('wcr', [0, 1], [0, 'end'], 'Reserved', 'Range hold'),
+    block('wcr', [1, 10], [1, 14], 'Maintenance'),
+    block('cgr', [1, 15], [1, 19], 'Reserved', 'DDIL test event'),
+    block('csh', [0, 20], [0, 22], 'Closed', 'Airspace closure'),
+    block('amtec', [1, 25], [2, 3], 'Training'),
+    block('dpg', [1, 20], [1, 21], 'Maintenance', null, false)
+];
+
 export const USER_NODE = {
     Id: id('005'),
     Name: f('Jordan Reyes'),
