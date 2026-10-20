@@ -1,8 +1,17 @@
 import { LightningElement, api } from 'lwc';
 import { href, getSession, signOut, BRAND } from 'c/portalApi';
 
+// Top-level entries; one with `children` renders as a dropdown (hover or the
+// caret button on desktop, inline links in the mobile menu).
 const LINKS = [
-    { label: 'Ranges', href: '/ranges' },
+    {
+        label: 'Ranges',
+        href: '/ranges',
+        children: [
+            { label: 'Range capabilities', href: '/ranges' },
+            { label: 'Range availability', href: '/availability' }
+        ]
+    },
     { label: 'How it works', href: '/#how-it-works' },
     { label: 'Request a test', href: '/request' },
     { label: 'Track requests', href: '/track' }
@@ -18,6 +27,8 @@ export default class SiteHeader extends LightningElement {
     @api logoAlt = BRAND.logoAlt;
     logoFailed = false;
     menuOpen = false;
+    // Label of the dropdown opened with its caret (touch and keyboard).
+    openMenu = '';
     path = '/';
     session = null;
 
@@ -52,9 +63,45 @@ export default class SiteHeader extends LightningElement {
     get links() {
         return LINKS.map((l) => {
             const url = href(l.href);
-            const current = this.isCurrent(url);
-            return { ...l, href: url, current: current ? 'page' : null, cls: current ? 'link link--current' : 'link' };
+            const children = (l.children || []).map((c) => {
+                const childUrl = href(c.href);
+                const childCurrent = this.isCurrent(childUrl);
+                return { label: c.label, href: childUrl, current: childCurrent ? 'page' : null, cls: childCurrent ? 'sub sub--current' : 'sub' };
+            });
+            const current = this.isCurrent(url) || children.some((c) => c.current);
+            const open = this.openMenu === l.label;
+            return {
+                label: l.label,
+                href: url,
+                children,
+                hasChildren: children.length > 0,
+                current: current ? 'page' : null,
+                cls: current ? 'link link--current' : 'link',
+                groupCls: open ? 'group group--open' : 'group',
+                expanded: open ? 'true' : 'false',
+                menuId: `menu-${l.label.toLowerCase().replace(/[^a-z]+/g, '-')}`,
+                caretLabel: `Show ${l.label} pages`
+            };
         });
+    }
+
+    // Dropdowns open on hover (CSS); the caret button also toggles them for
+    // touch and keyboard, and Escape or leaving the group closes them.
+    toggleDropdown(event) {
+        const label = event.currentTarget.dataset.label;
+        this.openMenu = this.openMenu === label ? '' : label;
+    }
+
+    handleGroupKey(event) {
+        if (event.key === 'Escape' && this.openMenu) {
+            this.openMenu = '';
+            const caret = event.currentTarget.querySelector('.caret');
+            if (caret) caret.focus();
+        }
+    }
+
+    handleGroupBlur(event) {
+        if (!event.currentTarget.contains(event.relatedTarget)) this.openMenu = '';
     }
 
     isCurrent(url) {

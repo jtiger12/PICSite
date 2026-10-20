@@ -193,8 +193,8 @@ html, body {
   resource and set *Army logo URL* on `PIC Site Header` and `PIC Site
   Footer`; if the file can't load they show the title alone.
 - **Page access**: `/request` and `/track` are *Requires Login* (Page
-  Properties > Page Access). Home, Ranges, Login and Request an account
-  stay public.
+  Properties > Page Access). Home, Ranges, Availability, Login and Request
+  an account stay public.
 - **Links**: every portal link goes through `href()` in `c/portalApi`, which
   prefixes `@salesforce/community/basePath` (for the site above, `/picsite`).
   Builder properties such as *Primary button URL* can be entered either as
@@ -236,8 +236,22 @@ point the link at `/` if the template has no anchor option.
 | PIC Hero Banner | Eyebrow `Ranges`; Title `Range capabilities`; Subtitle `Five Army test ranges open to industry in the United States and Morocco, with Indiana coming soon. Compare terrain, airspace, instrumentation and the test types each range supports.`; Compact ✔ |
 | PIC Range Finder | Eyebrow `Find a range`; Title `Search ranges by capability` |
 | PIC Range Explorer | Show all ranges stacked ✔ |
-| PIC Range Calendar | Eyebrow `Range availability`; Title `Blocked dates`; Lead text as default |
 | PIC CTA Band | Eyebrow `Not sure which range fits?`; Title `Tell us about the test and we'll match the range`; Text `Submit a request with your objectives and preferred dates. The range office reviews it and coordinates the right range, airspace and instrumentation.`; Button `Request a test` → `/request` |
+
+### Availability `/availability` (public)
+
+| Component | Properties |
+|---|---|
+| PIC Hero Banner | Eyebrow `Ranges`; Title `Range availability`; Subtitle `The days each range is reserved, closed or in maintenance, as the range office has them. Check a window before you request it; the office confirms every booking.`; Compact ✔ |
+| PIC Range Calendar | Eyebrow `Calendar`; Title `Blocked dates`; Lead text as default |
+| PIC CTA Band | Eyebrow `Found an open window?`; Title `Request a test for those dates`; Text `Submit the request with your preferred window and an alternate range. The range office confirms availability and coordinates airspace and instrumentation.`; Button `Request a test` → `/request` |
+
+The header's *Ranges* entry is a dropdown built into `PIC Site Header`
+(*Range capabilities* → `/ranges`, *Range availability* → `/availability`;
+hover or the caret on desktop, inline links in the mobile menu), and the
+footer's Portal column links the page too, so the site's own navigation
+menu is not used. Create the page with the URL `availability` so those
+links resolve.
 
 ### Submit a test request `/request` (Requires Login)
 

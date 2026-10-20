@@ -115,6 +115,12 @@
             "layoutTemplate": "$layoutsDir/main.html"
         },
         {
+            "id": "availability",
+            "path": "/availability",
+            "rootComponent": "picsite/availability",
+            "layoutTemplate": "$layoutsDir/main.html"
+        },
+        {
             "id": "request",
             "path": "/request",
             "rootComponent": "picsite/request",

@@ -10,7 +10,24 @@
 
             <nav class={navClass} aria-label="Primary">
                 <template for:each={links} for:item="link">
-                    <a key={link.href} href={link.href} class={link.cls} aria-current={link.current}>{link.label}</a>
+                    <template lwc:if={link.hasChildren}>
+                        <div key={link.href} class={link.groupCls} onkeydown={handleGroupKey} onfocusout={handleGroupBlur}>
+                            <a href={link.href} class={link.cls} aria-current={link.current}>{link.label}</a>
+                            <button class="caret" type="button" data-label={link.label} aria-haspopup="true" aria-expanded={link.expanded} aria-controls={link.menuId} aria-label={link.caretLabel} onclick={toggleDropdown}>
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+                            </button>
+                            <ul id={link.menuId} class="dropdown">
+                                <template for:each={link.children} for:item="sub">
+                                    <li key={sub.href}>
+                                        <a href={sub.href} class={sub.cls} aria-current={sub.current}>{sub.label}</a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <a key={link.href} href={link.href} class={link.cls} aria-current={link.current}>{link.label}</a>
+                    </template>
                 </template>
                 <div class="nav-actions">
                     <template lwc:if={signedIn}>

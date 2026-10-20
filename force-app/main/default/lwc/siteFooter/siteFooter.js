@@ -22,6 +22,9 @@ export default class SiteFooter extends LightningElement {
     get rangesHref() {
         return href('/ranges');
     }
+    get availabilityHref() {
+        return href('/availability');
+    }
     get howItWorksHref() {
         return href('/#how-it-works');
     }

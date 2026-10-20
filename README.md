@@ -19,8 +19,8 @@ npm run dev
 ```
 
 Open http://localhost:3000 (the launcher picks the next free port if 3000 is
-taken). Routes: `/`, `/ranges`, `/request`, `/track`, `/login`,
-`/request-account`.
+taken). Routes: `/`, `/ranges`, `/availability`, `/request`, `/track`,
+`/login`, `/request-account`.
 
 `npm run dev` regenerates `lwr.config.json` module aliases from
 `force-app/main/default/lwc` so every SFDX component resolves as `c/<name>`,
@@ -172,7 +172,8 @@ component, `lightning-file-upload`, is isolated inside `c/fileUploader`.
   components work at `/` locally and under `/picsite/` in the org.
 - **Range availability**: `Range_Block__c` records (range, inclusive start
   and end dates, type, optional public label, *Show on Public Calendar*)
-  feed `c/rangeCalendar` on the Ranges page through `RANGE_BLOCKS_QUERY`.
+  feed `c/rangeCalendar` on the Availability page (`/availability`, under
+  *Ranges* in the header) through `RANGE_BLOCKS_QUERY`.
   On the dates step the request form loads the preferred range's blocks
   (`RANGE_BLOCKS_BY_RANGE_QUERY`) and warns, without blocking, when the
   requested window overlaps one. The range office enters blocks from the

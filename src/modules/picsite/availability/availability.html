@@ -1,0 +1,21 @@
+<template>
+    <c-gov-banner></c-gov-banner>
+    <c-site-header></c-site-header>
+    <main>
+        <c-hero-banner
+            eyebrow="Ranges"
+            title="Range availability"
+            subtitle="The days each range is reserved, closed or in maintenance, as the range office has them. Check a window before you request it; the office confirms every booking."
+            compact
+        ></c-hero-banner>
+        <c-range-calendar eyebrow="Calendar"></c-range-calendar>
+        <c-cta-band
+            eyebrow="Found an open window?"
+            title="Request a test for those dates"
+            text="Submit the request with your preferred window and an alternate range. The range office confirms availability and coordinates airspace and instrumentation."
+            button-label="Request a test"
+            button-href="/request"
+        ></c-cta-band>
+    </main>
+    <c-site-footer></c-site-footer>
+</template>
