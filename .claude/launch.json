@@ -4,7 +4,28 @@
     {
       "name": "picsite",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["scripts/dev.mjs"],
+      "runtimeArgs": [
+        "scripts/dev.mjs"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "picsite-built",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/run.mjs"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "picsite-docker",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": [
+        "compose",
+        "up",
+        "--build",
+        "picsite"
+      ],
       "port": 3000
     }
   ]

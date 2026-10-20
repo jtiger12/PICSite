@@ -177,7 +177,12 @@ component, `lightning-file-upload`, is isolated inside `c/fileUploader`.
   demonstration footer line and no CAC / PIV button, and `src/mock/govBanner`
   replaces the banner with a demonstration strip. The deployable components
   read their defaults from `BRAND` in `c/portalApi`, which keeps the official
-  values, and Builder can still override them per page.
+  values, and Builder can still override them per page. The demo image goes
+  one step further: before building, the Dockerfile runs
+  `scripts/demo-rename.mjs` over its own copy of the sources, turning every
+  whole-word "Army" into "GSD", so the public demo never calls itself the
+  Army's. The checkout, `npm start` and the org keep the real wording;
+  lower-case `army.mil` links are untouched.
 
 ## Deploying to Experience Cloud
 

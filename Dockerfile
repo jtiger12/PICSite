@@ -1,6 +1,8 @@
 # PICSite local LWR harness (mock data from src/mock), built with `lwr build`
 # and served the way `lwr start` serves it. This is a preview/demo image; the
 # real site deploys to Experience Cloud with `sf project deploy` (see README).
+# Being the public demo, it also runs scripts/demo-rename.mjs over its copy of
+# the sources before building, which turns every "Army" into "GSD".
 #
 # Base image is swappable, e.g. an Iron Bank Node 22 image:
 #   docker compose build --build-arg NODE_IMAGE=registry1.dso.mil/ironbank/opensource/nodejs/nodejs22:<tag>
@@ -20,7 +22,8 @@ COPY lwr.config.json ./
 COPY scripts ./scripts
 COPY src ./src
 COPY force-app/main/default/lwc ./force-app/main/default/lwc
-RUN npm run build
+# Demo wording, applied to this image's copy of the sources only.
+RUN node scripts/demo-rename.mjs src force-app/main/default/lwc && npm run build
 
 # site/ is fully static: `lwr start` answers it with express.static before any
 # LWR middleware runs. So the runtime takes only express and its dependency
